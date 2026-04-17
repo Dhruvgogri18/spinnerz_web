@@ -1,36 +1,21 @@
 /* ============================================================
    SPINNERZ — Store JS  (assets/js/store.js)
-   Depends on: data.js  (must be loaded first in index.html)
+   Depends on: data.js (loaded first)
    ============================================================ */
 
-// ─────────────────────────────────────────────────────────────
-//  STATE
-// ─────────────────────────────────────────────────────────────
 let activeFilter = 'All';
 
-// ─────────────────────────────────────────────────────────────
-//  PRODUCT RENDERING
-// ─────────────────────────────────────────────────────────────
-
-/**
- * Renders the product grid.
- * @param {string} [filter] - Category name or 'All'
- */
+// ── RENDER PRODUCTS ───────────────────────────────────────────
 function renderProducts(filter) {
   if (filter) activeFilter = filter;
-
   const products = getProducts();
-  const grid     = document.getElementById('productsGrid');
+  const grid = document.getElementById('productsGrid');
   const filtered = activeFilter === 'All'
     ? products
     : products.filter(p => p.category === activeFilter);
 
   if (!filtered.length) {
-    grid.innerHTML = `
-      <div class="prod-empty">
-        <div class="big">No products</div>
-        Check back soon or browse all categories.
-      </div>`;
+    grid.innerHTML = `<div class="prod-empty"><div class="big">No products</div>Check back soon.</div>`;
     return;
   }
 
@@ -40,34 +25,20 @@ function renderProducts(filter) {
         ${p.emoji}
         ${p.badge ? `<div class="prod-badge ${p.badge}">${p.badge}</div>` : ''}
         <div class="prod-overlay">
-          <button class="prod-overlay-btn primary"
-            onclick="event.stopPropagation(); addToCart(${p.id})">
-            Add to Cart
-          </button>
-          <button class="prod-overlay-btn"
-            onclick="event.stopPropagation(); openProduct(${p.id})">
-            View
-          </button>
+          <button class="prod-overlay-btn primary" onclick="event.stopPropagation();addToCart(${p.id})">Add to Enquiry</button>
+          <button class="prod-overlay-btn" onclick="event.stopPropagation();openProduct(${p.id})">Details</button>
         </div>
       </div>
       <div class="prod-info">
         <div class="prod-cat">${p.category}</div>
         <div class="prod-name">${p.name}</div>
-        <div class="prod-prices">
-          <div class="prod-price">₹${Number(p.price).toLocaleString()}</div>
-          ${p.origPrice
-            ? `<div class="prod-orig">₹${Number(p.origPrice).toLocaleString()}</div>`
-            : ''}
-        </div>
+        <div class="prod-moq">${p.moq || 'MOQ: 500 pcs'}</div>
+        <a class="prod-cta" href="https://wa.me/919892211065" target="_blank" onclick="event.stopPropagation()">Get Bulk Quote →</a>
       </div>
     </div>
   `).join('');
 }
 
-/**
- * Filters the product grid and updates the active filter button.
- * Called by the filter bar buttons in index.html.
- */
 function filterProducts(cat, btn) {
   activeFilter = cat;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -75,168 +46,100 @@ function filterProducts(cat, btn) {
   renderProducts();
 }
 
-/**
- * Scrolls to the products section and activates a category filter.
- * Called by category tile clicks.
- */
 function filterByCategory(cat) {
-  scrollToSection('products-section');
+  scrollTo('products-section');
   setTimeout(() => {
     document.querySelectorAll('.filter-btn').forEach(b => {
       if (b.textContent.trim() === cat) b.click();
     });
-  }, 600);
+  }, 700);
 }
 
-// ─────────────────────────────────────────────────────────────
-//  CART
-// ─────────────────────────────────────────────────────────────
-
-/** Adds a product to the cart by id. Creates or increments qty. */
+// ── CART (ENQUIRY LIST) ───────────────────────────────────────
 function addToCart(id) {
   const product = getProducts().find(p => p.id === id);
   if (!product) return;
-
-  const cart     = getCart();
+  const cart = getCart();
   const existing = cart.find(c => c.id === id);
-
-  if (existing) {
-    existing.qty = (existing.qty || 1) + 1;
-  } else {
-    cart.push({ ...product, qty: 1 });
-  }
-
+  if (existing) existing.qty = (existing.qty || 1) + 1;
+  else cart.push({ ...product, qty: 1 });
   saveCart(cart);
   updateCartCount();
-  showToast(`✓ ${product.name} added to cart`);
+  showToast(`✓ ${product.name} added to enquiry list`);
 }
 
-/** Removes a product from the cart by id. */
 function removeFromCart(id) {
-  const cart = getCart().filter(c => c.id !== id);
-  saveCart(cart);
-  openCart(); // re-render open cart panel
+  saveCart(getCart().filter(c => c.id !== id));
+  openCart();
 }
 
-/** Updates the cart item count badge in the navbar. */
 function updateCartCount() {
-  const total = getCart().reduce((sum, c) => sum + (c.qty || 1), 0);
+  const total = getCart().reduce((s, c) => s + (c.qty || 1), 0);
   document.getElementById('cartCount').textContent = total;
 }
 
-/** Opens the cart modal and renders its contents. */
 function openCart() {
-  const cart     = getCart();
-  const count    = cart.reduce((sum, c) => sum + (c.qty || 1), 0);
-  const subtitle = document.getElementById('cartSubtitle');
-  const itemsEl  = document.getElementById('cartItems');
-  const totalEl  = document.getElementById('cartTotal');
-
-  subtitle.textContent = `${count} item${count !== 1 ? 's' : ''}`;
+  const cart = getCart();
+  const count = cart.reduce((s, c) => s + (c.qty || 1), 0);
+  document.getElementById('cartSubtitle').textContent = `${count} item${count !== 1 ? 's' : ''}`;
+  const itemsEl = document.getElementById('cartItems');
+  const totalEl = document.getElementById('cartTotal');
 
   if (!cart.length) {
-    itemsEl.innerHTML = `<p style="color:var(--ink-light);font-size:14px;padding:20px 0;">Your cart is empty.</p>`;
+    itemsEl.innerHTML = `<p style="color:var(--ink-light);font-size:14px;padding:20px 0;">Your enquiry list is empty.</p>`;
     totalEl.textContent = '';
   } else {
     itemsEl.innerHTML = cart.map(c => `
-      <div style="display:flex;justify-content:space-between;align-items:center;
-                  padding:14px 0;border-bottom:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);">
         <div style="display:flex;align-items:center;gap:12px;">
           <div style="font-size:28px;">${c.emoji}</div>
           <div>
-            <div style="font-weight:500;font-size:14px;">${c.name}</div>
-            <div style="color:var(--ink-light);font-size:12px;">Qty: ${c.qty || 1}</div>
+            <div style="font-weight:500;font-size:13px;">${c.name}</div>
+            <div style="color:var(--ink-light);font-size:11px;">${c.moq || 'MOQ: 500 pcs'}</div>
           </div>
         </div>
-        <div>
-          <div style="font-weight:600;color:var(--red);">
-            ₹${(Number(c.price) * (c.qty || 1)).toLocaleString()}
-          </div>
-          <button onclick="removeFromCart(${c.id})"
-            style="font-size:11px;color:var(--ink-light);background:none;border:none;
-                   float:right;margin-top:4px;">
-            Remove
-          </button>
-        </div>
+        <button onclick="removeFromCart(${c.id})" style="font-size:11px;color:var(--ink-light);background:none;border:none;">Remove</button>
       </div>
     `).join('');
-
-    const grand = cart.reduce((sum, c) => sum + Number(c.price) * (c.qty || 1), 0);
-    totalEl.innerHTML = `
-      <div style="display:flex;justify-content:space-between;margin-top:16px;">
-        <span>Total</span>
-        <span style="color:var(--red);">₹${grand.toLocaleString()}</span>
-      </div>`;
+    totalEl.innerHTML = `<p style="font-size:12px;color:var(--ink-light);margin-top:16px;line-height:1.6;">Send this list via WhatsApp and our team will get back with bulk pricing within 24 hours.</p>`;
   }
-
   openModal('cartModal');
 }
 
-// ─────────────────────────────────────────────────────────────
-//  PRODUCT DETAIL MODAL
-// ─────────────────────────────────────────────────────────────
-
-/** Opens the product detail modal for a given product id. */
+// ── PRODUCT DETAIL MODAL ──────────────────────────────────────
 function openProduct(id) {
   const p = getProducts().find(x => x.id === id);
   if (!p) return;
-
-  const stockColor = p.stock === 'In Stock' ? '#16a34a'
-                   : p.stock === 'Low Stock' ? '#d97706'
-                   : '#dc2626';
+  const featuresHtml = p.features
+    ? `<div style="margin-bottom:24px;">${p.features.map(f => `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-mid);">✓ ${f}</div>`).join('')}</div>`
+    : '';
 
   document.getElementById('productModalContent').innerHTML = `
-    <div style="font-size:80px;text-align:center;padding:32px;
-                background:var(--paper);margin-bottom:24px;">${p.emoji}</div>
-    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;
-                color:var(--ink-light);margin-bottom:6px;">${p.category}</div>
-    <h2 style="font-family:'Playfair Display',serif;font-size:28px;
-               font-weight:400;color:var(--ink);margin-bottom:8px;">${p.name}</h2>
-    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:16px;">
-      <span style="font-size:22px;font-weight:600;color:var(--red);">
-        ₹${Number(p.price).toLocaleString()}
-      </span>
-      ${p.origPrice
-        ? `<span style="font-size:15px;color:var(--ink-light);text-decoration:line-through;">
-             ₹${Number(p.origPrice).toLocaleString()}
-           </span>`
-        : ''}
+    <div style="font-size:80px;text-align:center;padding:28px;background:var(--paper);margin-bottom:24px;">${p.emoji}</div>
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">${p.category}</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:10px;">${p.name}</h2>
+    <div style="display:inline-block;background:var(--paper);padding:6px 14px;font-size:11px;font-weight:600;color:var(--ink-mid);letter-spacing:1px;margin-bottom:16px;">${p.moq || 'MOQ: 500 pcs'}</div>
+    <p style="color:var(--ink-light);font-size:14px;line-height:1.8;margin-bottom:20px;">${p.desc}</p>
+    ${featuresHtml}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+      <button class="btn-red" style="text-align:center;" onclick="addToCart(${p.id});closeModal('productModal')">Add to Enquiry</button>
+      <a href="https://wa.me/919892211065" target="_blank" class="btn-ghost" style="text-align:center;color:var(--ink);border-color:var(--border);">WhatsApp →</a>
     </div>
-    <p style="color:var(--ink-light);font-size:14px;line-height:1.8;margin-bottom:28px;">
-      ${p.desc || 'Premium quality travel gear from Spinnerz Globe.'}
-    </p>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:28px;">
-      <div style="width:8px;height:8px;border-radius:50%;background:${stockColor};"></div>
-      <span style="font-size:13px;color:var(--ink-mid);">${p.stock || 'In Stock'}</span>
-    </div>
-    <button class="btn-red" style="width:100%;text-align:center;"
-      onclick="addToCart(${p.id}); closeModal('productModal')">
-      Add to Cart
-    </button>
   `;
-
   openModal('productModal');
 }
 
-// ─────────────────────────────────────────────────────────────
-//  MODAL HELPERS
-// ─────────────────────────────────────────────────────────────
-
+// ── MODALS ────────────────────────────────────────────────────
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// Close modal when clicking the dark backdrop
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.overlay-bg').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
   });
 });
 
-// ─────────────────────────────────────────────────────────────
-//  TOAST NOTIFICATION
-// ─────────────────────────────────────────────────────────────
-
-/** Shows a brief toast notification at the bottom of the screen. */
+// ── TOAST ─────────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -244,76 +147,48 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ─────────────────────────────────────────────────────────────
-//  SMOOTH SCROLL
-// ─────────────────────────────────────────────────────────────
-
-function scrollToSection(id) {
+// ── SMOOTH SCROLL ─────────────────────────────────────────────
+function scrollTo(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
-// ─────────────────────────────────────────────────────────────
-//  NAV — switch between light / dark based on scroll position
-// ─────────────────────────────────────────────────────────────
-
+// ── NAV — dark/light + hide topstrip on scroll ────────────────
 window.addEventListener('scroll', () => {
-  const nav   = document.getElementById('mainNav');
+  const nav = document.getElementById('mainNav');
   const heroH = document.querySelector('.hero').offsetHeight;
   nav.classList.toggle('dark', window.scrollY > heroH - 100);
+  nav.classList.toggle('scrolled', window.scrollY > 36);
 });
 
-// ─────────────────────────────────────────────────────────────
-//  CUSTOM CURSOR
-// ─────────────────────────────────────────────────────────────
-
+// ── CUSTOM CURSOR ─────────────────────────────────────────────
 const cursorDot  = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursor-ring');
-
 document.addEventListener('mousemove', e => {
   cursorDot.style.left  = e.clientX + 'px';
   cursorDot.style.top   = e.clientY + 'px';
   cursorRing.style.left = e.clientX + 'px';
   cursorRing.style.top  = e.clientY + 'px';
 });
-
-// Expand ring when hovering interactive elements
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('button, a, .cat, .prod-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursorRing.style.width   = '52px';
-      cursorRing.style.height  = '52px';
-      cursorRing.style.opacity = '0.5';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursorRing.style.width   = '36px';
-      cursorRing.style.height  = '36px';
-      cursorRing.style.opacity = '1';
-    });
+  document.querySelectorAll('button, a, .cat, .prod-card, .program-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursorRing.style.width='52px'; cursorRing.style.height='52px'; cursorRing.style.opacity='.5'; });
+    el.addEventListener('mouseleave', () => { cursorRing.style.width='36px'; cursorRing.style.height='36px'; cursorRing.style.opacity='1'; });
   });
 });
 
-// ─────────────────────────────────────────────────────────────
-//  SCROLL REVEAL
-// ─────────────────────────────────────────────────────────────
-
+// ── SCROLL REVEAL ─────────────────────────────────────────────
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 });
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 });
 
-// ─────────────────────────────────────────────────────────────
-//  INIT — runs after the page fully loads
-// ─────────────────────────────────────────────────────────────
-
+// ── INIT ──────────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  // Hide the page loader after a short delay
   setTimeout(() => document.getElementById('page-load').classList.add('gone'), 1100);
-
-  // Populate product grid and cart count
   renderProducts();
   updateCartCount();
 });

@@ -3,426 +3,406 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spinnerz — Dream. Explore. Discover.</title>
-
-  <!-- Google Fonts -->
+  <title>Spinnerz Globe — Corporate Bags & Luggage Manufacturer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
-
-  <!-- Stylesheets: tokens first, then component styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/store.css">
 </head>
 <body>
 
-  <!-- ══ CUSTOM CURSOR ══════════════════════════════════════ -->
-  <div id="cursor"></div>
-  <div id="cursor-ring"></div>
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-  <!-- ══ PAGE LOADER ════════════════════════════════════════ -->
-  <div id="page-load">
-    <div class="load-logo">SPINNERZ</div>
-    <div class="load-bar"><div class="load-progress"></div></div>
+<!-- PAGE LOADER -->
+<div id="page-load">
+  <div class="load-logo">SPINNERZ</div>
+  <div class="load-bar"><div class="load-progress"></div></div>
+</div>
+
+<!-- TOP STRIP -->
+<div class="topbar-strip">
+  <span>BULK ORDERS ONLY &nbsp;|&nbsp; CALL +91-9892211065 &nbsp;|&nbsp; OEM MANUFACTURING SPECIALIST</span>
+  <a href="https://wa.me/919892211065" target="_blank" class="topbar-wa">💬 WhatsApp Us</a>
+</div>
+
+<!-- NAVBAR -->
+<nav id="mainNav">
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-text">SPINNERZ</span>
+    <span class="nav-logo-sub">GLOBE PVT. LTD.</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="scrollTo('hero-section')" class="active">Home</a></li>
+    <li><a href="#" onclick="scrollTo('products-section')">Products</a></li>
+    <li><a href="#" onclick="scrollTo('gifting-section')">Corporate Gifting</a></li>
+    <li><a href="#" onclick="scrollTo('manufacturing-section')">Manufacturing</a></li>
+    <li><a href="#" onclick="scrollTo('contact-section')">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919892211065" target="_blank" class="nav-wa-btn">💬 Get Quote</a>
+    <button class="cart-btn" onclick="openCart()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
   </div>
+</nav>
 
-  <!-- ══ NAVBAR ═════════════════════════════════════════════ -->
-  <nav id="mainNav">
-    <a class="nav-logo" href="#">
-      <span class="nav-logo-text">SPINNERZ</span>
-    </a>
-
-    <ul class="nav-links">
-      <li><a href="#" class="active" onclick="scrollToSection('hero-section')">Home</a></li>
-      <li><a href="#" onclick="scrollToSection('cats-section')">Collections</a></li>
-      <li><a href="#" onclick="scrollToSection('products-section')">Shop</a></li>
-      <li><a href="#" onclick="scrollToSection('about-section')">About</a></li>
-      <li><a href="#" onclick="scrollToSection('contact-section')">Contact</a></li>
-    </ul>
-
-    <div class="nav-right">
-      <button class="cart-btn" onclick="openCart()">
-        <!-- Cart SVG icon -->
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8">
-          <circle cx="9" cy="21" r="1"/>
-          <circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
+<!-- HERO -->
+<section class="hero" id="hero-section">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Corporate Catalogue 2026</div>
+    <h1 class="hero-h1">Premium Bags &<br>Luggage for <em>Corporate</em><br>Gifting Programs.</h1>
+    <p class="hero-sub">Trusted manufacturer &amp; exporter of world-class bags, luggage and corporate gifting solutions. 5M+ units annual capacity. OEM specialist serving 500+ corporate clients.</p>
+    <div class="hero-actions">
+      <a href="https://wa.me/919892211065" target="_blank" class="btn-red">Discuss Your Requirement</a>
+      <button class="btn-ghost" onclick="scrollTo('products-section')">Explore Products</button>
     </div>
-  </nav>
-
-  <!-- ══ HERO ═══════════════════════════════════════════════ -->
-  <section class="hero" id="hero-section">
-
-    <!-- Left panel: copy + CTAs -->
-    <div class="hero-left">
-      <div class="hero-eyebrow">Dream. Explore. Discover.</div>
-      <h1 class="hero-h1">
-        Bags Built<br>
-        for the <em>Bold</em><br>
-        Traveller.
-      </h1>
-      <p class="hero-sub">
-        Premium luggage, trolleys, backpacks, and travel gear —
-        engineered for journeys that matter. Made in India. Trusted worldwide.
-      </p>
-      <div class="hero-actions">
-        <button class="btn-red" onclick="scrollToSection('products-section')">Shop Collection</button>
-        <button class="btn-ghost" onclick="scrollToSection('about-section')">Our Story</button>
-      </div>
-      <div class="hero-stats">
-        <div>
-          <div class="hero-stat-n">5M+</div>
-          <div class="hero-stat-l">Units / Year</div>
-        </div>
-        <div>
-          <div class="hero-stat-n">28+</div>
-          <div class="hero-stat-l">Countries</div>
-        </div>
-        <div>
-          <div class="hero-stat-n">15</div>
-          <div class="hero-stat-l">Years Legacy</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right panel: luggage illustration -->
-    <div class="hero-right">
-      <div class="hero-right-inner">
-        <div class="hero-bg-num">S</div>
-        <svg class="hero-luggage" viewBox="0 0 300 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="30" y="60" width="240" height="290" rx="12" fill="url(#heroGrad)" stroke="#b8953a" stroke-width="2"/>
-          <rect x="50" y="80" width="200" height="250" rx="8" fill="none" stroke="rgba(184,149,58,0.3)" stroke-width="1"/>
-          <line x1="50" y1="210" x2="250" y2="210" stroke="#b8953a" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.6"/>
-          <rect x="115" y="20" width="70" height="44" rx="6" fill="none" stroke="#b8953a" stroke-width="2"/>
-          <rect x="125" y="28" width="50" height="28" rx="4" fill="#1d2852" stroke="#b8953a" stroke-width="1.5"/>
-          <circle cx="100" cy="365" r="16" fill="#10183a" stroke="#b8953a" stroke-width="2.5"/>
-          <circle cx="100" cy="365" r="7"  fill="#b8953a"/>
-          <circle cx="200" cy="365" r="16" fill="#10183a" stroke="#b8953a" stroke-width="2.5"/>
-          <circle cx="200" cy="365" r="7"  fill="#b8953a"/>
-          <polygon points="150,145 165,154 165,172 150,181 135,172 135,154" fill="none" stroke="#b8953a" stroke-width="2"/>
-          <text x="150" y="172" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#b8953a">S</text>
-          <rect x="130" y="207" width="40" height="8" rx="4" fill="#b8953a"/>
-          <defs>
-            <linearGradient id="heroGrad" x1="30" y1="60" x2="270" y2="350" gradientUnits="userSpaceOnUse">
-              <stop offset="0%"   stop-color="#1d2852"/>
-              <stop offset="100%" stop-color="#0e1228"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ══ MARQUEE ════════════════════════════════════════════ -->
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span>Hard Luggage</span><span class="sep">◆</span>
-      <span>Soft Luggage</span><span class="sep">◆</span>
-      <span>Trolley Bags</span><span class="sep">◆</span>
-      <span>Laptop Backpacks</span><span class="sep">◆</span>
-      <span>Gym Bags</span><span class="sep">◆</span>
-      <span>School Bags</span><span class="sep">◆</span>
-      <span>Duffle Bags</span><span class="sep">◆</span>
-      <span>OEM Manufacturing</span><span class="sep">◆</span>
-      <!-- Duplicate set for seamless loop -->
-      <span>Hard Luggage</span><span class="sep">◆</span>
-      <span>Soft Luggage</span><span class="sep">◆</span>
-      <span>Trolley Bags</span><span class="sep">◆</span>
-      <span>Laptop Backpacks</span><span class="sep">◆</span>
-      <span>Gym Bags</span><span class="sep">◆</span>
-      <span>School Bags</span><span class="sep">◆</span>
-      <span>Duffle Bags</span><span class="sep">◆</span>
-      <span>OEM Manufacturing</span><span class="sep">◆</span>
+    <div class="hero-stats">
+      <div><div class="hero-stat-n">5M+</div><div class="hero-stat-l">Units / Year</div></div>
+      <div><div class="hero-stat-n">100+</div><div class="hero-stat-l">Production Lines</div></div>
+      <div><div class="hero-stat-n">500+</div><div class="hero-stat-l">Corporate Clients</div></div>
+      <div><div class="hero-stat-n">&lt;10</div><div class="hero-stat-l">Days Prototype</div></div>
     </div>
   </div>
-
-  <!-- ══ CATEGORIES ═════════════════════════════════════════ -->
-  <section class="section cats-section" id="cats-section">
-    <div class="sec-hd reveal">
-      <div>
-        <div class="eyebrow">Browse by Type</div>
-        <h2 class="section-title">Shop <em>Collections</em></h2>
-      </div>
-      <a href="#" class="link-arrow" onclick="scrollToSection('products-section')">View All →</a>
+  <div class="hero-right">
+    <div class="hero-right-inner">
+      <div class="hero-bg-num">S</div>
+      <svg class="hero-luggage" viewBox="0 0 300 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="60" width="240" height="290" rx="12" fill="url(#hg)" stroke="#b8953a" stroke-width="2"/>
+        <rect x="50" y="80" width="200" height="250" rx="8" fill="none" stroke="rgba(184,149,58,0.3)" stroke-width="1"/>
+        <line x1="50" y1="210" x2="250" y2="210" stroke="#b8953a" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.6"/>
+        <rect x="115" y="20" width="70" height="44" rx="6" fill="none" stroke="#b8953a" stroke-width="2"/>
+        <rect x="125" y="28" width="50" height="28" rx="4" fill="#1d2852" stroke="#b8953a" stroke-width="1.5"/>
+        <circle cx="100" cy="365" r="16" fill="#10183a" stroke="#b8953a" stroke-width="2.5"/>
+        <circle cx="100" cy="365" r="7" fill="#b8953a"/>
+        <circle cx="200" cy="365" r="16" fill="#10183a" stroke="#b8953a" stroke-width="2.5"/>
+        <circle cx="200" cy="365" r="7" fill="#b8953a"/>
+        <polygon points="150,145 165,154 165,172 150,181 135,172 135,154" fill="none" stroke="#b8953a" stroke-width="2"/>
+        <text x="150" y="172" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#b8953a">S</text>
+        <rect x="130" y="207" width="40" height="8" rx="4" fill="#b8953a"/>
+        <defs>
+          <linearGradient id="hg" x1="30" y1="60" x2="270" y2="350" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#1d2852"/><stop offset="100%" stop-color="#0e1228"/>
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
+  </div>
+</section>
 
-    <div class="cats-grid">
-      <!-- Each tile calls filterByCategory() in store.js -->
-      <div class="cat" onclick="filterByCategory('Hard Luggage')">
-        <div class="cat-inner">
-          <div class="cat-bg-text">🧳</div>
-          <div class="cat-emoji">🧳</div>
-          <div class="cat-overlay">
-            <div class="cat-label">
-              <span class="cat-name">Hard Luggage</span>
-              <span class="cat-count">Premium Collection</span>
-              <span class="cat-arrow">→</span>
-            </div>
-          </div>
-        </div>
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Hard Luggage</span><span class="sep">◆</span><span>Soft Luggage</span><span class="sep">◆</span>
+    <span>Trolley Bags</span><span class="sep">◆</span><span>Laptop Backpacks</span><span class="sep">◆</span>
+    <span>Vanity Cases</span><span class="sep">◆</span><span>OEM Manufacturing</span><span class="sep">◆</span>
+    <span>Corporate Gifting</span><span class="sep">◆</span><span>Gym Bags</span><span class="sep">◆</span>
+    <span>Hard Luggage</span><span class="sep">◆</span><span>Soft Luggage</span><span class="sep">◆</span>
+    <span>Trolley Bags</span><span class="sep">◆</span><span>Laptop Backpacks</span><span class="sep">◆</span>
+    <span>Vanity Cases</span><span class="sep">◆</span><span>OEM Manufacturing</span><span class="sep">◆</span>
+    <span>Corporate Gifting</span><span class="sep">◆</span><span>Gym Bags</span><span class="sep">◆</span>
+  </div>
+</div>
+
+<!-- B2B INTRO -->
+<section class="section b2b-section" id="b2b-section">
+  <div class="b2b-grid">
+    <div class="b2b-left reveal">
+      <div class="eyebrow">APLUS Designer Range — Corporate 2026</div>
+      <h2 class="section-title">Custom Bags & Luggage<br>for <em>Corporate Gifting</em> Programs.</h2>
+      <p class="section-desc">We manufacture and supply premium bags and luggage in large quantities for companies running employee recognition programs, dealer incentives, client appreciation gifts, and trade campaigns.</p>
+      <div class="b2b-chips">
+        <div class="b2b-chip">✓ 500–1000 Pcs MOQ</div>
+        <div class="b2b-chip">✓ Made to Order — 1–4 Weeks</div>
+        <div class="b2b-chip">✓ 100% Custom Branding</div>
+        <div class="b2b-chip">✓ Pan-India Dispatch</div>
       </div>
-
-      <div class="cat" onclick="filterByCategory('Backpacks')">
-        <div class="cat-inner">
-          <div class="cat-bg-text">🎒</div>
-          <div class="cat-emoji">🎒</div>
-          <div class="cat-overlay">
-            <div class="cat-label">
-              <span class="cat-name">Backpacks</span>
-              <span class="cat-count">Laptop & Travel</span>
-              <span class="cat-arrow">→</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cat" onclick="filterByCategory('Duffle & Travel')">
-        <div class="cat-inner">
-          <div class="cat-bg-text">👜</div>
-          <div class="cat-emoji">👜</div>
-          <div class="cat-overlay">
-            <div class="cat-label">
-              <span class="cat-name">Duffle & Travel</span>
-              <span class="cat-count">Weekenders</span>
-              <span class="cat-arrow">→</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cat" onclick="filterByCategory('Office Bags')">
-        <div class="cat-inner">
-          <div class="cat-bg-text">💼</div>
-          <div class="cat-emoji">💼</div>
-          <div class="cat-overlay">
-            <div class="cat-label">
-              <span class="cat-name">Office Bags</span>
-              <span class="cat-count">Professional</span>
-              <span class="cat-arrow">→</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cat" onclick="filterByCategory('School & Sports')">
-        <div class="cat-inner">
-          <div class="cat-bg-text">🎽</div>
-          <div class="cat-emoji">🎽</div>
-          <div class="cat-overlay">
-            <div class="cat-label">
-              <span class="cat-name">School & Sports</span>
-              <span class="cat-count">Kids & Teens</span>
-              <span class="cat-arrow">→</span>
-            </div>
-          </div>
-        </div>
+      <div class="hero-actions" style="margin-top:32px;">
+        <a href="https://wa.me/919892211065" target="_blank" class="btn-red">Discuss Your Campaign</a>
+        <button class="btn-outline-dark" onclick="scrollTo('products-section')">Browse Products</button>
       </div>
     </div>
-  </section>
+    <div class="b2b-right reveal reveal-d2">
+      <div class="b2b-stat-card"><div class="b2b-stat-icon">📦</div><div class="b2b-stat-n">500–1000</div><div class="b2b-stat-l">Minimum Order Qty</div></div>
+      <div class="b2b-stat-card"><div class="b2b-stat-icon">⚡</div><div class="b2b-stat-n">&lt;10 Days</div><div class="b2b-stat-l">Prototype Lead Time</div></div>
+      <div class="b2b-stat-card accent"><div class="b2b-stat-icon">🎨</div><div class="b2b-stat-n">100%</div><div class="b2b-stat-l">Custom Branding Available</div></div>
+      <div class="b2b-stat-card"><div class="b2b-stat-icon">🚚</div><div class="b2b-stat-n">Pan-India</div><div class="b2b-stat-l">Delivery & Dispatch</div></div>
+    </div>
+  </div>
+</section>
 
-  <!-- ══ PRODUCTS ═══════════════════════════════════════════ -->
-  <section class="section products-section" id="products-section">
-    <div class="sec-hd reveal">
-      <div>
-        <div class="eyebrow">Featured Products</div>
-        <h2 class="section-title">The <em>Collection</em></h2>
-        <p class="section-desc">Crafted with precision. Designed for every journey.</p>
+<!-- GIFTING PROGRAMS -->
+<section class="section programs-section" id="gifting-section">
+  <div class="reveal" style="text-align:center;max-width:680px;margin:0 auto 60px;">
+    <div class="eyebrow">Corporate Gifting Solutions</div>
+    <h2 class="section-title">We Work With Companies That Run</h2>
+    <p class="section-desc" style="margin:0 auto;">From employee recognition to dealer campaigns — Spinnerz powers gifting programs that make a lasting impression.</p>
+  </div>
+  <div class="programs-grid">
+    <div class="program-card reveal reveal-d1">
+      <div class="program-img pi-1"><div class="program-emoji">🏆</div></div>
+      <div class="program-body">
+        <h3 class="program-title">Employee Recognition Programs</h3>
+        <p class="program-desc">Celebrate achievements with premium branded bags and luggage. Hard-shell trolleys, executive laptop bags — gifts that feel substantial and stay in daily use long after the campaign.</p>
+        <a href="https://wa.me/919892211065" target="_blank" class="program-cta">Enquire Now →</a>
       </div>
     </div>
-
-    <!-- Filter buttons — categories must match data.js DEFAULT_PRODUCTS -->
-    <div class="filter-bar" id="filterBar">
-      <button class="filter-btn active"  onclick="filterProducts('All', this)">All</button>
-      <button class="filter-btn" onclick="filterProducts('Hard Luggage', this)">Hard Luggage</button>
-      <button class="filter-btn" onclick="filterProducts('Backpacks', this)">Backpacks</button>
-      <button class="filter-btn" onclick="filterProducts('Duffle & Travel', this)">Duffle & Travel</button>
-      <button class="filter-btn" onclick="filterProducts('Office Bags', this)">Office Bags</button>
-      <button class="filter-btn" onclick="filterProducts('School & Sports', this)">School & Sports</button>
-    </div>
-
-    <!-- Populated by renderProducts() in store.js -->
-    <div class="products-grid" id="productsGrid"></div>
-  </section>
-
-  <!-- ══ WHY SPINNERZ ═══════════════════════════════════════ -->
-  <section class="why-section" id="about-section">
-    <div class="reveal" style="text-align:center;max-width:640px;margin:0 auto;">
-      <div class="eyebrow" style="color:var(--gold);display:flex;justify-content:center;">Why Spinnerz</div>
-      <h2 class="why-title">Built on<br><em>Excellence.</em></h2>
-      <p style="color:rgba(255,255,255,.45);font-size:15px;line-height:1.9;font-weight:300;margin-top:12px;">
-        Spinnerz Globe Pvt. Ltd. — a trusted manufacturer and exporter of
-        world-class bags & luggage with 5M+ annual capacity.
-      </p>
-    </div>
-    <div class="why-grid">
-      <div class="why-card reveal reveal-d1">
-        <div class="why-icon">🏭</div>
-        <div class="why-h">OEM Manufacturing</div>
-        <p class="why-p">State-of-the-art plant with 5M+ units annual capacity. End-to-end production excellence.</p>
-      </div>
-      <div class="why-card reveal reveal-d2">
-        <div class="why-icon">🌍</div>
-        <div class="why-h">Global Exports</div>
-        <p class="why-p">Trusted by brands across 28 countries. Reliable supply chain from design to delivery.</p>
-      </div>
-      <div class="why-card reveal reveal-d3">
-        <div class="why-icon">✦</div>
-        <div class="why-h">Premium Quality</div>
-        <p class="why-p">Aircraft-grade polycarbonate, Japanese YKK zippers, and precision stitching on every item.</p>
-      </div>
-      <div class="why-card reveal reveal-d4">
-        <div class="why-icon">🔄</div>
-        <div class="why-h">2-Year Warranty</div>
-        <p class="why-p">Every Spinnerz product comes backed by our 2-year replacement warranty. No questions asked.</p>
+    <div class="program-card reveal reveal-d2">
+      <div class="program-img pi-2"><div class="program-emoji">🤝</div></div>
+      <div class="program-body">
+        <h3 class="program-title">Dealer & Distributor Campaigns</h3>
+        <p class="program-desc">Structured bulk supply for trade promotions, dealer reward schemes and channel partner incentives. Consistent quality across multi-city distribution networks.</p>
+        <a href="https://wa.me/919892211065" target="_blank" class="program-cta">Enquire Now →</a>
       </div>
     </div>
-  </section>
+    <div class="program-card reveal reveal-d3">
+      <div class="program-img pi-3"><div class="program-emoji">🎁</div></div>
+      <div class="program-body">
+        <h3 class="program-title">Client Appreciation & Onboarding Kits</h3>
+        <p class="program-desc">Welcome new hires or thank key clients with curated gift sets — vanity cases, backpacks, duffle bags — all fully branded with your company's identity.</p>
+        <a href="https://wa.me/919892211065" target="_blank" class="program-cta">Enquire Now →</a>
+      </div>
+    </div>
+    <div class="program-card reveal reveal-d4">
+      <div class="program-img pi-4"><div class="program-emoji">📋</div></div>
+      <div class="program-body">
+        <h3 class="program-title">Conference & Event Merchandise</h3>
+        <p class="program-desc">Laptop backpacks, sling bags and travel accessories for conferences and annual events. Custom embroidery, embossing and print available on all products.</p>
+        <a href="https://wa.me/919892211065" target="_blank" class="program-cta">Enquire Now →</a>
+      </div>
+    </div>
+  </div>
+  <div class="gifting-stats reveal">
+    <div class="gstat"><span class="gstat-n">8+</span><span class="gstat-l">Gifting Programs</span></div>
+    <div class="gstat-div"></div>
+    <div class="gstat"><span class="gstat-n">500+</span><span class="gstat-l">Corporate Clients</span></div>
+    <div class="gstat-div"></div>
+    <div class="gstat"><span class="gstat-n">5M+</span><span class="gstat-l">Units / Year</span></div>
+    <div class="gstat-div"></div>
+    <div class="gstat"><span class="gstat-n">28+</span><span class="gstat-l">Countries Served</span></div>
+  </div>
+</section>
 
-  <!-- ══ ABOUT BAND ══════════════════════════════════════════ -->
-  <div class="about-band" id="contact-section">
+<!-- CATEGORIES -->
+<section class="section cats-section" id="cats-section" style="background:var(--white);">
+  <div class="sec-hd reveal">
+    <div>
+      <div class="eyebrow">APLUS Designer Range</div>
+      <h2 class="section-title">Core Product <em>Categories</em></h2>
+    </div>
+    <a href="#" class="link-arrow" onclick="scrollTo('products-section')">All Products →</a>
+  </div>
+  <div class="cats-grid">
+    <div class="cat" onclick="filterByCategory('Hard Luggage')"><div class="cat-inner"><div class="cat-bg-text">🧳</div><div class="cat-emoji">🧳</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name">Hard Luggage</span><span class="cat-count">Polycarbonate & ABS • 20" / 24" / 28"</span><span class="cat-arrow">→</span></div></div></div></div>
+    <div class="cat" onclick="filterByCategory('Soft Luggage')"><div class="cat-inner"><div class="cat-bg-text">🧳</div><div class="cat-emoji">🧳</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name">Soft Luggage</span><span class="cat-count">Water-Resistant • Expandable</span><span class="cat-arrow">→</span></div></div></div></div>
+    <div class="cat" onclick="filterByCategory('Trolley Bags')"><div class="cat-inner"><div class="cat-bg-text">🛄</div><div class="cat-emoji">🛄</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name">Trolley Bags</span><span class="cat-count">Overnighters & Duffle Trolleys</span><span class="cat-arrow">→</span></div></div></div></div>
+    <div class="cat" onclick="filterByCategory('Laptop Backpacks')"><div class="cat-inner"><div class="cat-bg-text">🎒</div><div class="cat-emoji">🎒</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name">Laptop Backpacks</span><span class="cat-count">Anti-Theft • USB Port • 15.6"</span><span class="cat-arrow">→</span></div></div></div></div>
+    <div class="cat" onclick="filterByCategory('Office & Sling')"><div class="cat-inner"><div class="cat-bg-text">💼</div><div class="cat-emoji">💼</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name">Office & Sling Bags</span><span class="cat-count">Executive Leather • Professional</span><span class="cat-arrow">→</span></div></div></div></div>
+  </div>
+  <div class="cats-grid-2 reveal" style="margin-top:3px;display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
+    <div class="cat" onclick="filterByCategory('Gym & Lifestyle')"><div class="cat-inner" style="min-height:160px;background:linear-gradient(145deg,#1f3a1f,#2d5c1a);"><div class="cat-emoji" style="font-size:48px;">🏋️</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name" style="font-size:17px;">Gym Bags</span><span class="cat-count">School & College</span></div></div></div></div>
+    <div class="cat" onclick="filterByCategory('Duffle & Travel')"><div class="cat-inner" style="min-height:160px;background:linear-gradient(145deg,#10182d,#1a2d52);"><div class="cat-emoji" style="font-size:48px;">👜</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name" style="font-size:17px;">Duffle & Travel</span><span class="cat-count">Weekenders & Canvas</span></div></div></div></div>
+    <div class="cat" onclick="filterByCategory('Vanity Cases')"><div class="cat-inner" style="min-height:160px;background:linear-gradient(145deg,#3a1f2d,#5c1a3a);"><div class="cat-emoji" style="font-size:48px;">💄</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name" style="font-size:17px;">Vanity Cases</span><span class="cat-count">Quilted • Luxury Finish</span></div></div></div></div>
+    <div class="cat" onclick="filterByCategory('School & College')"><div class="cat-inner" style="min-height:160px;background:linear-gradient(145deg,#2d1f10,#5c3a1a);"><div class="cat-emoji" style="font-size:48px;">🎒</div><div class="cat-overlay"><div class="cat-label"><span class="cat-name" style="font-size:17px;">School & College</span><span class="cat-count">Kids • Teens • Campus</span></div></div></div></div>
+  </div>
+</section>
+
+<!-- PRODUCTS GRID -->
+<section class="section products-section" id="products-section">
+  <div class="sec-hd reveal">
+    <div>
+      <div class="eyebrow">Explore Products — MOQ Applies</div>
+      <h2 class="section-title">Our <em>Catalogue</em></h2>
+      <p class="section-desc">All products available for bulk custom-branded orders. Contact us for pricing and MOQ details.</p>
+    </div>
+  </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" onclick="filterProducts('All',this)">All</button>
+    <button class="filter-btn" onclick="filterProducts('Hard Luggage',this)">Hard Luggage</button>
+    <button class="filter-btn" onclick="filterProducts('Soft Luggage',this)">Soft Luggage</button>
+    <button class="filter-btn" onclick="filterProducts('Trolley Bags',this)">Trolley Bags</button>
+    <button class="filter-btn" onclick="filterProducts('Laptop Backpacks',this)">Laptop Backpacks</button>
+    <button class="filter-btn" onclick="filterProducts('Office & Sling',this)">Office & Sling</button>
+    <button class="filter-btn" onclick="filterProducts('Gym & Lifestyle',this)">Gym & Lifestyle</button>
+    <button class="filter-btn" onclick="filterProducts('Vanity Cases',this)">Vanity Cases</button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+  <div class="products-cta reveal">
+    <p>All products available for bulk custom-branded orders. MOQ applies.</p>
+    <a href="https://wa.me/919892211065" target="_blank" class="btn-red">Request Bulk Quote on WhatsApp</a>
+  </div>
+</section>
+
+<!-- MANUFACTURING / PROCESS -->
+<section class="section process-section" id="manufacturing-section">
+  <div class="process-grid">
+    <div class="process-left reveal">
+      <div class="eyebrow" style="color:var(--gold);">Manufacturing Excellence</div>
+      <h2 class="why-title">How We Ensure<br><em>Smooth Production</em></h2>
+      <p style="color:rgba(255,255,255,.45);font-size:15px;line-height:1.9;font-weight:300;margin-top:16px;max-width:400px;">Annual Capacity: 5 Million+ Units | 100+ Production Lines. From concept to delivery — complete end-to-end manufacturing with unmatched speed.</p>
+      <div class="process-steps">
+        <div class="process-step"><span class="ps-num">01</span><span class="ps-text">Specification locking before production</span></div>
+        <div class="process-step"><span class="ps-num">02</span><span class="ps-text">Controlled sampling & prototype approval (&lt;10 days)</span></div>
+        <div class="process-step"><span class="ps-num">03</span><span class="ps-text">Precision CNC cutting & expert stitching</span></div>
+        <div class="process-step"><span class="ps-num">04</span><span class="ps-text">Rigorous multi-point quality inspection</span></div>
+        <div class="process-step"><span class="ps-num">05</span><span class="ps-text">Pan-India logistics & coordinated dispatch</span></div>
+      </div>
+      <p style="color:var(--gold);font-size:13px;font-weight:600;margin-top:28px;">The objective is simple: No rework. No confusion. No surprises.</p>
+      <a href="https://wa.me/919892211065" target="_blank" class="btn-red" style="margin-top:28px;display:inline-block;">Discuss Bulk Requirement</a>
+    </div>
+    <div class="process-right reveal reveal-d2">
+      <div class="dept-card"><div class="dept-icon">⚙️</div><div class="dept-body"><div class="dept-title">Cutting Department</div><div class="dept-desc">Precision cutting with advanced CNC machinery and laser technology ensuring accurate patterns and minimal material waste for every production batch.</div></div></div>
+      <div class="dept-card"><div class="dept-icon">🧵</div><div class="dept-body"><div class="dept-title">Stitching Department</div><div class="dept-desc">Expert craftsmanship from skilled artisans using industrial-grade sewing equipment, delivering durable seams and impeccable finishing on every product.</div></div></div>
+      <div class="dept-card"><div class="dept-icon">🔍</div><div class="dept-body"><div class="dept-title">Quality Control</div><div class="dept-desc">Rigorous multi-point inspection process ensuring every bag meets international quality standards before packaging and dispatch to clients.</div></div></div>
+      <div class="dept-card"><div class="dept-icon">🎨</div><div class="dept-body"><div class="dept-title">Custom Branding</div><div class="dept-desc">Logo embossing, custom embroidery, personalized colors and bespoke designs. Full OEM capability tailored precisely to your corporate identity.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY TRUST -->
+<section class="section why-trust-section">
+  <div class="reveal" style="text-align:center;margin-bottom:56px;">
+    <div class="eyebrow">Why Businesses Trust Us</div>
+    <h2 class="section-title">Why Choose <em>Spinnerz Globe</em></h2>
+  </div>
+  <div class="trust-grid">
+    <div class="trust-card reveal reveal-d1"><div class="trust-icon">🏅</div><div class="trust-title">Premium Quality & Craftsmanship</div><div class="trust-desc">Every product reflects decades of manufacturing excellence with meticulous attention to detail, superior materials, and world-class finishing standards.</div></div>
+    <div class="trust-card reveal reveal-d2"><div class="trust-icon">🎨</div><div class="trust-title">Complete Customization</div><div class="trust-desc">Full branding solutions — logo embossing, custom embroidery, personalized colors, and bespoke designs tailored precisely to your corporate identity.</div></div>
+    <div class="trust-card reveal reveal-d3"><div class="trust-icon">🏭</div><div class="trust-title">Unmatched Capacity & Value</div><div class="trust-desc">5M+ units annual production. Competitive direct manufacturer pricing. Reliable supply chain ensuring timely bulk deliveries to your doorstep.</div></div>
+    <div class="trust-card reveal reveal-d4"><div class="trust-icon">🌍</div><div class="trust-title">Global Export Standards</div><div class="trust-desc">Every product undergoes strict quality control meeting international standards. Trusted by brands across 28 countries with consistent supply chain.</div></div>
+  </div>
+</section>
+
+<!-- ABOUT BAND -->
+<div class="about-band" id="about-section">
+  <div class="reveal">
+    <div class="eyebrow" style="color:rgba(255,255,255,.5);">About Spinnerz Globe</div>
+    <h2>Trusted Manufacturer<br><em>& OEM Specialist</em></h2>
+  </div>
+  <div class="reveal reveal-d2">
+    <p>Spinnerz Globe Private Limited is a trusted manufacturer and exporter of premium bags and luggage, serving clients worldwide with excellence. With decades of industry experience and a highly skilled workforce, we have established ourselves as leaders in quality craftsmanship and innovative design.</p>
+    <p style="margin-top:16px;font-weight:600;color:rgba(255,255,255,.9);">As an OEM manufacturing specialist, we partner with brands globally to deliver bespoke luggage solutions that meet the highest standards of quality, durability, and style.</p>
+    <a href="https://wa.me/919892211065" target="_blank" class="btn-ghost" style="margin-top:32px;display:inline-block;">Partner With Us</a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="section contact-section" id="contact-section">
+  <div class="contact-grid">
     <div class="reveal">
-      <div class="eyebrow" style="color:rgba(255,255,255,.5);">Our Story</div>
-      <h2>Crafting Journeys<br><em>Since 2009</em></h2>
-    </div>
-    <div class="reveal reveal-d2">
-      <p>
-        Born in the lanes of Mumbai, Spinnerz Globe started as a small workshop
-        with one dream — to make quality travel gear accessible to every Indian
-        traveller. Today, we manufacture for global brands and have our own line
-        of premium bags sold across the subcontinent.
-      </p>
-      <a href="#" class="btn-ghost">Get In Touch</a>
-    </div>
-  </div>
-
-  <!-- ══ TESTIMONIALS ═══════════════════════════════════════ -->
-  <section class="section testi-section">
-    <div class="sec-hd reveal">
-      <div>
-        <div class="eyebrow">What Customers Say</div>
-        <h2 class="section-title"><em>Trusted</em> by Travellers</h2>
+      <div class="eyebrow">Get In Touch</div>
+      <h2 class="section-title">Partner With Spinnerz Globe<br>for <em>Premium Corporate Gifting</em></h2>
+      <p class="section-desc">Share your basic requirement details and expected quantity. We will revert with the most suitable bulk supply structure.</p>
+      <div class="contact-details">
+        <div class="contact-row"><span class="contact-icon">📞</span><div><div class="contact-label">Phone / WhatsApp</div><a href="tel:+919892211065" class="contact-val">+91-9892211065</a></div></div>
+        <div class="contact-row"><span class="contact-icon">🌐</span><div><div class="contact-label">Website</div><a href="https://www.spinnerz.co.in" target="_blank" class="contact-val">www.spinnerz.co.in</a></div></div>
+        <div class="contact-row"><span class="contact-icon">✉️</span><div><div class="contact-label">Email</div><a href="mailto:info@spinnerz.co.in" class="contact-val">info@spinnerz.co.in</a></div></div>
       </div>
     </div>
-    <div class="testi-grid">
-      <div class="testi-card reveal reveal-d1">
-        <div class="testi-bar"></div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">The hard luggage survived three international flights and still looks pristine. Worth every rupee.</p>
-        <div class="testi-author">Arjun Mehta</div>
-        <div class="testi-role">Frequent Business Traveller, Mumbai</div>
-      </div>
-      <div class="testi-card reveal reveal-d2">
-        <div class="testi-bar"></div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">Gifted my daughter a Spinnerz backpack for college — she's used it daily for two years and it's still flawless.</p>
-        <div class="testi-author">Priya Sharma</div>
-        <div class="testi-role">Parent, Delhi</div>
-      </div>
-      <div class="testi-card reveal reveal-d3">
-        <div class="testi-bar"></div>
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-text">As a travel blogger I've tried dozens of brands. Spinnerz duffle bags are the most reliable I've found.</p>
-        <div class="testi-author">Rohan Verma</div>
-        <div class="testi-role">Travel Blogger, Bangalore</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ NEWSLETTER ══════════════════════════════════════════ -->
-  <div class="newsletter">
-    <div class="eyebrow" style="color:var(--gold);justify-content:center;display:flex;">Stay Connected</div>
-    <h2>Exclusive Drops &<br><em>Travel Inspiration</em></h2>
-    <p>Join 50,000+ subscribers. No spam, only the good stuff.</p>
-    <div class="nl-form">
-      <input class="nl-input" type="email" placeholder="Your email address">
-      <button class="nl-submit" onclick="showToast('✓ You\'re subscribed!')">Subscribe</button>
+    <div class="contact-form-card reveal reveal-d2">
+      <h3 style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px;">Send an Enquiry</h3>
+      <p style="font-size:13px;color:var(--ink-light);margin-bottom:24px;">We'll get back within 24 hours.</p>
+      <div class="cf-field"><label>Company Name</label><input type="text" placeholder="Your company name"></div>
+      <div class="cf-field"><label>Product Interest</label><select><option value="">Select product category</option><option>Hard Luggage</option><option>Soft Luggage</option><option>Trolley Bags</option><option>Laptop Backpacks</option><option>Office & Sling Bags</option><option>Gym & Lifestyle</option><option>Vanity Cases</option><option>Multiple Categories</option></select></div>
+      <div class="cf-2"><div class="cf-field"><label>Quantity Required</label><input type="text" placeholder="e.g. 1000 pcs"></div><div class="cf-field"><label>Phone / WhatsApp</label><input type="text" placeholder="+91-XXXXXXXXXX"></div></div>
+      <div class="cf-field"><label>Message</label><textarea placeholder="Tell us about your requirement, timeline, customisation needs..."></textarea></div>
+      <a href="https://wa.me/919892211065" target="_blank" class="btn-red" style="display:block;text-align:center;margin-top:8px;">Send via WhatsApp →</a>
     </div>
   </div>
+</section>
 
-  <!-- ══ FOOTER ══════════════════════════════════════════════ -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="brand-name">SPINNERZ</div>
-        <div class="brand-tag">Dream. Explore. Discover.</div>
-        <p>Spinnerz Globe Pvt. Ltd. — Premium bags, luggage & travel gear. Manufactured in India, trusted worldwide.</p>
-      </div>
-      <div>
-        <div class="footer-h">Shop</div>
-        <ul class="footer-ul">
-          <li><a href="#">Hard Luggage</a></li>
-          <li><a href="#">Soft Luggage</a></li>
-          <li><a href="#">Backpacks</a></li>
-          <li><a href="#">Duffle Bags</a></li>
-          <li><a href="#">Office Bags</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-h">Company</div>
-        <ul class="footer-ul">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">OEM / B2B</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Press</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-h">Support</div>
-        <ul class="footer-ul">
-          <li><a href="#">Warranty Policy</a></li>
-          <li><a href="#">Return & Exchange</a></li>
-          <li><a href="#">Track Order</a></li>
-          <li><a href="#">Size Guide</a></li>
-          <!-- Admin link — hidden from general users but accessible if known -->
-          <li><a href="admin/index.html">Admin ↗</a></li>
-        </ul>
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="eyebrow" style="color:var(--gold);display:flex;justify-content:center;">Stay Updated</div>
+  <h2>Get Our Corporate<br><em>Catalogue 2026</em></h2>
+  <p>Subscribe to receive new product launches, seasonal offers and gifting program ideas.</p>
+  <div class="nl-form">
+    <input class="nl-input" type="email" placeholder="Your business email">
+    <button class="nl-submit" onclick="showToast('✓ You\'ll receive our catalogue shortly!')">Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">SPINNERZ</div>
+      <div class="brand-tag">Dream. Explore. Discover.</div>
+      <p>Spinnerz Globe Pvt. Ltd. — Premium bags, luggage & corporate gifting solutions. Manufactured in India, trusted worldwide.</p>
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:6px;">
+        <a href="tel:+919892211065" style="color:rgba(255,255,255,.5);font-size:13px;text-decoration:none;">📞 +91-9892211065</a>
+        <a href="mailto:info@spinnerz.co.in" style="color:rgba(255,255,255,.5);font-size:13px;text-decoration:none;">✉️ info@spinnerz.co.in</a>
+        <a href="https://www.spinnerz.co.in" style="color:rgba(255,255,255,.5);font-size:13px;text-decoration:none;">🌐 www.spinnerz.co.in</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 Spinnerz Globe Pvt. Ltd. All rights reserved.</div>
-      <div class="footer-socials">
-        <div class="soc-btn">𝕏</div>
-        <div class="soc-btn">in</div>
-        <div class="soc-btn">▶</div>
-        <div class="soc-btn">📷</div>
-      </div>
+    <div>
+      <div class="footer-h">Products</div>
+      <ul class="footer-ul">
+        <li><a href="#">Hard Luggage</a></li><li><a href="#">Soft Luggage</a></li>
+        <li><a href="#">Trolley Bags</a></li><li><a href="#">Laptop Backpacks</a></li>
+        <li><a href="#">Vanity Cases</a></li>
+      </ul>
     </div>
-  </footer>
-
-  <!-- ══ CART MODAL ══════════════════════════════════════════ -->
-  <div class="overlay-bg" id="cartModal">
-    <div class="modal" style="max-width:440px;">
-      <button class="modal-close" onclick="closeModal('cartModal')">×</button>
-      <h2 class="modal-title">Your Cart</h2>
-      <div class="modal-sub" id="cartSubtitle">0 items</div>
-      <div id="cartItems" style="margin-bottom:24px;max-height:300px;overflow-y:auto;"></div>
-      <div id="cartTotal"></div>
-      <button class="btn-red" style="width:100%;text-align:center;margin-top:20px;"
-        onclick="showToast('🛒 Checkout coming soon!'); closeModal('cartModal')">
-        Checkout →
-      </button>
+    <div>
+      <div class="footer-h">Corporate Gifting</div>
+      <ul class="footer-ul">
+        <li><a href="#">Employee Recognition</a></li><li><a href="#">Client Appreciation</a></li>
+        <li><a href="#">Dealer Campaigns</a></li><li><a href="#">Onboarding Kits</a></li>
+        <li><a href="#">Conference Merch</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-h">Company</div>
+      <ul class="footer-ul">
+        <li><a href="#">About Us</a></li><li><a href="#">OEM Manufacturing</a></li>
+        <li><a href="#">Bulk Orders</a></li><li><a href="#">Contact Us</a></li>
+        <li><a href="admin/index.html">Admin ↗</a></li>
+      </ul>
     </div>
   </div>
-
-  <!-- ══ PRODUCT DETAIL MODAL ═══════════════════════════════ -->
-  <div class="overlay-bg" id="productModal">
-    <div class="modal" style="max-width:520px;">
-      <button class="modal-close" onclick="closeModal('productModal')">×</button>
-      <div id="productModalContent"></div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Spinnerz Globe Pvt. Ltd. All rights reserved.</div>
+    <div class="footer-socials">
+      <div class="soc-btn">𝕏</div><div class="soc-btn">in</div>
+      <div class="soc-btn">▶</div><div class="soc-btn">📷</div>
     </div>
   </div>
+</footer>
 
-  <!-- ══ TOAST ═══════════════════════════════════════════════ -->
-  <div class="toast" id="toast"></div>
+<!-- CART MODAL -->
+<div class="overlay-bg" id="cartModal">
+  <div class="modal" style="max-width:440px;">
+    <button class="modal-close" onclick="closeModal('cartModal')">×</button>
+    <h2 class="modal-title">Your Enquiry List</h2>
+    <div class="modal-sub" id="cartSubtitle">0 items</div>
+    <div id="cartItems" style="margin-bottom:24px;max-height:300px;overflow-y:auto;"></div>
+    <div id="cartTotal"></div>
+    <a href="https://wa.me/919892211065" target="_blank" class="btn-red" style="display:block;text-align:center;margin-top:20px;" onclick="closeModal('cartModal')">Send Enquiry via WhatsApp →</a>
+  </div>
+</div>
 
-  <!-- ══ SCRIPTS (data first, then store logic) ═════════════ -->
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/store.js"></script>
+<!-- PRODUCT MODAL -->
+<div class="overlay-bg" id="productModal">
+  <div class="modal" style="max-width:520px;">
+    <button class="modal-close" onclick="closeModal('productModal')">×</button>
+    <div id="productModalContent"></div>
+  </div>
+</div>
 
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- WHATSAPP FLOAT BUTTON -->
+<a href="https://wa.me/919892211065" target="_blank" class="wa-float" title="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/store.js"></script>
 </body>
 </html>
