@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spinnerz Admin — Control Panel</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets: shared tokens first, then admin styles -->
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════════
+       LOGIN SCREEN
+       Hidden once the correct password is entered.
+  ══════════════════════════════════════════════════════════ -->
+  <div id="loginScreen">
+
+    <!-- Left branding panel -->
+    <div class="login-left">
+      <div class="login-left-bg"></div>
+      <div class="login-brand">
+        <div class="login-brand-name">SPINNERZ</div>
+        <div class="login-divider"></div>
+        <div class="login-brand-tag">Admin Control Panel</div>
+        <p class="login-brand-desc">
+          Manage products, inventory, and your storefront — all in one place.
+        </p>
+        <div class="login-brand-badge">
+          <span>🔒</span>
+          <span>Restricted Access Only</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right login form -->
+    <div class="login-right">
+      <div class="login-box">
+        <h1 class="login-title">Welcome Back</h1>
+        <p class="login-sub">Sign in to access the admin dashboard.</p>
+
+        <div class="l-error" id="loginError">Incorrect password. Please try again.</div>
+
+        <label class="l-label" for="passwordInput">Password</label>
+        <input class="l-input" type="password" id="passwordInput"
+               placeholder="Enter admin password">
+
+        <button class="l-btn" onclick="attemptLogin()">Sign In →</button>
+
+        <br>
+        <a class="back-link" href="../index.html">← Back to Store</a>
+
+        <!-- Default password hint — remove this line in production! -->
+        <p class="l-hint">
+          Default password: <code>spinnerz2025</code>
+          &nbsp;|&nbsp; Change it in Settings after login.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /#loginScreen -->
+
+  <!-- ══════════════════════════════════════════════════════
+       ADMIN APP
+       Hidden until login succeeds.
+  ══════════════════════════════════════════════════════════ -->
+  <div id="adminApp">
+
+    <!-- ── SIDEBAR ────────────────────────────────────────── -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-name">SPINNERZ</div>
+        <div class="sidebar-logo-tag">Admin Panel</div>
+        <div class="sidebar-logo-role">Logged in as Admin</div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <a class="nav-item active" onclick="showSec('dashboard', this)">
+          <span class="nav-item-icon">◉</span> Dashboard
+        </a>
+
+        <div class="nav-section-label">Catalogue</div>
+        <a class="nav-item" onclick="showSec('products', this)">
+          <span class="nav-item-icon">🧳</span> Products
+        </a>
+        <a class="nav-item" onclick="showSec('add-product', this)">
+          <span class="nav-item-icon">＋</span> Add Product
+        </a>
+
+        <div class="nav-section-label">Settings</div>
+        <a class="nav-item" onclick="showSec('settings', this)">
+          <span class="nav-item-icon">⚙</span> Settings
+        </a>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button class="logout-btn" onclick="logout()">
+          <span>⬡</span> Sign Out
+        </button>
+      </div>
+    </nav>
+
+    <!-- ── MAIN CONTENT ────────────────────────────────────── -->
+    <div class="main">
+
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-title" id="topbarTitle">Dashboard</span>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-badge">
+            <div class="dot"></div>
+            <span>Live Store</span>
+          </div>
+          <a class="view-site-btn" href="../index.html" target="_blank">↗ View Store</a>
+        </div>
+      </div>
+
+      <!-- Content area -->
+      <div class="content">
+
+        <!-- ────────────────────────────────────────────────
+             DASHBOARD SECTION
+        ──────────────────────────────────────────────────── -->
+        <div class="sec active" id="sec-dashboard">
+
+          <!-- Stat cards -->
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon">🧳</span>
+                <span class="stat-change up">+12%</span>
+              </div>
+              <div class="stat-n" id="dashTotalProducts">0</div>
+              <div class="stat-l">Total Products</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon">✅</span>
+                <span class="stat-change up">Live</span>
+              </div>
+              <div class="stat-n" id="dashInStock">0</div>
+              <div class="stat-l">In Stock</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon">⚠️</span>
+                <span class="stat-change down">Watch</span>
+              </div>
+              <div class="stat-n" id="dashLowStock">0</div>
+              <div class="stat-l">Low Stock</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon">📂</span>
+                <span class="stat-change up">Active</span>
+              </div>
+              <div class="stat-n">5</div>
+              <div class="stat-l">Categories</div>
+            </div>
+          </div>
+
+          <!-- Recent products table -->
+          <div class="card">
+            <div class="card-hd">
+              <span class="card-title">Recent Products</span>
+              <button class="btn btn-outline btn-sm"
+                onclick="showSec('products', document.querySelectorAll('.nav-item')[1])">
+                View All →
+              </button>
+            </div>
+            <div class="card-body" style="padding:0;overflow-x:auto;">
+              <table class="tbl" id="dashRecentTable"></table>
+            </div>
+          </div>
+
+        </div><!-- /#sec-dashboard -->
+
+        <!-- ────────────────────────────────────────────────
+             PRODUCTS SECTION
+        ──────────────────────────────────────────────────── -->
+        <div class="sec" id="sec-products">
+          <div class="card">
+            <div class="card-hd">
+              <span class="card-title">All Products</span>
+              <button class="btn btn-red btn-sm"
+                onclick="showSec('add-product', document.querySelectorAll('.nav-item')[2])">
+                + Add Product
+              </button>
+            </div>
+            <div class="card-body" style="padding-bottom:0;">
+              <div class="search-bar">
+                <input type="text" id="productSearch"
+                       placeholder="Search by name or category…"
+                       oninput="searchProducts(this.value)">
+                <div class="search-icon">🔍</div>
+              </div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="tbl" id="productsTable"></table>
+            </div>
+          </div>
+        </div><!-- /#sec-products -->
+
+        <!-- ────────────────────────────────────────────────
+             ADD PRODUCT SECTION
+        ──────────────────────────────────────────────────── -->
+        <div class="sec" id="sec-add-product">
+          <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;">
+
+            <!-- Left: product details form -->
+            <div>
+              <div class="card">
+                <div class="card-hd"><span class="card-title">Product Details</span></div>
+                <div class="card-body">
+                  <div class="form-row">
+
+                    <div class="fld fld-full">
+                      <label for="pName">Product Name *</label>
+                      <input type="text" id="pName" placeholder='e.g. Aria Pro 28"'>
+                    </div>
+
+                    <div class="fld">
+                      <label for="pCategory">Category *</label>
+                      <select id="pCategory">
+                        <option value="">Select category</option>
+                        <option>Hard Luggage</option>
+                        <option>Backpacks</option>
+                        <option>Duffle & Travel</option>
+                        <option>Office Bags</option>
+                        <option>School & Sports</option>
+                      </select>
+                    </div>
+
+                    <div class="fld">
+                      <label for="pStock">Stock Status</label>
+                      <select id="pStock">
+                        <option>In Stock</option>
+                        <option>Low Stock</option>
+                        <option>Out of Stock</option>
+                      </select>
+                    </div>
+
+                    <div class="fld">
+                      <label for="pPrice">Selling Price (₹) *</label>
+                      <input type="number" id="pPrice" placeholder="e.g. 4999">
+                    </div>
+
+                    <div class="fld">
+                      <label for="pOrigPrice">Original / MRP (₹)</label>
+                      <input type="number" id="pOrigPrice" placeholder="e.g. 6999">
+                    </div>
+
+                    <div class="fld fld-full">
+                      <label for="pDesc">Description</label>
+                      <textarea id="pDesc" placeholder="Brief product description…"></textarea>
+                    </div>
+
+                    <div class="fld">
+                      <label for="pBadge">Badge</label>
+                      <select id="pBadge">
+                        <option value="">None</option>
+                        <option value="new">New</option>
+                        <option value="hot">Hot</option>
+                        <option value="sale">Sale</option>
+                      </select>
+                    </div>
+
+                  </div><!-- /.form-row -->
+                </div><!-- /.card-body -->
+              </div><!-- /.card -->
+            </div>
+
+            <!-- Right: emoji picker + actions -->
+            <div>
+              <div class="card" style="margin-bottom:16px;">
+                <div class="card-hd"><span class="card-title">Product Icon</span></div>
+                <div class="card-body">
+                  <label style="display:block;font-size:11px;letter-spacing:1.5px;
+                                text-transform:uppercase;color:var(--ink-light);
+                                font-weight:500;margin-bottom:10px;">
+                    Select Emoji
+                  </label>
+                  <div style="font-size:48px;text-align:center;padding:16px;
+                              background:var(--paper);margin-bottom:14px;"
+                       id="selectedEmojiDisplay">🧳</div>
+                  <div class="emoji-grid" id="emojiGrid">
+                    <div class="emoji-opt sel" onclick="selectEmoji('🧳', this)">🧳</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('🎒', this)">🎒</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('👜', this)">👜</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('💼', this)">💼</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('🎽', this)">🎽</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('🛄', this)">🛄</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('🎿', this)">🎿</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('🏕️', this)">🏕️</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-hd"><span class="card-title">Actions</span></div>
+                <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
+                  <button class="btn btn-red" onclick="addProduct()"
+                          style="width:100%;text-align:center;">
+                    Publish Product
+                  </button>
+                  <button class="btn btn-outline" onclick="resetForm()"
+                          style="width:100%;text-align:center;">
+                    Reset Form
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /#sec-add-product -->
+
+        <!-- ────────────────────────────────────────────────
+             SETTINGS SECTION
+        ──────────────────────────────────────────────────── -->
+        <div class="sec" id="sec-settings">
+
+          <!-- Change password -->
+          <div class="card" style="max-width:500px;">
+            <div class="card-hd"><span class="card-title">Change Admin Password</span></div>
+            <div class="card-body">
+              <div class="fld">
+                <label for="curPwd">Current Password</label>
+                <input type="password" id="curPwd" placeholder="Enter current password">
+              </div>
+              <div class="fld">
+                <label for="newPwd">New Password</label>
+                <input type="password" id="newPwd" placeholder="Enter new password (min 6 chars)">
+              </div>
+              <div class="fld">
+                <label for="confPwd">Confirm New Password</label>
+                <input type="password" id="confPwd" placeholder="Confirm new password">
+              </div>
+              <button class="btn btn-red" onclick="changePassword()">Update Password</button>
+            </div>
+          </div>
+
+          <!-- Data management -->
+          <div class="card" style="max-width:500px;">
+            <div class="card-hd"><span class="card-title">Data Management</span></div>
+            <div class="card-body">
+              <p style="font-size:13px;color:var(--ink-light);margin-bottom:20px;">
+                Reset all products to the default catalogue data.
+                <strong style="color:var(--danger);">This cannot be undone.</strong>
+              </p>
+              <button class="btn btn-danger" onclick="confirmReset()">Reset Product Data</button>
+            </div>
+          </div>
+
+        </div><!-- /#sec-settings -->
+
+      </div><!-- /.content -->
+    </div><!-- /.main -->
+  </div><!-- /#adminApp -->
+
+  <!-- ══ EDIT PRODUCT MODAL ══════════════════════════════════ -->
+  <div class="modal-bg" id="editModal">
+    <div class="modal-box">
+      <button class="modal-x" onclick="closeEditModal()">×</button>
+      <h2 class="modal-h">Edit Product</h2>
+      <div class="modal-sub">Make changes to the product details below.</div>
+
+      <input type="hidden" id="editId">
+      <div class="form-row">
+        <div class="fld fld-full">
+          <label for="editName">Name *</label>
+          <input type="text" id="editName">
+        </div>
+        <div class="fld">
+          <label for="editCategory">Category *</label>
+          <select id="editCategory">
+            <option>Hard Luggage</option>
+            <option>Backpacks</option>
+            <option>Duffle & Travel</option>
+            <option>Office Bags</option>
+            <option>School & Sports</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="editStock">Stock Status</label>
+          <select id="editStock">
+            <option>In Stock</option>
+            <option>Low Stock</option>
+            <option>Out of Stock</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="editPrice">Price (₹) *</label>
+          <input type="number" id="editPrice">
+        </div>
+        <div class="fld">
+          <label for="editOrigPrice">Original Price (₹)</label>
+          <input type="number" id="editOrigPrice">
+        </div>
+        <div class="fld">
+          <label for="editBadge">Badge</label>
+          <select id="editBadge">
+            <option value="">None</option>
+            <option value="new">New</option>
+            <option value="hot">Hot</option>
+            <option value="sale">Sale</option>
+          </select>
+        </div>
+        <div class="fld fld-full">
+          <label for="editDesc">Description</label>
+          <textarea id="editDesc"></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button class="btn btn-red"     onclick="saveEdit()">Save Changes</button>
+        <button class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TOAST ═══════════════════════════════════════════════ -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ══ SCRIPTS (data first, then admin logic) ═════════════ -->
+  <script src="../assets/js/data.js"></script>
+  <script src="js/admin.js"></script>
+
+</body>
+</html>

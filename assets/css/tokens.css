@@ -1,0 +1,38 @@
+/* ============================================================
+   SPINNERZ — Design Tokens
+   Edit this file to change colours, fonts, and spacing globally.
+   These variables are used across store.css and admin.css.
+   ============================================================ */
+
+:root {
+  /* ── Brand Colours ── */
+  --red:        #c0251a;   /* Primary CTA, badges, accents */
+  --red-dark:   #8f1b12;   /* Hover state for red */
+  --gold:       #b8953a;   /* Luxury accent */
+  --gold-light: #d4ad57;   /* Lighter gold for hero text */
+  --navy:       #10183a;   /* Dark backgrounds, sidebar */
+  --navy-mid:   #1d2852;   /* Secondary dark surface */
+
+  /* ── Neutral Palette ── */
+  --ink:        #0e0e0e;   /* Primary text */
+  --ink-mid:    #2a2a2a;   /* Secondary text */
+  --ink-light:  #6b6b6b;   /* Muted / placeholder text */
+  --paper:      #f9f7f4;   /* Warm off-white background */
+  --paper-dark: #f0ece6;   /* Slightly darker warm surface */
+  --white:      #ffffff;
+
+  /* ── Utility ── */
+  --border:     rgba(14, 14, 14, 0.09);
+  --success:    #16a34a;
+  --warn:       #d97706;
+  --danger:     #dc2626;
+
+  /* ── Typography ── */
+  --font-body:    'Outfit', sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --font-brand:   'Bebas Neue', sans-serif;
+
+  /* ── Layout ── */
+  --section-pad: 100px 6%;
+  --sidebar-w:   256px;
+}
