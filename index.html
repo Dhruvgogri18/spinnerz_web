@@ -17,7 +17,30 @@
 
 <!-- PAGE LOADER -->
 <div id="page-load">
-  <div class="load-logo">SPINNERZ</div>
+  <div class="load-brand">
+    <!-- Hexagon S logo (SVG — matches the red geometric S in the brand image) -->
+    <div class="load-hex">
+      <svg viewBox="0 0 80 80" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer hexagon -->
+        <polygon points="40,4 74,22 74,58 40,76 6,58 6,22"
+          fill="#b81c2e" stroke="#8a1422" stroke-width="2"/>
+        <!-- Inner highlight -->
+        <polygon points="40,10 68,26 68,54 40,70 12,54 12,26"
+          fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- S letter -->
+        <text x="40" y="52" text-anchor="middle"
+          font-family="Arial Black, sans-serif"
+          font-size="36" font-weight="900"
+          fill="white"
+          style="text-shadow:0 2px 8px rgba(0,0,0,0.5)">S</text>
+      </svg>
+    </div>
+    <!-- spinnerz wordmark -->
+    <div class="load-wordmark">
+      <span class="load-word">spinnerz</span>
+      <span class="load-tagline">dream. explore. discover.</span>
+    </div>
+  </div>
   <div class="load-bar"><div class="load-progress"></div></div>
 </div>
 
@@ -27,12 +50,55 @@
   <a href="https://wa.me/919892211065" target="_blank" class="topbar-wa">💬 WhatsApp Us</a>
 </div>
 
+<!-- MOBILE SIDE PANEL OVERLAY -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeMobMenu()"></div>
+
+<!-- MOBILE SIDE PANEL -->
+<div class="mob-panel" id="mobPanel">
+  <div class="mob-panel-head">
+    <div class="mob-panel-logo">
+      <svg viewBox="0 0 40 40" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="#b81c2e"/>
+        <text x="20" y="26" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="18" font-weight="900" fill="white">S</text>
+      </svg>
+      <span>SPINNERZ</span>
+    </div>
+    <button class="mob-close" onclick="closeMobMenu()">✕</button>
+  </div>
+  <ul class="mob-nav-links">
+    <li><a href="#" onclick="scrollTo('hero-section');closeMobMenu()">Home</a></li>
+    <li><a href="#" onclick="scrollTo('products-section');closeMobMenu()">Products</a></li>
+    <li><a href="#" onclick="scrollTo('gifting-section');closeMobMenu()">Corporate Gifting</a></li>
+    <li><a href="#" onclick="scrollTo('manufacturing-section');closeMobMenu()">Manufacturing</a></li>
+    <li><a href="#" onclick="scrollTo('contact-section');closeMobMenu()">Contact</a></li>
+  </ul>
+  <div class="mob-panel-foot">
+    <a href="https://wa.me/919892211065" target="_blank" class="mob-wa-btn">💬 WhatsApp Us</a>
+    <div class="mob-contact">
+      <div>📞 +91-9892211065</div>
+      <div>✉️ info@spinnerz.co.in</div>
+    </div>
+  </div>
+</div>
+
 <!-- NAVBAR -->
 <nav id="mainNav">
+  <!-- Mobile: hamburger (left) -->
+  <button class="mob-hamburger" id="mobHamburger" onclick="openMobMenu()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Logo — always centered on mobile via grid -->
   <a class="nav-logo" href="#">
+    <svg viewBox="0 0 40 40" width="32" height="32" xmlns="http://www.w3.org/2000/svg" class="nav-logo-icon">
+      <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="#b81c2e"/>
+      <polygon points="20,6 33,13 33,27 20,34 7,27 7,13" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <text x="20" y="26" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="18" font-weight="900" fill="white">S</text>
+    </svg>
     <span class="nav-logo-text">SPINNERZ</span>
-    <span class="nav-logo-sub">GLOBE PVT. LTD.</span>
   </a>
+
+  <!-- Desktop: center nav links -->
   <ul class="nav-links">
     <li><a href="#" onclick="scrollTo('hero-section')" class="active">Home</a></li>
     <li><a href="#" onclick="scrollTo('products-section')">Products</a></li>
@@ -40,6 +106,7 @@
     <li><a href="#" onclick="scrollTo('manufacturing-section')">Manufacturing</a></li>
     <li><a href="#" onclick="scrollTo('contact-section')">Contact</a></li>
   </ul>
+
   <div class="nav-right">
     <a href="https://wa.me/919892211065" target="_blank" class="nav-wa-btn">💬 Get Quote</a>
     <button class="cart-btn" onclick="openCart()">
@@ -404,5 +471,20 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/store.js"></script>
+<script>
+// ── MOBILE MENU ──────────────────────────────────────────────
+function openMobMenu() {
+  document.getElementById('mobPanel').classList.add('open');
+  document.getElementById('mobOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobMenu() {
+  document.getElementById('mobPanel').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close on Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobMenu(); });
+</script>
 </body>
 </html>
