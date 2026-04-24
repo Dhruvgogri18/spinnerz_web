@@ -158,7 +158,6 @@ window.addEventListener('scroll', () => {
   const nav = document.getElementById('mainNav');
   const heroH = document.querySelector('.hero').offsetHeight;
   nav.classList.toggle('dark', window.scrollY > heroH - 100);
-  nav.classList.toggle('scrolled', window.scrollY > 36);
 });
 
 // ── CUSTOM CURSOR ─────────────────────────────────────────────
