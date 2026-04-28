@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — Spinnerz Globe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Outfit',sans-serif;background:#f9f7f4;color:#0e0e0e;}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:900;padding:0 6%;height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:rgba(249,247,244,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(14,14,14,.09);}
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;justify-self:start;}
+  .nav-logo img{height:34px;width:auto;object-fit:contain;}
+  .nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:#0e0e0e;}
+  .nav-links{display:flex;gap:28px;list-style:none;}
+  .nav-links a{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;color:#2a2a2a;text-decoration:none;transition:color .2s;}
+  .nav-links a:hover,.nav-links a.active{color:#c0251a;}
+  .nav-right{display:flex;align-items:center;gap:12px;justify-self:end;}
+  .nav-wa{background:#c0251a;color:#fff;padding:8px 18px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:background .2s;}
+  .nav-wa:hover{background:#8f1b12;}
+
+  /* PAGE HEADER */
+  .page-header{background:var(--navy,#10183a);padding:52px 6% 44px;position:relative;overflow:hidden;}
+  .page-header::after{content:'PRODUCTS';position:absolute;right:-20px;bottom:-20px;font-family:'Bebas Neue',sans-serif;font-size:180px;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;}
+  .page-header-eyebrow{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#b8953a;margin-bottom:10px;}
+  .page-header h1{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,52px);font-weight:400;color:#fff;line-height:1.1;}
+  .page-header h1 em{font-style:italic;color:#d4ad57;}
+  .page-header p{color:rgba(255,255,255,.5);font-size:14px;margin-top:10px;max-width:500px;line-height:1.7;}
+
+  /* LAYOUT */
+  .products-layout{display:grid;grid-template-columns:260px 1fr;gap:0;min-height:80vh;}
+
+  /* SIDEBAR */
+  .sidebar{background:#fff;border-right:1px solid rgba(14,14,14,.09);padding:28px 0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;}
+  .sb-section{padding:0 24px 20px;border-bottom:1px solid rgba(14,14,14,.06);margin-bottom:4px;}
+  .sb-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#6b6b6b;font-weight:600;margin-bottom:14px;padding-top:20px;}
+  .sb-category{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:2px;cursor:pointer;transition:all .15s;margin-bottom:2px;}
+  .sb-category:hover{background:#f9f7f4;}
+  .sb-category.active{background:#c0251a;color:#fff;}
+  .sb-category span{font-size:13px;font-weight:500;}
+  .sb-category .count{font-size:11px;opacity:.6;background:rgba(0,0,0,.08);padding:2px 7px;border-radius:10px;}
+  .sb-category.active .count{background:rgba(255,255,255,.2);}
+  .sb-search{display:flex;align-items:center;gap:8px;background:#f9f7f4;border:1.5px solid rgba(14,14,14,.09);padding:8px 12px;margin:12px 24px 0;}
+  .sb-search input{border:none;background:none;font-family:'Outfit',sans-serif;font-size:13px;outline:none;flex:1;color:#0e0e0e;}
+  .sb-search input::placeholder{color:#6b6b6b;}
+
+  /* COLOR FILTER */
+  .color-filters{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0;}
+  .color-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .15s,border-color .15s;}
+  .color-dot:hover{transform:scale(1.15);}
+  .color-dot.active{border-color:#0e0e0e;}
+
+  /* MAIN CONTENT */
+  .products-main{padding:28px 32px;}
+  .products-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+  .products-count{font-size:13px;color:#6b6b6b;}
+  .products-count strong{color:#0e0e0e;}
+  .sort-select{padding:8px 14px;border:1.5px solid rgba(14,14,14,.09);background:#fff;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;outline:none;letter-spacing:.5px;}
+  .view-toggles{display:flex;gap:4px;}
+  .view-btn{padding:7px 10px;border:1.5px solid rgba(14,14,14,.09);background:none;font-size:14px;cursor:pointer;transition:all .15s;}
+  .view-btn.active{background:#0e0e0e;color:#fff;border-color:#0e0e0e;}
+
+  /* PRODUCTS GRID */
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:3px;}
+  .products-grid.list-view{grid-template-columns:1fr;}
+
+  /* PRODUCT CARD */
+  .prod-card{background:#fff;overflow:hidden;cursor:pointer;transition:transform .25s cubic-bezier(.25,.46,.45,.94),box-shadow .25s;}
+  .prod-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.1);}
+  .prod-img-wrap{position:relative;background:#f4f5f8;overflow:hidden;}
+  .prod-img-wrap img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94);}
+  .prod-card:hover .prod-img-wrap img{transform:scale(1.05);}
+  .prod-badge{position:absolute;top:12px;left:12px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+  .badge-new{background:#10183a;color:#fff;}
+  .badge-hot{background:#c0251a;color:#fff;}
+  .prod-color-thumbs{position:absolute;bottom:10px;right:10px;display:flex;gap:5px;}
+  .prod-color-thumb{width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+  .prod-overlay{position:absolute;inset:0;background:rgba(16,24,58,.75);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transition:opacity .25s;}
+  .prod-card:hover .prod-overlay{opacity:1;}
+  .prod-overlay-btn{padding:10px 18px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:1px solid rgba(255,255,255,.5);background:none;color:#fff;font-family:'Outfit',sans-serif;transition:background .2s;cursor:pointer;}
+  .prod-overlay-btn:hover,.prod-overlay-btn.primary{background:#c0251a;border-color:#c0251a;}
+  .prod-info{padding:16px 18px 20px;}
+  .prod-cat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6b6b;margin-bottom:5px;}
+  .prod-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;color:#0e0e0e;margin-bottom:6px;}
+  .prod-colors-row{display:flex;gap:5px;margin-bottom:10px;}
+  .prod-color-swatch{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,0,0,.12);}
+  .prod-moq{font-size:11px;color:#6b6b6b;letter-spacing:.5px;}
+  .prod-enquire{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c0251a;text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:8px;transition:gap .2s;}
+  .prod-enquire:hover{gap:10px;}
+
+  /* LIST VIEW */
+  .list-view .prod-card{display:grid;grid-template-columns:220px 1fr;}
+  .list-view .prod-img-wrap img{aspect-ratio:unset;height:180px;}
+  .list-view .prod-info{padding:24px 28px;display:flex;flex-direction:column;justify-content:center;}
+  .list-view .prod-overlay{display:none;}
+
+  /* PRODUCT MODAL */
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(7,9,26,.75);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+  .modal-bg.open{display:flex;}
+  .modal-box{background:#fff;width:90%;max-width:860px;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;}
+  .modal-gallery{background:#f4f5f8;position:relative;}
+  .modal-main-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
+  .modal-thumbs{display:flex;gap:6px;padding:10px;flex-wrap:wrap;}
+  .modal-thumb{width:56px;height:56px;object-fit:cover;cursor:pointer;border:2px solid transparent;transition:border-color .15s;}
+  .modal-thumb.active,.modal-thumb:hover{border-color:#c0251a;}
+  .modal-info{padding:36px 32px;display:flex;flex-direction:column;}
+  .modal-cat{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c0251a;margin-bottom:8px;font-weight:600;}
+  .modal-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:#0e0e0e;margin-bottom:12px;}
+  .modal-desc{font-size:13px;line-height:1.8;color:#6b6b6b;margin-bottom:20px;}
+  .modal-color-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#2a2a2a;margin-bottom:10px;}
+  .modal-colors{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+  .modal-color-btn{width:32px;height:32px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;}
+  .modal-color-btn:hover,.modal-color-btn.active{border-color:#0e0e0e;transform:scale(1.15);}
+  .modal-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;}
+  .modal-tag{padding:5px 12px;background:#f4f5f8;font-size:11px;font-weight:500;color:#2a2a2a;letter-spacing:.5px;}
+  .modal-moq{background:#f9f7f4;border-left:3px solid #c0251a;padding:10px 14px;font-size:12px;color:#2a2a2a;margin-bottom:24px;}
+  .modal-moq strong{color:#c0251a;}
+  .modal-actions{display:flex;gap:10px;margin-top:auto;}
+  .modal-wa{flex:1;text-align:center;background:#25D366;color:#fff;text-decoration:none;padding:13px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:background .2s;}
+  .modal-wa:hover{background:#1da851;}
+  .modal-enquire{flex:1;text-align:center;background:#c0251a;color:#fff;text-decoration:none;padding:13px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;transition:background .2s;}
+  .modal-enquire:hover{background:#8f1b12;}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#6b6b6b;z-index:10;line-height:1;}
+
+  /* EMPTY */
+  .no-products{grid-column:1/-1;text-align:center;padding:80px 20px;color:#6b6b6b;}
+  .no-products-icon{font-size:48px;margin-bottom:12px;}
+
+  /* MOBILE */
+  .mob-filter-btn{display:none;padding:10px 18px;background:#10183a;color:#fff;border:none;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-bottom:16px;}
+
+  @media(max-width:900px){
+    .products-layout{grid-template-columns:1fr;}
+    .sidebar{display:none;position:fixed;left:0;top:0;bottom:0;width:280px;z-index:1000;height:100vh;}
+    .sidebar.open{display:block;}
+    .mob-filter-btn{display:block;}
+    nav{grid-template-columns:44px 1fr 44px;padding:0 16px;}
+    .nav-links{display:none;}
+    .products-main{padding:20px 16px;}
+  }
+  @media(max-width:600px){
+    .modal-box{grid-template-columns:1fr;max-height:95vh;}
+    .modal-gallery{max-height:300px;overflow:hidden;}
+  }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="assets/images/spinnerz-logo.png" alt="Spinnerz" onerror="this.style.display='none'">
+    <span class="nav-logo-text">SPINNERZ</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="index.html#gifting-section">Corporate Gifting</a></li>
+    <li><a href="index.html#manufacturing-section">Manufacturing</a></li>
+    <li><a href="index.html#contact-section">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919892211065" target="_blank" class="nav-wa">💬 Get Quote</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-eyebrow">APLUS Designer Range — Corporate 2026</div>
+  <h1>Our Product <em>Catalogue</em></h1>
+  <p>Premium bags & luggage for bulk corporate orders. All products available for custom branding. MOQ applies.</p>
+</div>
+
+<!-- LAYOUT -->
+<div class="products-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <button class="modal-close" onclick="closeSidebar()" style="position:absolute;top:10px;right:10px;display:none;" id="sidebarClose">✕</button>
+
+    <!-- Search -->
+    <div class="sb-section">
+      <div class="sb-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b6b6b" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search products..." oninput="applyFilters()">
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="sb-section">
+      <div class="sb-title">Categories</div>
+      <div id="categoryList"></div>
+    </div>
+
+    <!-- Colors -->
+    <div class="sb-section">
+      <div class="sb-title">Colours</div>
+      <div class="color-filters" id="colorFilters"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="products-main">
+    <button class="mob-filter-btn" onclick="openSidebar()">☰ Filter & Search</button>
+    <div class="products-toolbar">
+      <div class="products-count" id="productsCount">Loading...</div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+          <option value="default">Sort: Default</option>
+          <option value="name-asc">Name A–Z</option>
+          <option value="name-desc">Name Z–A</option>
+        </select>
+        <div class="view-toggles">
+          <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid view">⊞</button>
+          <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List view">☰</button>
+        </div>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-bg" id="productModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-gallery">
+      <img id="modalMainImg" src="" alt="" class="modal-main-img">
+      <div class="modal-thumbs" id="modalThumbs"></div>
+    </div>
+    <div class="modal-info">
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-color-label">Available Colours</div>
+      <div class="modal-colors" id="modalColors"></div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-moq" id="modalMoq"></div>
+      <div class="modal-actions">
+        <a href="https://wa.me/919892211065" target="_blank" class="modal-wa">💬 WhatsApp</a>
+        <a href="https://wa.me/919892211065" target="_blank" class="modal-enquire">Get Quote →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="modal-bg" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<script>
+// ── PRODUCT DATA ─────────────────────────────────────────────
+const PRODUCTS = [
+  // HARD LUGGAGE — PAXSUN PP Trolley (from uploaded images)
+  {
+    id: 1,
+    name: 'Paxsun PP Trolley — Teal Blue',
+    category: 'Hard Luggage',
+    badge: 'new',
+    color: 'Teal Blue',
+    colorHex: '#2bc4c4',
+    images: [
+      'assets/images/products/hl-blue-front.jpg',
+      'assets/images/products/hl-blue-angle.jpg',
+      'assets/images/products/hl-blue-side.jpg',
+      'assets/images/products/hl-blue-detail.jpg',
+    ],
+    desc: 'Premium polypropylene hard shell trolley bag with scratch-resistant finish, dual wheels, fixed combination lock, and push-button telescopic handle. Lightweight, water-resistant & dust-proof.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof'],
+    moq: 'MOQ: 500 pcs',
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [
+      {name:'Teal Blue', hex:'#2bc4c4', id:1},
+      {name:'Lime Yellow', hex:'#c8e02a', id:2},
+      {name:'Scarlet Red', hex:'#e02a2a', id:3},
+      {name:'Jet Black', hex:'#1a1a1a', id:4},
+    ]
+  },
+  {
+    id: 2,
+    name: 'Paxsun PP Trolley — Lime Yellow',
+    category: 'Hard Luggage',
+    badge: 'new',
+    color: 'Lime Yellow',
+    colorHex: '#c8e02a',
+    images: [
+      'assets/images/products/hl-yellow-front.jpg',
+      'assets/images/products/hl-yellow-angle.jpg',
+      'assets/images/products/hl-yellow-side.jpg',
+      'assets/images/products/hl-yellow-detail.jpg',
+    ],
+    desc: 'Premium polypropylene hard shell trolley in vibrant lime yellow. Scratch-resistant shell, fixed combination lock, dual spinner wheels, push-button handle. Built for frequent travel.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof'],
+    moq: 'MOQ: 500 pcs',
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [
+      {name:'Teal Blue', hex:'#2bc4c4', id:1},
+      {name:'Lime Yellow', hex:'#c8e02a', id:2},
+      {name:'Scarlet Red', hex:'#e02a2a', id:3},
+      {name:'Jet Black', hex:'#1a1a1a', id:4},
+    ]
+  },
+  {
+    id: 3,
+    name: 'Paxsun PP Trolley — Scarlet Red',
+    category: 'Hard Luggage',
+    badge: 'hot',
+    color: 'Scarlet Red',
+    colorHex: '#e02a2a',
+    images: [
+      'assets/images/products/hl-red-front.jpg',
+      'assets/images/products/hl-red-angle.jpg',
+      'assets/images/products/hl-red-side.jpg',
+      'assets/images/products/hl-red-detail.jpg',
+    ],
+    desc: 'Bold scarlet red polypropylene hard shell trolley. Features scratch-resistant finish, dual spinner wheels, fixed combination TSA lock, and push-button telescopic aluminium handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof'],
+    moq: 'MOQ: 500 pcs',
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [
+      {name:'Teal Blue', hex:'#2bc4c4', id:1},
+      {name:'Lime Yellow', hex:'#c8e02a', id:2},
+      {name:'Scarlet Red', hex:'#e02a2a', id:3},
+      {name:'Jet Black', hex:'#1a1a1a', id:4},
+    ]
+  },
+  {
+    id: 4,
+    name: 'Paxsun PP Trolley — Jet Black',
+    category: 'Hard Luggage',
+    badge: '',
+    color: 'Jet Black',
+    colorHex: '#1a1a1a',
+    images: [
+      'assets/images/products/hl-black-front.jpg',
+      'assets/images/products/hl-black-angle.jpg',
+      'assets/images/products/hl-black-side.jpg',
+      'assets/images/products/hl-black-open.jpg',
+      'assets/images/products/hl-black-open2.jpg',
+    ],
+    desc: 'Elegant jet black polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    moq: 'MOQ: 500 pcs',
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [
+      {name:'Teal Blue', hex:'#2bc4c4', id:1},
+      {name:'Lime Yellow', hex:'#c8e02a', id:2},
+      {name:'Scarlet Red', hex:'#e02a2a', id:3},
+      {name:'Jet Black', hex:'#1a1a1a', id:4},
+    ]
+  },
+  // OTHER CATEGORIES (placeholder — add real images when available)
+  {
+    id: 5, name: 'Executive Laptop Backpack 45L', category: 'Laptop Backpacks', badge: 'new', color: 'Navy', colorHex: '#10183a',
+    images: [], desc: 'Professional laptop backpack with padded 15.6" compartment, integrated USB charging port, anti-theft pockets, ergonomic breathable back panel. Water-resistant materials.',
+    features: ['15.6" Laptop Sleeve','USB Charging Port','Anti-Theft Design','Ergonomic Back Panel','Water-Resistant'],
+    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Navy',hex:'#10183a',id:5},{name:'Black',hex:'#1a1a1a',id:5}]
+  },
+  {
+    id: 6, name: 'Trolley Overnighter Business', category: 'Trolley Bags', badge: '', color: 'Black', colorHex: '#1a1a1a',
+    images: [], desc: 'Compact wheeled overnight bag designed for business trips. Dedicated laptop section, document organiser, telescopic handle, smooth-rolling spinner wheels.',
+    features: ['Dedicated Laptop Section','Document Organiser','Telescopic Handle','Spinner Wheels'],
+    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Black',hex:'#1a1a1a',id:6}]
+  },
+  {
+    id: 7, name: 'Executive Leather Sling Bag', category: 'Office & Sling', badge: '', color: 'Brown', colorHex: '#8B4513',
+    images: [], desc: 'Executive leather office sling bag with dedicated 15.6" laptop protection. Multiple organisational pockets, adjustable padded shoulder strap. Premium craftsmanship.',
+    features: ['Leather Finish','15.6" Laptop','Padded Strap','Organiser Pockets'],
+    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Brown',hex:'#8B4513',id:7},{name:'Black',hex:'#1a1a1a',id:7}]
+  },
+  {
+    id: 8, name: 'Luxury Quilted Vanity Case', category: 'Vanity Cases', badge: 'new', color: 'Pink', colorHex: '#e8a0b4',
+    images: [], desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Pink',hex:'#e8a0b4',id:8},{name:'Black',hex:'#1a1a1a',id:8}]
+  },
+  {
+    id: 9, name: 'Pro Gym & Sports Duffle', category: 'Gym & Lifestyle', badge: '', color: 'Navy', colorHex: '#10183a',
+    images: [], desc: 'Versatile gym bag with ventilated shoe pocket, water-resistant base, detachable shoulder strap, and multiple pockets. From training sessions to daily commutes.',
+    features: ['Ventilated Shoe Pocket','Water-Resistant Base','Detachable Strap','Multiple Pockets'],
+    moq: 'MOQ: 500 pcs', sizes: ['Medium','Large'], relatedColors: [{name:'Navy',hex:'#10183a',id:9},{name:'Black',hex:'#1a1a1a',id:9}]
+  },
+  {
+    id: 10, name: 'APLUS Soft Trolley 28"', category: 'Soft Luggage', badge: '', color: 'Navy', colorHex: '#10183a',
+    images: [], desc: 'Durable soft-sided luggage with expandable compartments, water-resistant fabric, smooth-rolling spinner wheels. Reinforced handles and premium YKK zippers.',
+    features: ['Water-Resistant Fabric','Expandable Compartments','Reinforced Handles','Premium Zippers'],
+    moq: 'MOQ: 500 pcs', sizes: ['20" Cabin','24" Medium','28" Large'], relatedColors: [{name:'Navy',hex:'#10183a',id:10},{name:'Grey',hex:'#888',id:10}]
+  },
+];
+
+// ── STATE ────────────────────────────────────────────────────
+let activeCategory = 'All';
+let activeColor = '';
+let currentView = 'grid';
+let openProductId = null;
+
+// ── CATEGORIES ───────────────────────────────────────────────
+const CATEGORIES = ['All',...[...new Set(PRODUCTS.map(p=>p.category))]];
+const COLORS = [...new Set(PRODUCTS.map(p=>({name:p.color,hex:p.colorHex})).map(c=>JSON.stringify(c)))].map(c=>JSON.parse(c));
+
+function buildSidebar() {
+  // Categories
+  const cl = document.getElementById('categoryList');
+  const counts = {};
+  PRODUCTS.forEach(p=>{ counts[p.category]=(counts[p.category]||0)+1; });
+  cl.innerHTML = CATEGORIES.map(cat => `
+    <div class="sb-category ${cat==='All'?'active':''}" onclick="setCategory('${cat}',this)">
+      <span>${cat}</span>
+      <span class="count">${cat==='All'?PRODUCTS.length:(counts[cat]||0)}</span>
+    </div>
+  `).join('');
+
+  // Colors
+  const cf = document.getElementById('colorFilters');
+  cf.innerHTML = COLORS.map(c=>`
+    <div class="color-dot" style="background:${c.hex}" title="${c.name}" onclick="setColor('${c.name}',this)"></div>
+  `).join('');
+}
+
+function setCategory(cat, el) {
+  activeCategory = cat;
+  document.querySelectorAll('.sb-category').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function setColor(color, el) {
+  if(activeColor === color) {
+    activeColor = '';
+    document.querySelectorAll('.color-dot').forEach(e=>e.classList.remove('active'));
+  } else {
+    activeColor = color;
+    document.querySelectorAll('.color-dot').forEach(e=>e.classList.remove('active'));
+    el.classList.add('active');
+  }
+  applyFilters();
+}
+
+// ── FILTERS ──────────────────────────────────────────────────
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+
+  let filtered = PRODUCTS.filter(p => {
+    const matchCat = activeCategory === 'All' || p.category === activeCategory;
+    const matchColor = !activeColor || p.color === activeColor;
+    const matchQ = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.color.toLowerCase().includes(q);
+    return matchCat && matchColor && matchQ;
+  });
+
+  if(sort==='name-asc') filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  if(sort==='name-desc') filtered.sort((a,b)=>b.name.localeCompare(a.name));
+
+  renderProducts(filtered);
+}
+
+// ── RENDER ───────────────────────────────────────────────────
+const EMOJI_MAP = {'Hard Luggage':'🧳','Soft Luggage':'🧳','Trolley Bags':'🛄','Laptop Backpacks':'🎒','Office & Sling':'💼','Vanity Cases':'💄','Gym & Lifestyle':'🏋️'};
+
+function renderProducts(products) {
+  const grid = document.getElementById('productsGrid');
+  document.getElementById('productsCount').innerHTML = `Showing <strong>${products.length}</strong> product${products.length!==1?'s':''}`;
+
+  if(!products.length) {
+    grid.innerHTML = `<div class="no-products"><div class="no-products-icon">🔍</div>No products match your filters.</div>`;
+    return;
+  }
+
+  grid.innerHTML = products.map(p => {
+    const mainImg = p.images[0];
+    const imgHtml = mainImg
+      ? `<img src="${mainImg}" alt="${p.name}" loading="lazy">`
+      : `<div style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:80px;background:#f0ece6;">${EMOJI_MAP[p.category]||'🧳'}</div>`;
+
+    const swatches = p.relatedColors.map(c=>
+      `<div class="prod-color-swatch" style="background:${c.hex}" title="${c.name}"></div>`
+    ).join('');
+
+    return `
+      <div class="prod-card" onclick="openProduct(${p.id})">
+        <div class="prod-img-wrap">
+          ${imgHtml}
+          ${p.badge?`<div class="prod-badge badge-${p.badge}">${p.badge}</div>`:''}
+          <div class="prod-overlay">
+            <button class="prod-overlay-btn primary" onclick="event.stopPropagation();openProduct(${p.id})">View Details</button>
+            <button class="prod-overlay-btn" onclick="event.stopPropagation();window.open('https://wa.me/919892211065','_blank')">WhatsApp</button>
+          </div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-cat-label">${p.category}</div>
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-colors-row">${swatches}</div>
+          <div class="prod-moq">${p.moq}</div>
+          <a class="prod-enquire" href="https://wa.me/919892211065" target="_blank" onclick="event.stopPropagation()">Get Bulk Quote →</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── PRODUCT MODAL ─────────────────────────────────────────────
+function openProduct(id) {
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  openProductId = id;
+
+  // Main image
+  const mainImg = document.getElementById('modalMainImg');
+  if(p.images[0]) {
+    mainImg.src = p.images[0];
+    mainImg.style.display = 'block';
+  } else {
+    mainImg.style.display = 'none';
+  }
+
+  // Thumbs
+  const thumbsEl = document.getElementById('modalThumbs');
+  thumbsEl.innerHTML = p.images.map((img,i)=>`
+    <img src="${img}" alt="" class="modal-thumb ${i===0?'active':''}" onclick="switchImg('${img}',this)">
+  `).join('');
+
+  // Info
+  document.getElementById('modalCat').textContent = p.category;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalDesc').textContent = p.desc;
+
+  // Colors
+  document.getElementById('modalColors').innerHTML = p.relatedColors.map(c=>`
+    <div class="modal-color-btn ${c.name===p.color?'active':''}" style="background:${c.hex}" title="${c.name}" onclick="switchColor(${c.id})"></div>
+  `).join('');
+
+  // Tags
+  document.getElementById('modalTags').innerHTML = p.features.map(f=>`<div class="modal-tag">${f}</div>`).join('');
+
+  // MOQ
+  document.getElementById('modalMoq').innerHTML = `<strong>Bulk Orders Only</strong> &nbsp;|&nbsp; ${p.moq} &nbsp;|&nbsp; Sizes: ${p.sizes.join(', ')}`;
+
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function switchImg(src, el) {
+  document.getElementById('modalMainImg').src = src;
+  document.querySelectorAll('.modal-thumb').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function switchColor(id) {
+  openProduct(id);
+}
+
+function closeModal() {
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── VIEW TOGGLE ───────────────────────────────────────────────
+function setView(v) {
+  currentView = v;
+  const grid = document.getElementById('productsGrid');
+  grid.className = v==='list' ? 'products-grid list-view' : 'products-grid';
+  document.getElementById('gridViewBtn').classList.toggle('active', v==='grid');
+  document.getElementById('listViewBtn').classList.toggle('active', v==='list');
+}
+
+// ── MOBILE SIDEBAR ────────────────────────────────────────────
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+  document.getElementById('sidebarClose').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// Close modal on backdrop
+document.getElementById('productModal').addEventListener('click', e => { if(e.target===document.getElementById('productModal')) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+// ── INIT ──────────────────────────────────────────────────────
+buildSidebar();
+applyFilters();
+</script>
+</body>
+</html>
