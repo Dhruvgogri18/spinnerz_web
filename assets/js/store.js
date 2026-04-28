@@ -176,13 +176,146 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ── SCROLL REVEAL ─────────────────────────────────────────────
+
+// ── PREMIUM ANIMATION ENGINE ──────────────────────────────────
+
+// 1. Unified observer — handles all reveal variants + section-label + trusted chips
+const allRevealSelectors = '.reveal,.reveal-left,.reveal-right,.reveal-scale,.section-label,.trusted-chip';
 const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold: 0.1 });
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    revealObserver.unobserve(e.target);
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -48px 0px' });
+
+// 2. Counter animation
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const prefix = el.dataset.prefix || '';
+  const dur = 1600;
+  const start = performance.now();
+  const isFloat = target % 1 !== 0;
+  const update = now => {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 4);
+    const val = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    el.textContent = prefix + val + suffix;
+    if (t < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    animateCounter(e.target);
+    counterObserver.unobserve(e.target);
+  });
+}, { threshold: 0.5 });
+
+// 3. Parallax on scroll
+function initParallax() {
+  const items = document.querySelectorAll('.parallax-img');
+  if (!items.length) return;
+  window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    items.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      el.style.transform = `translateY(${center * 0.06}px)`;
+    });
+  }, { passive: true });
+}
+
+// 4. Stagger children inside a revealed parent
+function staggerChildren(parent, selector, delay = 80) {
+  const children = parent.querySelectorAll(selector);
+  children.forEach((el, i) => {
+    el.style.transitionDelay = (i * delay) + 'ms';
+  });
+}
+
+// 5. Magnetic hover on CTA buttons
+function initMagnetic() {
+  document.querySelectorAll('.btn-red, .nav-wa-btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) * 0.2;
+      const y = (e.clientY - r.top - r.height / 2) * 0.2;
+      btn.style.transform = `translate(${x}px,${y}px) translateY(-2px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+}
+
+// 6. Text split — animate words in headings
+function splitAndAnimate(el, baseDelay = 0) {
+  if (el.dataset.split) return;
+  el.dataset.split = '1';
+  const words = el.innerHTML.split(/(\s+)/);
+  el.innerHTML = words.map((w, i) => {
+    if (/^\s+$/.test(w)) return w;
+    return `<span class="word-wrap" style="display:inline-block;overflow:visible;line-height:inherit;"><span class="word-inner" style="display:inline-block;transform:translateY(30%);opacity:0;transition:transform .75s cubic-bezier(.16,1,.3,1) ${baseDelay + i*50}ms,opacity .6s ease ${baseDelay + i*50}ms;">${w}</span></span>`;
+  }).join('');
+}
+
+const headingObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.word-inner').forEach(w => {
+      w.style.transform = 'translateY(0)';
+      w.style.opacity = '1';
+    });
+    headingObserver.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  // Register all reveal elements
+  document.querySelectorAll(allRevealSelectors).forEach(el => revealObserver.observe(el));
+
+  // Stagger trusted chips
+  const chips = document.querySelectorAll('.trusted-chip');
+  chips.forEach((c, i) => { c.style.transitionDelay = (i * 100) + 'ms'; });
+
+  // Counter elements — mark them
+  document.querySelectorAll('.about-stat-n, .hero-stat-n, .gs-n, .mfg-sc-n').forEach(el => {
+    const txt = el.textContent.trim();
+    const match = txt.match(/^([<]?)(\d+\.?\d*)([M+%K<]*)$/);
+    if (match) {
+      const num = parseFloat(match[2]);
+      el.dataset.count = num;
+      el.dataset.suffix = match[3] || '';
+      el.dataset.prefix = match[1] || '';
+      counterObserver.observe(el);
+    }
+  });
+
+  // Split headings — skip hero-h1 (has its own CSS animation)
+  document.querySelectorAll('.section-title').forEach(el => {
+    splitAndAnimate(el);
+    headingObserver.observe(el);
+  });
+
+  // Parallax
+  initParallax();
+
+  // Magnetic buttons
+  initMagnetic();
+
+  // Add scroll hint to hero
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const hint = document.createElement('div');
+    hint.className = 'hero-scroll-hint';
+    hint.textContent = 'Scroll';
+    hero.appendChild(hint);
+    window.addEventListener('scroll', () => {
+      hint.style.opacity = window.scrollY > 80 ? '0' : '1';
+    }, { passive: true });
+  }
 });
 
 // ── INIT ──────────────────────────────────────────────────────
