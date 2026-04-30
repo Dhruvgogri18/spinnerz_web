@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manufacturing — Spinnerz Globe Pvt. Ltd.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/store.css">
+  <style>
+    .mfg-hero{background:var(--navy);padding:120px 8% 80px;text-align:center;}
+    .mfg-hero .section-label{justify-content:center;color:rgba(255,255,255,.5);}
+    .mfg-hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,64px);font-weight:400;color:#fff;line-height:1.15;margin:16px 0 20px;}
+    .mfg-hero h1 em{color:var(--gold);font-style:italic;}
+    .mfg-hero p{color:rgba(255,255,255,.55);font-size:16px;max-width:600px;margin:0 auto;line-height:1.8;}
+    .mfg-body{max-width:1200px;margin:0 auto;padding:80px 6%;}
+
+    /* Slider */
+    .mfg-slider{position:relative;border-radius:16px;overflow:hidden;margin-bottom:72px;}
+    .mfg-slider-track{display:flex;transition:transform .5s cubic-bezier(.25,.46,.45,.94);}
+    .mfg-slide{min-width:100%;aspect-ratio:16/7;object-fit:cover;}
+    .slider-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;}
+    .slider-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.4);border:none;cursor:pointer;transition:background .2s;}
+    .slider-dot.active{background:#fff;}
+    .slider-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);color:#fff;border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;}
+    .slider-arrow:hover{background:rgba(0,0,0,.7);}
+    .slider-arrow.prev{left:16px;}
+    .slider-arrow.next{right:16px;}
+
+    /* Intro */
+    .mfg-intro{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-bottom:72px;}
+    .mfg-intro h2{font-family:var(--font-display);font-size:32px;font-weight:400;color:var(--ink);line-height:1.3;margin-bottom:20px;}
+    .mfg-intro h2 em{color:var(--gold);font-style:normal;}
+    .mfg-intro p{font-size:14px;color:var(--ink-light);line-height:1.9;margin-bottom:14px;}
+
+    /* Stats band */
+    .mfg-stats{background:var(--navy);border-radius:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:72px;overflow:hidden;}
+    .mfg-stat{padding:36px 24px;text-align:center;border-right:1px solid rgba(255,255,255,.08);}
+    .mfg-stat:last-child{border-right:none;}
+    .mfg-stat .n{font-family:var(--font-brand);font-size:42px;color:var(--gold);letter-spacing:2px;}
+    .mfg-stat .l{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:6px;}
+
+    /* Photo grid */
+    .mfg-photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:72px;}
+    .mfg-photo-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;}
+
+    /* Process steps */
+    .mfg-process{margin-bottom:72px;}
+    .mfg-process h2{font-family:var(--font-display);font-size:32px;font-weight:400;color:var(--ink);margin-bottom:36px;}
+    .mfg-process h2 em{color:var(--red);}
+    .mfg-steps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+    .mfg-step-card{background:var(--paper);border-radius:12px;padding:28px;display:flex;gap:20px;align-items:flex-start;}
+    .mfg-step-num{flex-shrink:0;width:40px;height:40px;background:var(--navy);color:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-brand);font-size:14px;letter-spacing:1px;}
+    .mfg-step-card h4{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:6px;}
+    .mfg-step-card p{font-size:13px;color:var(--ink-light);line-height:1.7;}
+
+    /* CTA */
+    .mfg-cta{background:var(--navy);border-radius:16px;padding:56px;text-align:center;}
+    .mfg-cta h2{font-family:var(--font-display);font-size:36px;font-weight:400;color:#fff;margin-bottom:16px;}
+    .mfg-cta h2 em{color:var(--gold);font-style:italic;}
+    .mfg-cta p{color:rgba(255,255,255,.55);font-size:15px;margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto;}
+
+    @media(max-width:768px){
+      .mfg-intro,.mfg-steps-grid{grid-template-columns:1fr;}
+      .mfg-stats{grid-template-columns:1fr 1fr;}
+      .mfg-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);}
+      .mfg-slide{aspect-ratio:4/3;}
+      .mfg-cta{padding:36px 24px;}
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeMobMenu()"></div>
+<div class="mob-panel" id="mobPanel">
+  <div class="mob-panel-head">
+    <div class="mob-panel-logo">
+      <svg viewBox="0 0 40 40" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="#b81c2e"/>
+        <text x="20" y="26" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="18" font-weight="900" fill="white">S</text>
+      </svg>
+      <span>SPINNERZ</span>
+    </div>
+    <button class="mob-close" onclick="closeMobMenu()">✕</button>
+  </div>
+  <ul class="mob-nav-links">
+    <li><a href="index.html" onclick="closeMobMenu()">Home</a></li>
+    <li><a href="about.html" onclick="closeMobMenu()">About Us</a></li>
+    <li><a href="products.html" onclick="closeMobMenu()">Products</a></li>
+    <li><a href="manufacturing.html" onclick="closeMobMenu()">Manufacturing</a></li>
+    <li><a href="index.html#contact-section" onclick="closeMobMenu()">Contact</a></li>
+  </ul>
+  <div class="mob-panel-foot">
+    <a href="https://wa.me/919892211065" target="_blank" class="mob-wa-btn">💬 WhatsApp Us</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="mainNav">
+  <button class="mob-hamburger" id="mobHamburger" onclick="openMobMenu()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-logo" href="index.html">
+    <img src="assets/images/spinnerz-logo.png" alt="Spinnerz Globe" style="height:52px;width:auto;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="manufacturing.html" class="active">Manufacturing</a></li>
+    <li><a href="index.html#contact-section">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919892211065" target="_blank" class="nav-wa-btn">Enquire Now</a>
+    <button class="cart-btn" style="background:none;border:none;cursor:pointer;position:relative;padding:6px;color:var(--ink);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="mfg-hero">
+  <div class="section-label">Our Facility</div>
+  <h1>State-of-the-Art<br>Manufacturing in <em>Umbergoan, Gujarat</em></h1>
+  <p>Advanced machinery, 40+ molds, 100+ production lines — delivering precision-crafted luggage at scale.</p>
+</div>
+
+<div class="mfg-body">
+
+  <!-- SLIDER -->
+  <div class="mfg-slider">
+    <div class="mfg-slider-track" id="sliderTrack">
+      <img class="mfg-slide" src="assets/images/mfg-3.jpg" alt="Assembly floor">
+      <img class="mfg-slide" src="assets/images/mfg-4.jpg" alt="Cutting section">
+      <img class="mfg-slide" src="assets/images/mfg-1.jpg" alt="Stitching">
+    </div>
+    <button class="slider-arrow prev" onclick="slideBy(-1)">‹</button>
+    <button class="slider-arrow next" onclick="slideBy(1)">›</button>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="mfg-intro">
+    <div>
+      <div class="section-label" style="color:var(--gold);">Our Facility</div>
+      <h2>State-of-the-Art Manufacturing Facility in <em>Umbergoan, Gujarat</em></h2>
+      <p>Located in Umbergoan, Gujarat, our state-of-the-art manufacturing facility is the backbone of Spinnerz Globe's commitment to quality, innovation, and craftsmanship. Designed to support high-precision production, the facility is equipped with advanced machinery, including injection molding units that enable in-house production of shells and accessories — ensuring complete control over quality, consistency, and design.</p>
+      <p>With a robust infrastructure featuring over 40 molds in various sizes and configurations, we offer exceptional flexibility to cater to diverse customer needs, and scalability to efficiently handle both large-volume orders and bespoke, limited-edition projects.</p>
+    </div>
+    <div>
+      <p>Our operations are driven by a highly skilled and experienced team, trained to uphold rigorous standards at every stage — from raw material processing to final assembly. With a deep focus on precision engineering, quality assurance, and timely delivery, we ensure that every Spinnerz Globe product not only meets but exceeds industry expectations.</p>
+      <p>At Spinnerz Globe, manufacturing excellence is more than a goal — it's a promise we deliver with every piece of luggage we create.</p>
+      <a href="https://wa.me/919892211065" target="_blank" class="btn-red" style="display:inline-block;margin-top:20px;">Discuss Your Order →</a>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="mfg-stats">
+    <div class="mfg-stat"><div class="n">5M+</div><div class="l">Units / Year</div></div>
+    <div class="mfg-stat"><div class="n">40+</div><div class="l">Molds</div></div>
+    <div class="mfg-stat"><div class="n">100+</div><div class="l">Production Lines</div></div>
+    <div class="mfg-stat"><div class="n">&lt;10</div><div class="l">Days Prototype</div></div>
+  </div>
+
+  <!-- PHOTO GRID -->
+  <div class="mfg-photo-grid">
+    <img src="assets/images/mfg-1.jpg" alt="Stitching floor">
+    <img src="assets/images/mfg-2.jpg" alt="Warehouse">
+    <img src="assets/images/mfg-3.jpg" alt="Assembly">
+    <img src="assets/images/mfg-4.jpg" alt="Cutting section">
+  </div>
+
+  <!-- PROCESS -->
+  <div class="mfg-process">
+    <h2>Our Manufacturing <em>Process</em></h2>
+    <div class="mfg-steps-grid">
+      <div class="mfg-step-card">
+        <div class="mfg-step-num">01</div>
+        <div>
+          <h4>Cutting Department</h4>
+          <p>Precision cutting with advanced CNC machinery and laser technology ensuring accurate patterns and minimal material waste.</p>
+        </div>
+      </div>
+      <div class="mfg-step-card">
+        <div class="mfg-step-num">02</div>
+        <div>
+          <h4>Stitching Department</h4>
+          <p>Expert craftsmanship from skilled artisans using industrial-grade sewing equipment, delivering durable seams and impeccable finishing.</p>
+        </div>
+      </div>
+      <div class="mfg-step-card">
+        <div class="mfg-step-num">03</div>
+        <div>
+          <h4>Assembly & Hardware</h4>
+          <p>Precision assembly of wheels, handles, locks and zippers with strict tolerances to ensure smooth operation and long product life.</p>
+        </div>
+      </div>
+      <div class="mfg-step-card">
+        <div class="mfg-step-num">04</div>
+        <div>
+          <h4>Quality Control</h4>
+          <p>Rigorous multi-point inspection ensuring every bag meets international quality standards before packaging and dispatch.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="mfg-cta">
+    <h2>Ready to Place a <em>Bulk Order?</em></h2>
+    <p>We cater to corporate clients with tailored OEM and white-label manufacturing solutions. Minimum order quantities apply.</p>
+    <a href="https://wa.me/919892211065" target="_blank" class="btn-red">WhatsApp Us Today →</a>
+  </div>
+
+</div>
+
+<script>
+// Slider
+let current = 0;
+const total = document.querySelectorAll('.mfg-slide').length;
+const track = document.getElementById('sliderTrack');
+const dotsEl = document.getElementById('sliderDots');
+for(let i=0;i<total;i++){
+  const d = document.createElement('button');
+  d.className = 'slider-dot' + (i===0?' active':'');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+function goTo(n){ current=n; track.style.transform=`translateX(-${n*100}%)`; document.querySelectorAll('.slider-dot').forEach((d,i)=>d.classList.toggle('active',i===n)); }
+function slideBy(dir){ goTo((current+dir+total)%total); }
+setInterval(()=>slideBy(1), 4000);
+
+// Mob menu
+function openMobMenu(){ document.getElementById('mobPanel').classList.add('open'); document.getElementById('mobOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeMobMenu(){ document.getElementById('mobPanel').classList.remove('open'); document.getElementById('mobOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+// Cursor
+const cursorDot = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => { cursorDot.style.left=e.clientX+'px'; cursorDot.style.top=e.clientY+'px'; cursorRing.style.left=e.clientX+'px'; cursorRing.style.top=e.clientY+'px'; });
+document.querySelectorAll('button,a').forEach(el => {
+  el.addEventListener('mouseenter',()=>{ cursorRing.style.width='52px'; cursorRing.style.height='52px'; cursorRing.style.opacity='.5'; });
+  el.addEventListener('mouseleave',()=>{ cursorRing.style.width='36px'; cursorRing.style.height='36px'; cursorRing.style.opacity='1'; });
+});
+
+// Nav scroll
+window.addEventListener('scroll',()=>{ document.getElementById('mainNav').classList.toggle('dark', window.scrollY>80); });
+
+// Reveal on scroll
+const ro = new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } }); },{threshold:0.1});
+document.querySelectorAll('.reveal,.mfg-step-card,.mfg-stat,.mfg-photo-grid img').forEach(el=>{ el.classList.add('reveal'); ro.observe(el); });
+</script>
+</body>
+</html>
