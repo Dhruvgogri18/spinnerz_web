@@ -150,8 +150,16 @@ function showToast(msg) {
 // ── SMOOTH SCROLL ─────────────────────────────────────────────
 function scrollTo(id) {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+// Smooth scroll all internal anchor links
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = a.getAttribute('href').slice(1);
+  const el = document.getElementById(id);
+  if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+});
 
 // ── NAV — dark/light + hide topstrip on scroll ────────────────
 window.addEventListener('scroll', () => {

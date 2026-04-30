@@ -36,3 +36,10 @@
   --section-pad: 100px 6%;
   --sidebar-w:   256px;
 }
+
+html {
+  scroll-behavior: auto;
+}
+body {
+  overscroll-behavior-y: none;
+}
