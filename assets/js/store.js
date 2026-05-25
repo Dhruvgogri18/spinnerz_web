@@ -313,17 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Magnetic buttons
   initMagnetic();
 
-  // Add scroll hint to hero
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    const hint = document.createElement('div');
-    hint.className = 'hero-scroll-hint';
-    hint.textContent = 'Scroll';
-    hero.appendChild(hint);
-    window.addEventListener('scroll', () => {
-      hint.style.opacity = window.scrollY > 80 ? '0' : '1';
-    }, { passive: true });
-  }
+
 });
 
 // ── INIT ──────────────────────────────────────────────────────
