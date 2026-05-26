@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Spinnerz Globe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/store.css">
+  <style>
+    .contact-page-hero {
+      background: var(--navy);
+      text-align: center;
+      padding: 120px 8% 80px;
+    }
+    .contact-page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.15;
+      margin: 16px 0 0;
+    }
+    .contact-page-body {
+      max-width: 1160px;
+      margin: 60px auto;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .contact-page-body { grid-template-columns: 1fr; }
+    }
+    .contact-info-card {
+      background: var(--surface-2, #f7f7f5);
+      border-radius: 16px;
+      padding: 36px 32px;
+    }
+    .contact-label-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+    }
+    .contact-label-tag::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--red, #b81c2e);
+      display: inline-block;
+    }
+    .contact-info-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 12px;
+    }
+    .contact-info-card h2 em {
+      color: var(--red, #b81c2e);
+      font-style: normal;
+    }
+    .contact-info-card p {
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      margin: 0 0 28px;
+    }
+    .map-embed {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 24px;
+      border: 1px solid var(--border, #e5e5e3);
+    }
+    .map-embed iframe {
+      width: 100%;
+      height: 260px;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- PAGE LOADER -->
+<div id="page-load">
+  <div class="load-brand">
+    <img src="assets/images/spinnerz-logo-nobg.png" alt="Spinnerz Globe" class="load-logo-img">
+  </div>
+  <div class="load-bar"><div class="load-progress"></div></div>
+</div>
+
+<!-- MOBILE OVERLAY -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeMobMenu()"></div>
+
+<!-- MOBILE SIDE PANEL -->
+<div class="mob-panel" id="mobPanel">
+  <div class="mob-panel-head">
+    <div class="mob-panel-logo">
+      <svg viewBox="0 0 40 40" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="#b81c2e"/>
+        <text x="20" y="26" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="18" font-weight="900" fill="white">S</text>
+      </svg>
+      <span>SPINNERZ</span>
+    </div>
+    <button class="mob-close" onclick="closeMobMenu()">✕</button>
+  </div>
+  <ul class="mob-nav-links">
+    <li><a href="index.html" onclick="closeMobMenu()">Home</a></li>
+    <li><a href="about.html" onclick="closeMobMenu()">About Us</a></li>
+    <li><a href="products.html" onclick="closeMobMenu()">Products</a></li>
+    <li><a href="manufacturing.html" onclick="closeMobMenu()">Manufacturing</a></li>
+  </ul>
+  <div class="mob-panel-foot">
+    <a href="contact.html" class="mob-wa-btn">📩 Enquire Now</a>
+    <div class="mob-contact">
+      <div>📞 +91-9892211065</div>
+      <div>✉️ info@spinnerz.co.in</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="mainNav">
+  <button class="mob-hamburger" id="mobHamburger" onclick="openMobMenu()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-logo" href="index.html">
+    <img src="assets/images/spinnerz-logo-nobg.png" alt="Spinnerz Globe" style="height:52px;width:auto;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="manufacturing.html">Manufacturing</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="contact.html" class="nav-wa-btn active">Enquire Now</a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="contact-page-hero">
+  <div class="section-label" style="justify-content:center;color:rgba(255,255,255,.5);">Get In Touch</div>
+  <h1>Contact Us</h1>
+</div>
+
+<!-- CONTACT BODY -->
+<div class="contact-page-body">
+
+  <!-- LEFT: Info + Map -->
+  <div class="contact-info-card reveal">
+    <div class="contact-label-tag">CONTACT US</div>
+    <h2>Contact us &amp; <em>let's collaborate!</em></h2>
+    <p>To get tailored OEM and white-label manufacturing solutions. Contact us today!</p>
+    <div class="contact-details">
+      <div class="contact-row">
+        <span class="contact-icon">📞</span>
+        <div>
+          <div class="contact-label">Phone / WhatsApp</div>
+          <a href="tel:+919892211065" class="contact-val">+91-9892211065</a>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="contact-icon">🌐</span>
+        <div>
+          <div class="contact-label">Website</div>
+          <a href="https://www.spinnerz.co.in" target="_blank" class="contact-val">www.spinnerz.co.in</a>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="contact-icon">✉️</span>
+        <div>
+          <div class="contact-label">Email</div>
+          <a href="mailto:info@spinnerz.co.in" class="contact-val">info@spinnerz.co.in</a>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="contact-icon">📍</span>
+        <div>
+          <div class="contact-label">Address</div>
+          <div class="contact-val" style="font-size:13px;line-height:1.6;">Industrial Estate, Plot No. 298/3,<br>GIDC Rd, GIDC Umbergaon,<br>Umargam, Umbergaon INA,<br>Gujarat 396171</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-embed">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.234!2d72.7513!3d20.2012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be0d0c3b3b3b3b3%3A0x1!2sTremont+Luggage+Manufacturing+Pvt+Ltd%2C+GIDC+Umbergaon!5e0!3m2!1sen!2sin!4v1680000000000"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="contact-form-card reveal reveal-d2">
+    <h3 style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px;">Send an Enquiry</h3>
+    <p style="font-size:13px;color:var(--ink-light);margin-bottom:24px;">We'll get back within 24 hours.</p>
+    <div class="cf-field"><label>Company Name</label><input type="text" placeholder="Your company name"></div>
+    <div class="cf-field"><label>Product Interest</label>
+      <select><option value="">Select product category</option><option>Hard Luggage</option><option>Soft Luggage</option><option>Trolley Bags</option><option>Laptop Backpacks</option><option>Office & Sling Bags</option><option>Gym & Lifestyle</option><option>Vanity Cases</option><option>Multiple Categories</option></select>
+    </div>
+    <div class="cf-2">
+      <div class="cf-field"><label>Quantity Required</label><input type="text" placeholder="e.g. 1000 pcs"></div>
+      <div class="cf-field"><label>Phone / WhatsApp</label><input type="text" placeholder="+91-XXXXXXXXXX"></div>
+    </div>
+    <div class="cf-field"><label>Message</label><textarea placeholder="Tell us about your requirement, timeline, customisation needs..."></textarea></div>
+    <a href="https://wa.me/919892211065" target="_blank" class="btn-red" style="display:block;text-align:center;margin-top:8px;">Send via WhatsApp →</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-logo">
+        <img src="assets/images/spinnerz-logo-nobg.png" alt="Spinnerz Globe" style="height:52px;width:auto;">
+      </div>
+      <p>Spinnerz Globe Pvt. Ltd. — Premium bags, luggage &amp; corporate gifting solutions. Manufactured in India, trusted worldwide.</p>
+      <div class="footer-contact-list">
+        <a href="tel:+919892211065">📞 +91-9892211065</a>
+        <a href="mailto:info@spinnerz.co.in">✉️ info@spinnerz.co.in</a>
+        <a href="https://www.spinnerz.co.in" target="_blank">🌐 www.spinnerz.co.in</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-h">Quick Links</div>
+      <ul class="footer-ul">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html">Our Products</a></li>
+        <li><a href="manufacturing.html">Manufacturing</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-h">Products</div>
+      <ul class="footer-ul">
+        <li><a href="#">Hard Luggage</a></li>
+        <li><a href="#">Soft Luggage</a></li>
+        <li><a href="#">Trolley Bags</a></li>
+        <li><a href="#">Laptop Backpacks</a></li>
+        <li><a href="#">Office Sling Bags</a></li>
+        <li><a href="#">Vanity Cases</a></li>
+        <li><a href="#">Gym &amp; Lifestyle</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-h">Corporate Gifting</div>
+      <ul class="footer-ul">
+        <li><a href="#">Employee Recognition</a></li>
+        <li><a href="#">Dealer Incentives</a></li>
+        <li><a href="#">Client Appreciation</a></li>
+        <li><a href="#">Onboarding Kits</a></li>
+        <li><a href="#">Conference Merch</a></li>
+        <li><a href="#">OEM / B2B</a></li>
+        <li><a href="admin/index.html">Admin ↗</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Spinnerz Globe Pvt. Ltd. All rights reserved.</div>
+    <div class="footer-socials">
+      <div class="soc-btn">𝕏</div><div class="soc-btn">in</div>
+      <div class="soc-btn">▶</div><div class="soc-btn">📷</div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/919892211065" target="_blank" class="wa-float" title="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/store.js"></script>
+<script>
+function openMobMenu() {
+  document.getElementById('mobPanel').classList.add('open');
+  document.getElementById('mobOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobMenu() {
+  document.getElementById('mobPanel').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobMenu(); });
+</script>
+</body>
+</html>
