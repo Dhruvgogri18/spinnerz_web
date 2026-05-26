@@ -388,25 +388,106 @@ const PRODUCTS = [
     moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Black',hex:'#1a1a1a',id:6}]
   },
   {
-    id: 7, name: 'Spinnerz Sling Bag — Executive', category: 'Office & Sling', badge: '', color: 'Brown', colorHex: '#8B4513',
+    id: 7, name: 'Spinnerz Sling Bag — Executive', 
+    category: 'Office & Sling', badge: '', color: 'Brown', colorHex: '#8B4513',
     images: [], desc: 'Executive leather office sling bag with dedicated 15.6" laptop protection. Multiple organisational pockets, adjustable padded shoulder strap. Premium craftsmanship.',
     features: ['Leather Finish','15.6" Laptop','Padded Strap','Organiser Pockets'],
     moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Brown',hex:'#8B4513',id:7},{name:'Black',hex:'#1a1a1a',id:7}]
   },
   {
-    id: 8, name: 'Luxury Quilted Vanity Case', category: 'Vanity Cases', badge: 'new', color: 'Pink', colorHex: '#e8a0b4',
-    images: [], desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    id: 8, 
+    name: 'Luxury Quilted Vanity Case', 
+    category: 'Vanity Cases', 
+    badge: 'new', 
+    color: 'Pink', 
+    colorHex: '#e8a0b4',
+    images: [
+      'assets/images/products/vc-pink-front.jpeg' , 
+      'assets/images/products/vc-pink-top.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
     features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
-    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Pink',hex:'#e8a0b4',id:8},{name:'Black',hex:'#1a1a1a',id:8}]
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Pink',hex:'#e8a0b4',id:8},
+      {name:'Black',hex:'#1a1a1a',id:9},
+      {name:'Blue',hex:'#10183a',id:10},
+      {name:'Yellow',hex:'#FFD700',id:11}
+    ]
   },
   {
-    id: 9, name: 'Pro Gym & Sports Duffle', category: 'Gym & Lifestyle', badge: '', color: 'Navy', colorHex: '#10183a',
+    id: 9, 
+    name: 'Luxury Quilted Vanity Case', 
+    category: 'Vanity Cases', 
+    badge: 'new', 
+    color: 'Black', 
+    colorHex: '#1a1a1a',
+    images: [
+      'assets/images/products/vc-black-front.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Pink',hex:'#e8a0b4',id:8},
+      {name:'Black',hex:'#1a1a1a',id:9},
+      {name:'Blue',hex:'#10183a',id:10},
+      {name:'Yellow',hex:'#FFD700',id:11}
+    ]
+  },
+  {
+    id: 10, 
+    name: 'Luxury Quilted Vanity Case', 
+    category: 'Vanity Cases', 
+    badge: 'new', 
+    color: 'Blue', 
+    colorHex: '#10183a',
+    images: [
+      'assets/images/products/vc-blue-front.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Pink',hex:'#e8a0b4',id:8},
+      {name:'Black',hex:'#1a1a1a',id:9},
+      {name:'Blue',hex:'#10183a',id:10},
+      {name:'Yellow',hex:'#FFD700',id:11}
+    ]
+  },
+  {
+    id: 11, 
+    name: 'Luxury Quilted Vanity Case', 
+    category: 'Vanity Cases', 
+    badge: 'new', 
+    color: 'Yellow', 
+    colorHex: '#FFD700',
+    images: [
+      'assets/images/products/vc-yellow-front.jpeg',
+      'assets/images/products/vc-yellow-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Pink',hex:'#e8a0b4',id:8},
+      {name:'Black',hex:'#1a1a1a',id:9},
+      {name:'Blue',hex:'#10183a',id:10},
+      {name:'Yellow',hex:'#FFD700',id:11}
+    ]
+  },
+  {
+    id: 12, name: 'Pro Gym & Sports Duffle', category: 'Gym & Lifestyle', badge: '', color: 'Navy', colorHex: '#10183a',
     images: [], desc: 'Versatile gym bag with ventilated shoe pocket, water-resistant base, detachable shoulder strap, and multiple pockets. From training sessions to daily commutes.',
     features: ['Ventilated Shoe Pocket','Water-Resistant Base','Detachable Strap','Multiple Pockets'],
     moq: 'MOQ: 500 pcs', sizes: ['Medium','Large'], relatedColors: [{name:'Navy',hex:'#10183a',id:9},{name:'Black',hex:'#1a1a1a',id:9}]
   },
   {
-    id: 10, name: 'APLUS Soft Trolley 28"', category: 'Soft Luggage', badge: '', color: 'Navy', colorHex: '#10183a',
+    id: 13, name: 'APLUS Soft Trolley 28"', category: 'Soft Luggage', badge: '', color: 'Navy', colorHex: '#10183a',
     images: [], desc: 'Durable soft-sided luggage with expandable compartments, water-resistant fabric, smooth-rolling spinner wheels. Reinforced handles and premium YKK zippers.',
     features: ['Water-Resistant Fabric','Expandable Compartments','Reinforced Handles','Premium Zippers'],
     moq: 'MOQ: 500 pcs', sizes: ['20" Cabin','24" Medium','28" Large'], relatedColors: [{name:'Navy',hex:'#10183a',id:10},{name:'Grey',hex:'#888',id:10}]
