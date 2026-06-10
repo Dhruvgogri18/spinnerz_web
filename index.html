@@ -67,7 +67,6 @@
     <li><a href="about.html" onclick="scrollTo('about-section')">About Us</a></li>
     <li><a href="products.html">Products</a></li>
     <li><a href="manufacturing.html">Manufacturing</a></li>
-    
   </ul>
   <div class="nav-right">
     <a href="contact.html" class="nav-wa-btn">Enquire Now</a>
@@ -81,16 +80,13 @@
       <h1 class="hero-h1 animate fade-up">
         Premium Bags &<br>Luggage <em>Manufacturer</em><br>& Exporter.
       </h1>
-
       <p class="hero-sub animate fade-up delay-1">
         Spinnerz Globe Pvt. Ltd. — a trusted manufacturer and exporter of premium bags and luggage...
       </p>
-
       <div class="hero-actions animate fade-up delay-2">
         <a href="https://wa.me/919892211065" target="_blank" class="btn-red">Enquire Now</a>
         <button class="btn-ghost" onclick="window.location.href='about.html'">Read More</button>
       </div>
-
       <div class="hero-stats animate fade-up delay-3">
         <div><div class="hero-stat-n">5M+</div><div class="hero-stat-l">Units / Year</div></div>
         <div><div class="hero-stat-n">100+</div><div class="hero-stat-l">Production Lines</div></div>
@@ -132,9 +128,7 @@
 <!-- ══ ABOUT US ══════════════════════════════════════════════ -->
 <section class="section about-section" id="about-section">
   <div class="about-new-grid">
-    <!-- LEFT: image collage -->
     <div class="about-img-col reveal">
-      <!-- Top row: trust badge card + photo1 -->
       <div class="about-img-top-row">
         <div class="about-trust-card">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="var(--gold)"/></svg>
@@ -145,13 +139,10 @@
           <img src="assets/images/trusted_by_buisness.jpg" alt="Global Partnerships" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
         </div>
       </div>
-      <!-- Bottom: wide photo2 -->
       <div class="about-photo2">
         <img src="assets/images/trusted_by_buisness-1.jpg" alt="Manufacturing Excellence" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
       </div>
     </div>
-
-    <!-- RIGHT: content -->
     <div class="about-content-col reveal reveal-d2">
       <div class="section-label">About Us</div>
       <h2 class="section-title" style="margin-top:12px;">Driven by a passion for luggage, we blend durability, design, <em>and functionality</em></h2>
@@ -216,48 +207,57 @@
     <p class="section-desc">Premium Bags & Luggage for Corporate Gifting — meticulously crafted luggage and bags designed for the modern professional.</p>
   </div>
 
-  <!-- Auto-sliding product carousel -->
   <style>
     .prod-slider-wrap { position:relative; overflow:hidden; margin-top:40px; }
-    .prod-slider-track { display:flex; transition:transform 0.6s cubic-bezier(.4,0,.2,1); will-change:transform; }
+    .prod-slider-track { display:flex; gap:24px; transition:transform 0.5s cubic-bezier(.4,0,.2,1); will-change:transform; }
     .prod-slide-card {
-      min-width: calc(33.333% - 16px);
-      margin-right: 24px;
+      flex: 0 0 calc((100% - 48px) / 3);
       background: var(--surface-2, #f5f5f3);
       border-radius: 20px;
       overflow: hidden;
-      flex-shrink: 0;
       cursor: pointer;
       transition: transform .3s, box-shadow .3s;
+      display: flex;
+      flex-direction: column;
     }
     .prod-slide-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,.12); }
     .prod-slide-img {
       width: 100%; height: 220px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 72px; position: relative;
+      position: relative; overflow: hidden; flex-shrink: 0;
+      background: #e8e8e6;
+      display: flex; align-items: center; justify-content: center; font-size: 72px;
     }
+    .prod-slide-photo { width:100%; height:100%; object-fit:cover; display:block; }
     .prod-slide-num {
       position: absolute; top: 16px; left: 20px;
       font-family: var(--font-display); font-size: 36px; font-weight: 700;
-      color: rgba(255,255,255,.25); line-height: 1;
+      color: rgba(255,255,255,.35); line-height: 1; z-index: 1;
     }
-    .prod-slide-body { padding: 20px 22px 24px; }
+    .prod-slide-body { padding: 20px 22px 24px; display:flex; flex-direction:column; flex:1; }
     .prod-slide-cat { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
     .prod-slide-name { font-family: var(--font-display); font-size: 18px; font-weight: 500; color: var(--ink); margin: 0 0 10px; line-height: 1.3; }
-    .prod-slide-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .prod-slide-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; flex:1; align-content:flex-start; }
     .prod-slide-tags span { font-size: 11px; border: 1px solid var(--border,#e5e5e3); border-radius: 20px; padding: 3px 10px; color: var(--ink-light); }
-    .prod-slide-cta { font-size: 13px; font-weight: 600; color: var(--red); text-decoration: none; letter-spacing:.02em; }
-    .prod-slider-dots { display:flex; justify-content:center; gap:8px; margin-top:28px; }
+    .prod-slide-cta { font-size: 13px; font-weight: 600; color: var(--red); text-decoration: none; letter-spacing:.02em; margin-top:auto; }
+    .prod-slider-nav { display:flex; justify-content:center; align-items:center; gap:16px; margin-top:28px; }
+    .prod-slider-btn { width:36px; height:36px; border-radius:50%; border:1.5px solid var(--border,#ddd); background:#fff; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+    .prod-slider-btn:hover { background:var(--red); color:#fff; border-color:var(--red); }
+    .prod-slider-dots { display:flex; gap:8px; }
     .prod-slider-dot { width:10px; height:10px; border-radius:50%; background:var(--border,#ddd); border:none; cursor:pointer; padding:0; transition:background .3s,transform .3s; }
     .prod-slider-dot.active { background:var(--red); transform:scale(1.3); }
-    @media(max-width:768px){ .prod-slide-card{ min-width:calc(85vw); } }
-    .prod-slide-cta { display:none; }
+    @media(max-width:900px){
+      .prod-slide-card { flex: 0 0 calc((100% - 24px) / 2); }
+    }
+    @media(max-width:600px){
+      .prod-slide-card { flex: 0 0 calc(100% - 32px); }
+      .prod-slider-wrap { margin-left:-16px; margin-right:-16px; padding:0 16px; overflow:hidden; }
+    }
   </style>
 
   <div class="prod-slider-wrap" id="all-products">
     <div class="prod-slider-track" id="prodTrack">
       <div class="prod-slide-card">
-        <div class="prod-slide-img pi-hl"><span class="prod-slide-num">01</span>🧳</div>
+        <div class="prod-slide-img pi-hl"><span class="prod-slide-num">01</span><img src="assets/images/slider-hard-luggage.png" alt="APLUS Hard Shell Collection" class="prod-slide-photo"></div>
         <div class="prod-slide-body">
           <div class="prod-slide-cat">Hard Luggage</div>
           <h3 class="prod-slide-name">APLUS Hard Shell Collection</h3>
@@ -266,7 +266,7 @@
         </div>
       </div>
       <div class="prod-slide-card">
-        <div class="prod-slide-img pi-sl"><span class="prod-slide-num">02</span>🧳</div>
+        <div class="prod-slide-img pi-sl"><span class="prod-slide-num">02</span><img src="assets/images/slider-soft-luggage.png" alt="APLUS Soft Trolley Collection" class="prod-slide-photo"></div>
         <div class="prod-slide-body">
           <div class="prod-slide-cat">Soft Luggage</div>
           <h3 class="prod-slide-name">APLUS Soft Trolley Collection</h3>
@@ -275,16 +275,16 @@
         </div>
       </div>
       <div class="prod-slide-card">
-        <div class="prod-slide-img pi-tb"><span class="prod-slide-num">03</span>🛄</div>
+        <div class="prod-slide-img pi-tb"><span class="prod-slide-num">03</span><img src="assets/images/slider-duffle-luggage.png" alt="Trolley Overnighters & Duffle Bags" class="prod-slide-photo"></div>
         <div class="prod-slide-body">
-          <div class="prod-slide-cat">Trolley Bags</div>
+          <div class="prod-slide-cat">Duffle Bags</div>
           <h3 class="prod-slide-name">Trolley Overnighters & Duffle Bags</h3>
           <div class="prod-slide-tags"><span>Trolley Overnighter</span><span>Trolley Duffle</span><span>Shoe Compartment</span></div>
           <a href="https://wa.me/919892211065" target="_blank" class="prod-slide-cta">Get Quote →</a>
         </div>
       </div>
       <div class="prod-slide-card">
-        <div class="prod-slide-img pi-lb"><span class="prod-slide-num">04</span>🎒</div>
+        <div class="prod-slide-img pi-lb"><span class="prod-slide-num">04</span><img src="assets/images/slider-laptop-luggage.png" alt="Executive Laptop Backpacks" class="prod-slide-photo"></div>
         <div class="prod-slide-body">
           <div class="prod-slide-cat">Laptop Backpacks</div>
           <h3 class="prod-slide-name">Executive Laptop Backpacks</h3>
@@ -293,16 +293,16 @@
         </div>
       </div>
       <div class="prod-slide-card">
-        <div class="prod-slide-img pi-of"><span class="prod-slide-num">05</span>💼</div>
+        <div class="prod-slide-img pi-of"><span class="prod-slide-num">05</span><img src="assets/images/slider-office-luggage.png" alt="Executive Laptop Office Bags" class="prod-slide-photo"></div>
         <div class="prod-slide-body">
-          <div class="prod-slide-cat">Laptop Office Sling Bags</div>
-          <h3 class="prod-slide-name">Executive Leather Sling Bags</h3>
+          <div class="prod-slide-cat">Laptop Office Bags</div>
+          <h3 class="prod-slide-name">Executive Leather Office Bags</h3>
           <div class="prod-slide-tags"><span>Leather Finish</span><span>15.6" Laptop</span><span>Padded Strap</span><span>Organiser Pockets</span></div>
           <a href="https://wa.me/919892211065" target="_blank" class="prod-slide-cta">Get Quote →</a>
         </div>
       </div>
       <div class="prod-slide-card">
-        <div class="prod-slide-img pi-vc"><span class="prod-slide-num">06</span>💄</div>
+        <div class="prod-slide-img pi-vc"><span class="prod-slide-num">06</span><img src="assets/images/slider-vanity-luggage.jpg" alt="Luxury Quilted Vanity Cases" class="prod-slide-photo"></div>
         <div class="prod-slide-body">
           <div class="prod-slide-cat">Vanity Cases</div>
           <h3 class="prod-slide-name">Luxury Quilted Vanity Cases</h3>
@@ -310,49 +310,60 @@
           <a href="https://wa.me/919892211065" target="_blank" class="prod-slide-cta">Get Quote →</a>
         </div>
       </div>
-
     </div>
   </div>
-  <div class="prod-slider-dots" id="prodDots"></div>
+
+  <div class="prod-slider-nav">
+    <button class="prod-slider-btn" id="prodPrev">&#8592;</button>
+    <div class="prod-slider-dots" id="prodDots"></div>
+    <button class="prod-slider-btn" id="prodNext">&#8594;</button>
+  </div>
 
   <script>
   (function(){
     const track = document.getElementById('prodTrack');
     const dotsEl = document.getElementById('prodDots');
-    const cards = track.querySelectorAll('.prod-slide-card');
-    let perView = window.innerWidth <= 768 ? 1 : 3;
+    const cards = Array.from(track.querySelectorAll('.prod-slide-card'));
     let current = 0;
-    const total = cards.length;
-    const pages = Math.ceil(total / perView);
 
-    // Build dots
-    for(let i=0;i<pages;i++){
-      const d = document.createElement('button');
-      d.className = 'prod-slider-dot' + (i===0?' active':'');
-      d.onclick = ()=>goTo(i);
-      dotsEl.appendChild(d);
+    function pv(){ return window.innerWidth<=600?1:window.innerWidth<=900?2:3; }
+    function pg(){ return Math.ceil(cards.length/pv()); }
+
+    function buildDots(){
+      dotsEl.innerHTML='';
+      for(let i=0;i<pg();i++){
+        const d=document.createElement('button');
+        d.className='prod-slider-dot'+(i===0?' active':'');
+        d.onclick=()=>goTo(i);
+        dotsEl.appendChild(d);
+      }
     }
 
     function goTo(page){
-      current = (page + pages) % pages;
-      const cardW = cards[0].offsetWidth + 24;
-      track.style.transform = `translateX(-${current * perView * cardW}px)`;
+      current=(page+pg())%pg();
+      const gap=24, cardW=cards[0].offsetWidth;
+      track.style.transform=`translateX(-${current*pv()*(cardW+gap)}px)`;
       dotsEl.querySelectorAll('.prod-slider-dot').forEach((d,i)=>d.classList.toggle('active',i===current));
     }
 
-    // Auto-advance every 3s
-    let timer = setInterval(()=>goTo(current+1), 3000);
-    track.addEventListener('mouseenter',()=>clearInterval(timer));
-    track.addEventListener('mouseleave',()=>{ timer=setInterval(()=>goTo(current+1),3000); });
+    document.getElementById('prodPrev').onclick=()=>goTo(current-1);
+    document.getElementById('prodNext').onclick=()=>goTo(current+1);
 
-    window.addEventListener('resize',()=>{
-      perView = window.innerWidth<=768?1:3;
-      goTo(0);
-    });
+    let timer=setInterval(()=>goTo(current+1),3500);
+    track.addEventListener('mouseenter',()=>clearInterval(timer));
+    track.addEventListener('mouseleave',()=>{timer=setInterval(()=>goTo(current+1),3500);});
+
+    let tx=0;
+    track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+    track.addEventListener('touchend',e=>{
+      if(Math.abs(tx-e.changedTouches[0].clientX)>40) goTo(tx>e.changedTouches[0].clientX?current+1:current-1);
+    },{passive:true});
+
+    window.addEventListener('resize',()=>{current=0;buildDots();goTo(0);});
+    buildDots();
   })();
   </script>
 
-  <!-- CTA band inside products -->
   <div style="text-align:center;margin-top:36px;">
     <a href="products.html" style="display:inline-block;background:#111;color:#fff;font-family:var(--font-display);font-size:16px;font-style:italic;padding:14px 36px;clip-path:polygon(6% 0%,100% 0%,94% 100%,0% 100%);text-decoration:none;letter-spacing:.02em;">View All Products &nbsp;→</a>
     <p style="margin-top:20px;font-size:14px;color:var(--ink-light);">To get tailored OEM and white-label manufacturing solutions. <a href="contact.html" style="color:var(--ink);font-weight:600;text-decoration:underline;">Contact Us Today!</a></p>
@@ -412,11 +423,9 @@
 <!-- ══ MANUFACTURING FACILITY ════════════════════════════════ -->
 <section class="section" id="manufacturing-section">
   <div class="facility-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1400px;margin:0 auto;">
-    <!-- LEFT: text -->
     <div class="reveal">
       <div class="section-label" style="color:var(--red);">Our Facility</div>
       <h2 class="section-title" style="color:var(--ink);font-size:clamp(32px,3.5vw,52px);">State-of-the-Art Manufacturing Facility</h2>
-      <!-- <h2 style="font-family:var(--font-display);font-size:clamp(32px,3.5vw,52px);font-weight:400;color:var(--gold);margin-bottom:24px;line-height:1.2;">Umbergoan, Gujarat</h2> -->
       <p style="color:var(--ink-light);font-size:15px;line-height:1.9;margin-bottom:32px;">
         Our facility is equipped with advanced machinery, including injection molding units for in-house shell and accessories production. With more than 40 molds in various sizes, we ensure high-quality output with flexibility and scalability. Our operations are managed by a skilled team dedicated to precision and timely delivery.
       </p>
@@ -434,7 +443,6 @@
       </div>
       <a href="manufacturing.html" class="btn-red" style="display:inline-block;padding:14px 36px;font-size:13px;">Read More →</a>
     </div>
-    <!-- RIGHT: photo grid -->
     <div class="reveal reveal-d2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
       <img src="assets/images/mfg-1.jpg" alt="Factory" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:16px;">
       <img src="assets/images/mfg-2.jpg" alt="Machinery" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:16px;margin-top:40px;">
