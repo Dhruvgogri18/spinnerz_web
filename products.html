@@ -329,7 +329,7 @@ const PRODUCTS = [
     id: 3,
     name: 'Spinnerz Trolley — Scarlet Red',
     category: 'Hard Luggage',
-    badge: 'hot',
+    badge: 'new',
     color: 'Scarlet Red',
     colorHex: '#e02a2a',
     images: [
@@ -374,26 +374,6 @@ const PRODUCTS = [
       {name:'Jet Black', hex:'#1a1a1a', id:4},
     ]
   },
-  // OTHER CATEGORIES (placeholder — add real images when available)
-  {
-    id: 5, name: 'Executive Laptop Backpack 45L', category: 'Laptop Backpacks', badge: 'new', color: 'Navy', colorHex: '#10183a',
-    images: [], desc: 'Professional laptop backpack with padded 15.6" compartment, integrated USB charging port, anti-theft pockets, ergonomic breathable back panel. Water-resistant materials.',
-    features: ['15.6" Laptop Sleeve','USB Charging Port','Anti-Theft Design','Ergonomic Back Panel','Water-Resistant'],
-    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Navy',hex:'#10183a',id:5},{name:'Black',hex:'#1a1a1a',id:5}]
-  },
-  {
-    id: 6, name: 'Spinnerz Trolley — Business', category: 'Trolley Bags', badge: '', color: 'Black', colorHex: '#1a1a1a',
-    images: [], desc: 'Compact wheeled overnight bag designed for business trips. Dedicated laptop section, document organiser, telescopic handle, smooth-rolling spinner wheels.',
-    features: ['Dedicated Laptop Section','Document Organiser','Telescopic Handle','Spinner Wheels'],
-    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Black',hex:'#1a1a1a',id:6}]
-  },
-  {
-    id: 7, name: 'Spinnerz Sling Bag — Executive', 
-    category: 'Office & Sling', badge: '', color: 'Brown', colorHex: '#8B4513',
-    images: [], desc: 'Executive leather office sling bag with dedicated 15.6" laptop protection. Multiple organisational pockets, adjustable padded shoulder strap. Premium craftsmanship.',
-    features: ['Leather Finish','15.6" Laptop','Padded Strap','Organiser Pockets'],
-    moq: 'MOQ: 500 pcs', sizes: ['One Size'], relatedColors: [{name:'Brown',hex:'#8B4513',id:7},{name:'Black',hex:'#1a1a1a',id:7}]
-  },
   {
     id: 8, 
     name: 'Luxury Quilted Vanity Case', 
@@ -402,8 +382,8 @@ const PRODUCTS = [
     color: 'Pink', 
     colorHex: '#e8a0b4',
     images: [
-      'assets/images/products/vc-pink-front.jpeg' , 
-      'assets/images/products/vc-pink-top.jpeg'
+      'assets/images/products/vc-pink-front.jpg' , 
+      // 'assets/images/products/vc-pink-top.jpeg'
     ], 
     desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
     features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
@@ -424,7 +404,7 @@ const PRODUCTS = [
     color: 'Black', 
     colorHex: '#1a1a1a',
     images: [
-      'assets/images/products/vc-black-front.jpeg'
+      'assets/images/products/vc-black-front.jpg'
     ], 
     desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
     features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
@@ -445,7 +425,7 @@ const PRODUCTS = [
     color: 'Blue', 
     colorHex: '#10183a',
     images: [
-      'assets/images/products/vc-blue-front.jpeg'
+      'assets/images/products/vc-blue-front.jpg'
     ], 
     desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
     features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
@@ -466,7 +446,7 @@ const PRODUCTS = [
     color: 'Yellow', 
     colorHex: '#FFD700',
     images: [
-      'assets/images/products/vc-yellow-front.jpeg',
+      'assets/images/products/vc-yellow-front.jpg',
       'assets/images/products/vc-yellow-side.jpeg'
     ], 
     desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
@@ -481,16 +461,170 @@ const PRODUCTS = [
     ]
   },
   {
-    id: 12, name: 'Pro Gym & Sports Duffle', category: 'Gym & Lifestyle', badge: '', color: 'Navy', colorHex: '#10183a',
-    images: [], desc: 'Versatile gym bag with ventilated shoe pocket, water-resistant base, detachable shoulder strap, and multiple pockets. From training sessions to daily commutes.',
-    features: ['Ventilated Shoe Pocket','Water-Resistant Base','Detachable Strap','Multiple Pockets'],
-    moq: 'MOQ: 500 pcs', sizes: ['Medium','Large'], relatedColors: [{name:'Navy',hex:'#10183a',id:9},{name:'Black',hex:'#1a1a1a',id:9}]
+    id: 12, 
+    name: 'APLUS Soft Trolley 28', 
+    category: 'Soft Luggage', 
+    badge: 'new', 
+    color: 'Blue', 
+    colorHex: '#10183a',
+    images: [
+      'assets/images/products/sl-blue-front.png',
+      // 'assets/images/products/sl-blue-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['20" Cabin','24" Medium','28" Large'], 
+    relatedColors: [
+      {name:'Blue',hex:'#10183a',id:12},
+      {name:'Brown',hex:'#A52A2A',id:13},
+      {name:'Red',hex:'#e02a2a',id:14},
+    ]
   },
   {
-    id: 13, name: 'APLUS Soft Trolley 28"', category: 'Soft Luggage', badge: '', color: 'Navy', colorHex: '#10183a',
-    images: [], desc: 'Durable soft-sided luggage with expandable compartments, water-resistant fabric, smooth-rolling spinner wheels. Reinforced handles and premium YKK zippers.',
-    features: ['Water-Resistant Fabric','Expandable Compartments','Reinforced Handles','Premium Zippers'],
-    moq: 'MOQ: 500 pcs', sizes: ['20" Cabin','24" Medium','28" Large'], relatedColors: [{name:'Navy',hex:'#10183a',id:10},{name:'Grey',hex:'#888',id:10}]
+    id: 13, 
+    name: 'APLUS Soft Trolley 28', 
+    category: 'Soft Luggage', 
+    badge: 'new', 
+    color: 'Brown', 
+    colorHex: '#A52A2A',
+    images: [
+      'assets/images/products/sl-brown-front.png',
+      // 'assets/images/products/sl-brown-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['20" Cabin','24" Medium','28" Large'], 
+    relatedColors: [
+      {name:'Blue',hex:'#10183a',id:12},
+      {name:'Brown',hex:'#A52A2A',id:13},
+      {name:'Red',hex:'#e02a2a',id:14},
+    ]
+  },
+  {
+    id: 14, 
+    name: 'APLUS Soft Trolley 28', 
+    category: 'Soft Luggage', 
+    badge: 'new', 
+    color: 'Red', 
+    colorHex: '#e02a2a',
+    images: [
+      'assets/images/products/sl-red-front.png',
+      // 'assets/images/products/sl-red-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['20" Cabin','24" Medium','28" Large'], 
+    relatedColors: [
+      {name:'Blue',hex:'#10183a',id:12},
+      {name:'Brown',hex:'#A52A2A',id:13},
+      {name:'Red',hex:'#e02a2a',id:14},
+    ]
+  },
+  {
+    id: 15, 
+    name: 'Spinnerz Cabin Luggage', 
+    category: 'Cabin Luggage', 
+    badge: 'new', 
+    color: 'Light Grey', 
+    colorHex: '#D3D3D3',
+    images: [
+      'assets/images/products/cl-light_grey-front.png',
+      // 'assets/images/products/sl-red-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Light Grey',hex:'#D3D3D3',id:15},
+      {name:'Ice Grey',hex:'#E8F1F2',id:16},
+    ]
+  },
+  {
+    id: 16, 
+    name: 'Spinnerz Cabin Luggage', 
+    category: 'Cabin Luggage', 
+    badge: 'new', 
+    color: 'Ice Grey', 
+    colorHex: '#E8F1F2',
+    images: [
+      'assets/images/products/cl-ice_grey-front.png',
+      // 'assets/images/products/sl-red-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Light Grey',hex:'#D3D3D3',id:15},
+      {name:'Ice Grey',hex:'#E8F1F2',id:16},
+    ]
+  },
+  {
+    id: 17, 
+    name: 'Spinnerz Backpack', 
+    category: 'Backpack', 
+    badge: 'new', 
+    color: 'Blue', 
+    colorHex: '#1E3A5F',
+    images: [
+      'assets/images/products/bp-blue-front.png',
+      // 'assets/images/products/sl-red-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Blue',hex:'#1E3A5F',id:17},
+      {name:'Grey',hex:'#6B7280',id:18},
+      {name:'Silver',hex:'#D1D5DB',id:19},
+    ]
+  },
+  {
+    id: 18, 
+    name: 'Spinnerz Backpack', 
+    category: 'Backpack', 
+    badge: 'new', 
+    color: 'Grey', 
+    colorHex: '#6B7280',
+    images: [
+      'assets/images/products/bp-grey-front.png',
+      // 'assets/images/products/sl-red-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Blue',hex:'#1E3A5F',id:17},
+      {name:'Grey',hex:'#6B7280',id:18},
+      {name:'Silver',hex:'#D1D5DB',id:19},
+    ]
+  },
+  {
+    id: 19, 
+    name: 'Spinnerz Backpack', 
+    category: 'Backpack', 
+    badge: 'new', 
+    color: 'Silver', 
+    colorHex: '#D1D5DB',
+    images: [
+      'assets/images/products/bp-silver-front.png',
+      // 'assets/images/products/sl-red-side.jpeg'
+    ], 
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    moq: 'MOQ: 500 pcs', 
+    sizes: ['One Size'], 
+    relatedColors: [
+      {name:'Blue',hex:'#1E3A5F',id:17},
+      {name:'Grey',hex:'#6B7280',id:18},
+      {name:'Silver',hex:'#D1D5DB',id:19},
+    ]
   },
 ];
 
