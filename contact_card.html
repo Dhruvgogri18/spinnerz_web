@@ -356,33 +356,60 @@ body {
  
 <script>
 function saveContact() {
-  var vcard =
-    "BEGIN:VCARD\r\n" +
-    "VERSION:3.0\r\n" +
-    "FN:Hemal Gogri\r\n" +
-    "N:Gogri;Hemal;;;\r\n" +
-    "ORG:Spinnerz Globe Pvt. Ltd.\r\n" +
-    "TITLE:Director\r\n" +
-    "TEL;TYPE=CELL,VOICE:+919892211065\r\n" +
-    "URL:https://spinnerz.co.in/\r\n" +
-    "NOTE:Dream. Explore. Discover.\r\n" +
-    "END:VCARD";
- 
   var ua = navigator.userAgent || "";
-  var blob = new Blob([vcard], { type: "text/vcard" });
-  var url  = URL.createObjectURL(blob);
-  var a    = document.createElement("a");
-  a.href   = url;
-  a.download = "Hemal_Gogri.vcf";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
- 
-  if (/Android/.test(ua)) {
-    setTimeout(function(){
-      window.location.href = "data:text/x-vcard;charset=utf-8," + encodeURIComponent(vcard);
-    }, 300);
+  var isAndroid = /Android/i.test(ua);
+
+  if (isAndroid) {
+    // ── ANDROID INTENT METHOD ───────────────────────────────────────
+    // Instead of downloading a file, this opens the native Android 
+    // contact sheet immediately, matching the iOS behavior perfectly.
+    
+    var name = encodeURIComponent("Hemal Gogri");
+    var phone = encodeURIComponent("+919892211065");
+    var company = encodeURIComponent("Spinnerz Globe Pvt. Ltd.");
+    var title = encodeURIComponent("Director");
+    // Note: Android standard intents don't accept a separate URL field reliably,
+    // so we cleanly append the website inside the notes parameter.
+    var notes = encodeURIComponent("Dream. Explore. Discover.\nWebsite: https://spinnerz.co.in/");
+
+    var intentUrl = "intent:#Intent;" +
+                    "action=android.intent.action.INSERT;" +
+                    "type=vnd.android.cursor.dir/contact;" +
+                    "S.name=" + name + ";" +
+                    "S.phone=" + phone + ";" +
+                    "S.company=" + company + ";" +
+                    "S.job_title=" + title + ";" +
+                    "S.notes=" + notes + ";" +
+                    "end";
+
+    window.location.href = intentUrl;
+  } else {
+    // ── IOS & DESKTOP METHOD ────────────────────────────────────────
+    // Keeps your original working Blob download code which natively 
+    // triggers the contact system panel on Apple devices.
+    
+    var vcard =
+      "BEGIN:VCARD\r\n" +
+      "VERSION:3.0\r\n" +
+      "FN:Hemal Gogri\r\n" +
+      "N:Gogri;Hemal;;;\r\n" +
+      "ORG:Spinnerz Globe Pvt. Ltd.\r\n" +
+      "TITLE:Director\r\n" +
+      "TEL;TYPE=CELL,VOICE:+919892211065\r\n" +
+      "URL:https://spinnerz.co.in/\r\n" +
+      "NOTE:Dream. Explore. Discover.\r\n" +
+      "END:VCARD";
+   
+    var blob = new Blob([vcard], { type: "text/vcard" });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement("a");
+    a.href   = url;
+    a.download = "Hemal_Gogri.vcf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
   }
 }
 </script>
