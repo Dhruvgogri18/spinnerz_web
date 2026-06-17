@@ -8,6 +8,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/store.css">
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('fuoResy-qnQHr-KzV');</script>
+
   <style>
     .contact-page-hero {
       background: var(--navy);
@@ -87,6 +92,16 @@
       border: none;
       display: block;
     }
+    .cf-field-error {
+      font-size: 11px;
+      color: #e55;
+      margin-top: 4px;
+      display: none;
+    }
+    #sendBtn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -164,7 +179,7 @@
   <!-- LEFT: Info + Map -->
   <div class="contact-info-card reveal">
     <div class="contact-label-tag">CONTACT US</div>
-    <h2>Contact us &amp; <em>let's collaborate!</em></h2>
+    <h2>Contact us &amp; let's collaborate!</h2>
     <p>To get tailored OEM and white-label manufacturing solutions. Contact us today!</p>
     <div class="contact-details">
       <div class="contact-row">
@@ -178,7 +193,7 @@
         <span class="contact-icon"><svg style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg></span>
         <div>
           <div class="contact-label">Website</div>
-          <a href="https://www.spinnerz.co.in" target="_blank" class="contact-val">www.spinnerz.co.in</a>
+          <a href="https://spinnerz.co.in" target="_blank" class="contact-val">spinnerz.co.in</a>
         </div>
       </div>
       <div class="contact-row">
@@ -188,19 +203,6 @@
           <a href="mailto:info@spinnerz.co.in" class="contact-val">info@spinnerz.co.in</a>
         </div>
       </div>
-      <div class="contact-row">
-        <span class="contact-icon">📍</span>
-        <div>
-          <div class="contact-label">Address</div>
-          <div class="contact-val" style="font-size:13px;line-height:1.6;">Industrial Estate, Plot No. 298/3,<br>GIDC Rd, GIDC Umbergaon,<br>Umargam, Umbergaon INA,<br>Gujarat 396171</div>
-        </div>
-      </div>
-    </div>
-    <div class="map-embed">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.234!2d72.7513!3d20.2012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be0d0c3b3b3b3b3%3A0x1!2sTremont+Luggage+Manufacturing+Pvt+Ltd%2C+GIDC+Umbergaon!5e0!3m2!1sen!2sin!4v1680000000000"
-        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
     </div>
   </div>
 
@@ -208,16 +210,59 @@
   <div class="contact-form-card reveal reveal-d2">
     <h3 style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px;">Send an Enquiry</h3>
     <p style="font-size:13px;color:var(--ink-light);margin-bottom:24px;">We'll get back within 24 hours.</p>
-    <div class="cf-field"><label>Company Name</label><input type="text" placeholder="Your company name"></div>
-    <div class="cf-field"><label>Product Interest</label>
-      <select><option value="">Select product category</option><option>Hard Luggage</option><option>Soft Luggage</option><option>Trolley Bags</option><option>Laptop Backpacks</option><option>Office & Sling Bags</option><option>Gym & Lifestyle</option><option>Vanity Cases</option><option>Multiple Categories</option></select>
+
+    <div class="cf-field">
+      <label>Company Name</label>
+      <input type="text" id="companyName" placeholder="Your company name">
+      <div class="cf-field-error" id="err-company">Please enter your company name.</div>
     </div>
+
+    <div class="cf-field">
+      <label>Product Interest</label>
+      <select id="productInterest">
+        <option value="">Select product category</option>
+        <option>Hard Luggage</option>
+        <option>Soft Luggage</option>
+        <option>Trolley Bags</option>
+        <option>Laptop Backpacks</option>
+        <option>Office &amp; Sling Bags</option>
+        <option>Gym &amp; Lifestyle</option>
+        <option>Vanity Cases</option>
+        <option>Multiple Categories</option>
+      </select>
+      <div class="cf-field-error" id="err-product">Please select a product category.</div>
+    </div>
+
     <div class="cf-2">
-      <div class="cf-field"><label>Quantity Required</label><input type="text" placeholder="e.g. 1000 pcs"></div>
-      <div class="cf-field"><label>Phone / WhatsApp</label><input type="text" placeholder="+91-XXXXXXXXXX"></div>
+      <div class="cf-field">
+        <label>Quantity Required</label>
+        <input type="text" id="quantity" placeholder="e.g. 1000 pcs">
+      </div>
+      <div class="cf-field">
+        <label>Phone / WhatsApp</label>
+        <input type="text" id="phone" placeholder="+91-XXXXXXXXXX">
+        <div class="cf-field-error" id="err-phone">Please enter your phone number.</div>
+      </div>
     </div>
-    <div class="cf-field"><label>Message</label><textarea placeholder="Tell us about your requirement, timeline, customisation needs..."></textarea></div>
-    <a href="https://wa.me/919892211065" target="_blank" class="btn-red" style="display:block;text-align:center;margin-top:8px;">Send via WhatsApp →</a>
+
+    <div class="cf-field">
+      <label>Message</label>
+      <textarea id="message" placeholder="Tell us about your requirement, timeline, customisation needs..."></textarea>
+    </div>
+
+    <div style="margin-top:20px;">
+      <button id="sendBtn" onclick="sendMessage()"
+        style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px 24px;background:var(--red,#b81c2e);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .2s;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Send Message
+      </button>
+      <div id="successBanner" style="display:none;background:#f0fff4;border:1.5px solid #25D366;border-radius:8px;padding:12px 16px;font-size:13px;color:#1a6b3a;margin-top:12px;text-align:center;">
+        ✅ Enquiry sent! We'll get back to you within 24 hours.
+      </div>
+      <div id="errorBanner" style="display:none;background:#fff0f0;border:1.5px solid #e55;border-radius:8px;padding:12px 16px;font-size:13px;color:#c00;margin-top:12px;text-align:center;">
+        ❌ Something went wrong. Please WhatsApp us directly: <a href="https://wa.me/919892211065">+91-9892211065</a>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -274,7 +319,7 @@
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 Spinnerz Globe Pvt. Ltd. All rights reserved.</div>
     <div class="footer-socials">
-            <a href="https://twitter.com/spinnerzglobe" target="_blank" class="soc-btn" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231ZM17.083 19.77h1.833L7.084 4.126H5.117Z"/></svg></a>
+      <a href="https://twitter.com/spinnerzglobe" target="_blank" class="soc-btn" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231ZM17.083 19.77h1.833L7.084 4.126H5.117Z"/></svg></a>
       <a href="https://linkedin.com/company/spinnerzglobe" target="_blank" class="soc-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM3.55 20.45h3.57V9H3.55v11.45Z"/></svg></a>
       <a href="https://youtube.com/@spinnerzglobe" target="_blank" class="soc-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M22 12s0-3.2-.41-4.7c-.23-.84-.9-1.5-1.74-1.73C18.36 5.16 12 5.16 12 5.16s-6.36 0-7.85.41a2.36 2.36 0 0 0-1.74 1.73C2 8.8 2 12 2 12s0 3.2.41 4.7c.23.84.9 1.5 1.74 1.73 1.49.41 7.85.41 7.85.41s6.36 0 7.85-.41a2.36 2.36 0 0 0 1.74-1.73C22 15.2 22 12 22 12Zm-12 2.7V9.3l5 2.7-5 2.7Z"/></svg></a>
       <a href="https://instagram.com/spinnerzglobe" target="_blank" class="soc-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
@@ -290,6 +335,7 @@
 <script src="assets/js/data.js"></script>
 <script src="assets/js/store.js"></script>
 <script>
+/* ── Mobile menu ── */
 function openMobMenu() {
   document.getElementById('mobPanel').classList.add('open');
   document.getElementById('mobOverlay').classList.add('open');
@@ -301,6 +347,85 @@ function closeMobMenu() {
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobMenu(); });
+
+/* ── Contact Form ── */
+
+// ✅ STEP 1: Paste your Google Apps Script URL below after deploying
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyWHbJZKMZOsQtUvukKfNPke8tcP4W51xm2Jwaembdn1AM0P-gspDaSfg9CjECKZ29QQw/exec';
+
+// Pre-filled — do not change these
+const EMAILJS_SERVICE  = 'service_pjb97yr';
+const EMAILJS_TEMPLATE = 'template_a7ax1xn';
+
+function getEnquiryFields() {
+  return {
+    company:  document.getElementById('companyName').value.trim(),
+    product:  document.getElementById('productInterest').value,
+    quantity: document.getElementById('quantity').value.trim(),
+    phone:    document.getElementById('phone').value.trim(),
+    message:  document.getElementById('message').value.trim(),
+  };
+}
+
+function validateEnquiry(f) {
+  let valid = true;
+  const setErr = (inputId, errId, show) => {
+    document.getElementById(inputId).style.borderColor = show ? '#e55' : '';
+    document.getElementById(errId).style.display = show ? 'block' : 'none';
+    if (show) valid = false;
+  };
+  setErr('companyName',     'err-company', !f.company);
+  setErr('productInterest', 'err-product', !f.product);
+  setErr('phone',           'err-phone',   !f.phone);
+  return valid;
+}
+
+async function sendMessage() {
+  const f = getEnquiryFields();
+  if (!validateEnquiry(f)) return;
+
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    // 1. Send email automatically via EmailJS
+    await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+      company_name:     f.company,
+      product_interest: f.product,
+      quantity:         f.quantity || '—',
+      phone:            f.phone,
+      message:          f.message || '—',
+      time:             new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+    });
+
+    // 2. Save to Google Sheets (also triggers WhatsApp later when you add it)
+    if (SHEET_URL !== 'YOUR_APPS_SCRIPT_URL_HERE') {
+      fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(f),
+      });
+    }
+
+    // Success — show banner and clear form
+    document.getElementById('successBanner').style.display = 'block';
+    document.getElementById('errorBanner').style.display = 'none';
+    ['companyName', 'quantity', 'phone', 'message'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('productInterest').value = '';
+
+  } catch (err) {
+    console.error('Send failed:', err);
+    document.getElementById('errorBanner').style.display = 'block';
+    document.getElementById('successBanner').style.display = 'none';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+  }
+}
 </script>
 </body>
 </html>
