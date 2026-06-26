@@ -437,7 +437,12 @@ function getProducts() {
   } catch(e) {}
   return DEFAULT_PRODUCTS.map(p => normalizeSizes({...p}));
 }
-function saveProducts(products) { try { localStorage.setItem(KEYS.products, JSON.stringify(products)); } catch(e) {} }
+function saveProducts(products) {
+  try { localStorage.setItem(KEYS.products, JSON.stringify(products)); } catch(e) {}
+  // Show reminder to export
+  const b = document.getElementById('exportReminder');
+  if (b) b.style.display = 'flex';
+}
 function resetProducts()        { try { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); } catch(e) {} }
 
 // ── CART HELPERS ──────────────────────────────────────────────
