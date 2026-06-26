@@ -8,7 +8,7 @@
    ============================================================ */
 
 const SUPABASE_URL  = 'https://ynxojaashknlarqnflyx.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtb2plbnd3dmN6YXZnc2lkb3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0Mzk3MjIsImV4cCI6MjA5ODAxNTcyMn0.UQ9LYInd-2qvXOn3TpuqDUuB_25T5xntjkn9s4l70W4';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlueG9qYWFzaGtubGFycW5mbHl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0NTY3MjAsImV4cCI6MjA5ODAzMjcyMH0.11DMUrP3KSF8-Glmb5rnZQtKciY1Ux8dG1AHLf9Fzps';
 
 /* ── Low-level fetch wrapper ───────────────────────────────── */
 async function sbFetch(path, options = {}) {
