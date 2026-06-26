@@ -1,11 +1,10 @@
 /* ============================================================
    SPINNERZ — Admin JS  (admin/js/admin.js)
-   Depends on: assets/js/data.js  (loaded first in admin.html)
+   Depends on: assets/js/supabase-config.js + assets/js/data.js
    ============================================================ */
 
 const SESSION_KEY = 'sz_admin_session';
 
-// ── IMAGE GROUP DETECTION ─────────────────────────────────────
 const _STOP = new Set(['front','back','side','angle','detail','open','top','bottom',
   'blue','red','green','yellow','black','white','grey','gray','silver','gold','pink',
   'purple','brown','navy','khaki','teal','rose','lime','bright','graphite','peacock','ice','light']);
@@ -23,14 +22,14 @@ function groupFromImage(src) {
 // ── AUTH ──────────────────────────────────────────────────────
 function isLoggedIn() { return sessionStorage.getItem(SESSION_KEY) === 'true'; }
 
-function attemptLogin() {
+async function attemptLogin() {
   const input = document.getElementById('passwordInput').value;
   const error = document.getElementById('loginError');
   if (input === getAdminPw()) {
     sessionStorage.setItem(SESSION_KEY, 'true');
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('adminApp').classList.add('visible');
-    initAdmin();
+    await initAdmin();
   } else {
     error.classList.add('show');
     document.getElementById('passwordInput').value = '';
@@ -47,7 +46,11 @@ function logout() {
 }
 
 // ── INIT ──────────────────────────────────────────────────────
-function initAdmin() { renderDashboard(); renderProductsTable(); populateColorGroupLists(); }
+async function initAdmin() {
+  showToast('Loading products…', '');
+  await getProductsAsync();
+  renderDashboard(); renderProductsTable(); populateColorGroupLists();
+}
 
 function populateColorGroupLists() {
   const products = getProducts();
@@ -58,11 +61,11 @@ function populateColorGroupLists() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   if (isLoggedIn()) {
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('adminApp').classList.add('visible');
-    initAdmin();
+    await initAdmin();
   }
   document.getElementById('passwordInput')
     .addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
@@ -84,7 +87,6 @@ function showSec(id, el) {
 }
 
 // ── HELPERS ───────────────────────────────────────────────────
-// Returns a safe src: base64 data URLs used as-is; relative paths get ../ prefix
 function imgSrc(src, prefix = '../') {
   if (!src) return '';
   return src.startsWith('data:') ? src : prefix + src;
@@ -143,7 +145,7 @@ function renderProductsTable() {
         <td data-label="Stock"><span class="badge ${stockBadgeClass(p.stock)}">${p.stock}</span></td>
         <td><div class="actions">
           <button class="btn btn-outline btn-sm" onclick="openEditModal(${p.id})">Edit</button>
-          <button class="btn btn-danger btn-sm"  onclick="deleteProduct(${p.id})">Delete</button>
+          <button class="btn btn-danger btn-sm"  onclick="confirmDelete(${p.id})">Delete</button>
         </div></td>
       </tr>`).join('')}
     </tbody>`;
@@ -152,11 +154,8 @@ function renderProductsTable() {
 function searchProducts(q) { searchQuery = q.toLowerCase(); renderProductsTable(); }
 
 // ── IMAGE PREVIEW WITH REMOVE ─────────────────────────────────
-// pendingImages: array of base64 strings for add-product form
 let pendingImages = [];
-
-// editImages: array of base64 strings for edit modal (starts populated from existing)
-let editImages = [];
+let editImages    = [];
 
 function renderImagePreview(containerId, images, onRemove) {
   const container = document.getElementById(containerId);
@@ -177,7 +176,6 @@ function removeEditImage(i) {
   renderImagePreview('editImagesPreview', editImages, 'removeEditImage');
 }
 
-// Called by file input change (replaces old handleImageSelect)
 async function handleImageSelect(inputId, previewId) {
   const input = document.getElementById(inputId);
   const newFiles = await readFilesAsBase64(input);
@@ -188,14 +186,12 @@ async function handleImageSelect(inputId, previewId) {
     editImages = editImages.concat(newFiles);
     renderImagePreview(previewId, editImages, 'removeEditImage');
   }
-  // Auto-fill colour group from first image filename
   const groupInputId = inputId === 'pImages' ? 'pColorGroup' : 'editColorGroup';
   const groupEl = document.getElementById(groupInputId);
   if (groupEl && !groupEl.value && input.files[0]) {
     const g = groupFromImage(input.files[0].name);
     if (g) groupEl.value = g;
   }
-  // Reset input so same file can be re-added if needed
   input.value = '';
 }
 
@@ -212,75 +208,85 @@ function selectEmoji(em, el) {
 async function addProduct() {
   const name      = document.getElementById('pName').value.trim();
   const category  = document.getElementById('pCategory').value;
-  const price     = Number(document.getElementById('pPrice').value) || null;
-  const origPrice = Number(document.getElementById('pOrigPrice').value) || null;
-  const badge     = document.getElementById('pBadge').value;
-  const stock     = document.getElementById('pStock').value;
-  const desc      = document.getElementById('pDesc').value.trim();
-  const moq       = document.getElementById('pMoq').value.trim() || 'MOQ: 500 pcs';
-  const sizes      = document.getElementById('pSizes').value.trim();
-  const colorGroup = document.getElementById('pColorGroup').value.trim();
-  const colorHex   = document.getElementById('pColorHex').value.trim() || '';
-  const colorName  = document.getElementById('pColor') ? document.getElementById('pColor').value.trim() : '';
-  const features  = document.getElementById('pFeatures').value
-    .split('\n').map(f => f.trim()).filter(Boolean);
-
   if (!name || !category) { showToast('⚠️ Name and category are required', 'danger'); return; }
 
   const products = getProducts();
-  products.push({ id: Date.now(), name, category, price, origPrice, badge, emoji: selectedEmoji, stock, desc, moq, sizes, colorGroup, colorHex, images: pendingImages, features });
-  saveProducts(products);
-  showToast('✓ Product published — live on store', 'success');
-  resetForm();
-  showSec('products', document.querySelectorAll('.nav-item')[1]);
+  products.push({
+    id:         Date.now(),
+    name,       category,
+    price:      Number(document.getElementById('pPrice').value) || null,
+    origPrice:  Number(document.getElementById('pOrigPrice').value) || null,
+    badge:      document.getElementById('pBadge').value,
+    emoji:      selectedEmoji,
+    stock:      document.getElementById('pStock').value,
+    desc:       document.getElementById('pDesc').value.trim(),
+    moq:        document.getElementById('pMoq').value.trim() || 'MOQ: 500 pcs',
+    sizes:      document.getElementById('pSizes').value.trim(),
+    colorGroup: document.getElementById('pColorGroup').value.trim(),
+    colorHex:   document.getElementById('pColorHex').value.trim() || '',
+    images:     pendingImages,
+    features:   document.getElementById('pFeatures').value.split('\n').map(f => f.trim()).filter(Boolean),
+  });
+
+  try {
+    await saveProducts(products);
+    showToast('✓ Product published — live on store', 'success');
+    resetForm();
+    showSec('products', document.querySelectorAll('.nav-item')[1]);
+  } catch(e) {
+    showToast('⚠️ Save failed: ' + e.message, 'danger');
+  }
 }
 
 function resetForm() {
   ['pName','pPrice','pOrigPrice','pDesc','pFeatures'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
-  document.getElementById('pCategory').value = '';
-  document.getElementById('pBadge').value    = '';
-  document.getElementById('pStock').value    = 'In Stock';
-  document.getElementById('pMoq').value      = '';
-  document.getElementById('pSizes').value       = '';
-  document.getElementById('pColorGroup').value  = '';
-  document.getElementById('pColorHex').value    = '';
-  document.getElementById('pColorPicker').value = '#1a1a1a';
+  document.getElementById('pCategory').value    = '';
+  document.getElementById('pBadge').value        = '';
+  document.getElementById('pStock').value        = 'In Stock';
+  document.getElementById('pMoq').value          = '';
+  document.getElementById('pSizes').value        = '';
+  document.getElementById('pColorGroup').value   = '';
+  document.getElementById('pColorHex').value     = '';
+  document.getElementById('pColorPicker').value  = '#1a1a1a';
   pendingImages = [];
   document.getElementById('pImagesPreview').innerHTML = '';
   selectEmoji('🧳', document.querySelector('.emoji-opt'));
 }
 
 // ── DELETE PRODUCT ────────────────────────────────────────────
-function deleteProduct(id) {
+async function confirmDelete(id) {
   if (!confirm('Delete this product? It will be removed from the store immediately.')) return;
-  saveProducts(getProducts().filter(p => p.id !== id));
-  renderProductsTable(); renderDashboard();
-  showToast('Product deleted', 'danger');
+  try {
+    await deleteProduct(id);
+    renderProductsTable(); renderDashboard();
+    showToast('Product deleted', 'danger');
+  } catch(e) {
+    showToast('⚠️ Delete failed: ' + e.message, 'danger');
+  }
 }
 
 // ── EDIT MODAL ────────────────────────────────────────────────
 function openEditModal(id) {
   const p = getProducts().find(x => x.id === id);
   if (!p) return;
-  document.getElementById('editId').value        = p.id;
-  document.getElementById('editName').value      = p.name;
-  document.getElementById('editCategory').value  = p.category;
-  document.getElementById('editPrice').value     = p.price || '';
-  document.getElementById('editOrigPrice').value = p.origPrice || '';
-  document.getElementById('editBadge').value     = p.badge || '';
-  document.getElementById('editStock').value     = p.stock;
-  document.getElementById('editDesc').value      = p.desc || '';
-  document.getElementById('editMoq').value       = p.moq || '';
+  document.getElementById('editId').value         = p.id;
+  document.getElementById('editName').value       = p.name;
+  document.getElementById('editCategory').value   = p.category;
+  document.getElementById('editPrice').value      = p.price || '';
+  document.getElementById('editOrigPrice').value  = p.origPrice || '';
+  document.getElementById('editBadge').value      = p.badge || '';
+  document.getElementById('editStock').value      = p.stock;
+  document.getElementById('editDesc').value       = p.desc || '';
+  document.getElementById('editMoq').value        = p.moq || '';
   document.getElementById('editSizes').value      = Array.isArray(p.sizes) ? p.sizes.join(', ') : (p.sizes || '');
   document.getElementById('editColorGroup').value = p.colorGroup || '';
   document.getElementById('editColorHex').value   = p.colorHex || '';
   const ehex = p.colorHex || '#1a1a1a';
   document.getElementById('editColorPicker').value = ehex.match(/^#[0-9a-fA-F]{6}$/) ? ehex : '#1a1a1a';
-  document.getElementById('editFeatures').value  = (p.features || []).join('\n');
+  document.getElementById('editFeatures').value   = (p.features || []).join('\n');
 
-  // Populate editImages from existing product (base64 or paths — normalise to usable src)
   editImages = (p.images || []).map(src => src.startsWith('data:') ? src : '../' + src);
   renderImagePreview('editImagesPreview', editImages, 'removeEditImage');
 
@@ -294,31 +300,34 @@ async function saveEdit() {
   if (!name) { showToast('⚠️ Name is required', 'danger'); return; }
 
   const products = getProducts();
-  const idx      = products.findIndex(p => p.id === id);
+  const idx = products.findIndex(p => p.id === id);
   if (idx === -1) return;
 
-  // editImages already contains the final set (existing kept + new added - removed ones)
   products[idx] = {
     ...products[idx],
     name,
-    category:  document.getElementById('editCategory').value,
-    price:     Number(document.getElementById('editPrice').value) || null,
-    origPrice: Number(document.getElementById('editOrigPrice').value) || null,
-    badge:     document.getElementById('editBadge').value,
-    stock:     document.getElementById('editStock').value,
-    desc:      document.getElementById('editDesc').value.trim(),
-    moq:       document.getElementById('editMoq').value.trim() || 'MOQ: 500 pcs',
-    sizes:     document.getElementById('editSizes').value.trim(),
-    features:  document.getElementById('editFeatures').value.split('\n').map(f => f.trim()).filter(Boolean),
-    images:    editImages,
+    category:   document.getElementById('editCategory').value,
+    price:      Number(document.getElementById('editPrice').value) || null,
+    origPrice:  Number(document.getElementById('editOrigPrice').value) || null,
+    badge:      document.getElementById('editBadge').value,
+    stock:      document.getElementById('editStock').value,
+    desc:       document.getElementById('editDesc').value.trim(),
+    moq:        document.getElementById('editMoq').value.trim() || 'MOQ: 500 pcs',
+    sizes:      document.getElementById('editSizes').value.trim(),
+    features:   document.getElementById('editFeatures').value.split('\n').map(f => f.trim()).filter(Boolean),
+    images:     editImages,
     colorGroup: document.getElementById('editColorGroup').value.trim(),
     colorHex:   document.getElementById('editColorHex').value.trim(),
   };
 
-  saveProducts(products);
-  renderProductsTable(); renderDashboard();
-  closeEditModal();
-  showToast('✓ Product updated — live on store', 'success');
+  try {
+    await saveProducts(products);
+    renderProductsTable(); renderDashboard();
+    closeEditModal();
+    showToast('✓ Product updated — live on store', 'success');
+  } catch(e) {
+    showToast('⚠️ Save failed: ' + e.message, 'danger');
+  }
 }
 
 function closeEditModal() {
@@ -339,10 +348,15 @@ function changePassword() {
   showToast('✓ Password updated', 'success');
 }
 
-function confirmReset() {
+async function confirmReset() {
   if (!confirm('Reset all products to default catalogue? This cannot be undone.')) return;
-  resetProducts(); renderProductsTable(); renderDashboard();
-  showToast('✓ Product data reset to defaults', 'success');
+  try {
+    await resetProducts();
+    renderProductsTable(); renderDashboard();
+    showToast('✓ Product data reset to defaults', 'success');
+  } catch(e) {
+    showToast('⚠️ Reset failed: ' + e.message, 'danger');
+  }
 }
 
 // ── TOAST ─────────────────────────────────────────────────────
@@ -368,6 +382,7 @@ function readFilesAsBase64(input) {
     r.readAsDataURL(f);
   })));
 }
+
 // ── GROUP PREVIEW ─────────────────────────────────────────────
 function previewGroup(groupName, panelId) {
   const panel = document.getElementById(panelId);
@@ -402,65 +417,3 @@ function previewGroup(groupName, panelId) {
 // ── MOBILE SIDEBAR ─────────────────────────────────────────────
 function openMobSidebar()  { document.getElementById('sidebar').classList.add('open'); document.getElementById('mobOverlay').classList.add('open'); }
 function closeMobSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobOverlay').classList.remove('open'); }
-
-// ── EXPORT DATA.JS ────────────────────────────────────────────
-function exportDataJs() {
-  const products = getProducts();
-  // Build the full data.js content with current products embedded as DEFAULT_PRODUCTS
-  const productsJson = JSON.stringify(products, null, 2);
-  const content = `/* ============================================================
-   SPINNERZ — Data Store  (assets/js/data.js)
-   Exported from Admin Panel on ${new Date().toLocaleDateString()}
-   Upload this file to your server to make product changes live.
-   ============================================================ */
-
-const DEFAULT_PRODUCTS = ${productsJson};
-
-// ── STORAGE KEYS ──────────────────────────────────────────────
-const KEYS = { products: 'sz_products', cart: 'sz_cart', adminPw: 'sz_admin_pw' };
-const DEFAULT_ADMIN_PW = 'spinnerz2025';
-
-// ── PRODUCT HELPERS ───────────────────────────────────────────
-function normalizeSizes(p) {
-  if (typeof p.sizes === 'string') {
-    p.sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
-  } else if (!Array.isArray(p.sizes)) {
-    p.sizes = [];
-  }
-  return p;
-}
-
-function getProducts() {
-  try {
-    const raw = localStorage.getItem(KEYS.products);
-    if (raw) return JSON.parse(raw).map(normalizeSizes);
-  } catch(e) {}
-  return DEFAULT_PRODUCTS.map(p => normalizeSizes({...p}));
-}
-function saveProducts(products) {
-  try { localStorage.setItem(KEYS.products, JSON.stringify(products)); } catch(e) {}
-  // Show reminder to export
-  const b = document.getElementById('exportReminder');
-  if (b) b.style.display = 'flex';
-}
-function resetProducts()        { try { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); } catch(e) {} }
-
-// ── CART HELPERS ──────────────────────────────────────────────
-function getCart()      { const r = localStorage.getItem(KEYS.cart); return r ? JSON.parse(r) : []; }
-function saveCart(cart) { localStorage.setItem(KEYS.cart, JSON.stringify(cart)); }
-
-// ── AUTH HELPERS ──────────────────────────────────────────────
-function getAdminPw()   { return localStorage.getItem(KEYS.adminPw) || DEFAULT_ADMIN_PW; }
-function setAdminPw(pw) { localStorage.setItem(KEYS.adminPw, pw); }
-`;
-
-  const blob = new Blob([content], { type: 'application/javascript' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'data.js';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  showToast('✓ data.js downloaded — upload to assets/js/ on your server', 'success');
-}

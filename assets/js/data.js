@@ -1,7 +1,6 @@
 /* ============================================================
    SPINNERZ — Data Store  (assets/js/data.js)
-   Real product catalogue migrated from products.html.
-   Admin panel reads/writes here. Products page reads here.
+   Backed by Supabase. Requires supabase-config.js loaded first.
    ============================================================ */
 
 const DEFAULT_PRODUCTS = [
@@ -42,8 +41,6 @@ const DEFAULT_PRODUCTS = [
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Teal Blue',hex:'#2bc4c4',id:1},{name:'Lime Yellow',hex:'#c8e02a',id:2},{name:'Scarlet Red',hex:'#e02a2a',id:3},{name:'Jet Black',hex:'#1a1a1a',id:4}]
   },
-
-  // ── HARD LUGGAGE — Set 2 (Navy/BrightYellow/Silver) ───────
   {
     id: 5, name: 'Spinnerz Trolley — Navy Blue', category: 'Hard Luggage', badge: '',
     color: 'Navy Blue', colorHex: '#000080', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
@@ -57,7 +54,7 @@ const DEFAULT_PRODUCTS = [
     id: 6, name: 'Spinnerz Trolley — Bright Yellow', category: 'Hard Luggage', badge: '',
     color: 'Bright Yellow', colorHex: '#FFEA00', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-1-yellow-front.png'],
-    desc: 'Elegant bright yellow polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant bright yellow polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Navy Blue',hex:'#000080',id:5},{name:'Bright Yellow',hex:'#FFEA00',id:6},{name:'Graphite Silver',hex:'#C0C0C0',id:7}]
@@ -66,18 +63,16 @@ const DEFAULT_PRODUCTS = [
     id: 7, name: 'Spinnerz Trolley — Graphite Silver', category: 'Hard Luggage', badge: '',
     color: 'Graphite Silver', colorHex: '#C0C0C0', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-1-silver-front.png'],
-    desc: 'Elegant graphite silver polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant graphite silver polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Navy Blue',hex:'#000080',id:5},{name:'Bright Yellow',hex:'#FFEA00',id:6},{name:'Graphite Silver',hex:'#C0C0C0',id:7}]
   },
-
-  // ── HARD LUGGAGE — Set 3 (GreyishBlue/Peacock/RoseGold) ───
   {
     id: 8, name: 'Spinnerz Trolley — Greyish Blue', category: 'Hard Luggage', badge: '',
     color: 'Greyish Blue', colorHex: '#5E819D', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-2-grey_blue-front.png'],
-    desc: 'Elegant greyish blue polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant greyish blue polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Greyish Blue',hex:'#5E819D',id:8},{name:'Peacock Blue',hex:'#0F2CB3',id:9},{name:'Rose Gold',hex:'#B76E79',id:10}]
@@ -86,7 +81,7 @@ const DEFAULT_PRODUCTS = [
     id: 9, name: 'Spinnerz Trolley — Peacock Blue', category: 'Hard Luggage', badge: '',
     color: 'Peacock Blue', colorHex: '#0F2CB3', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-2-peacock_blue-front.png'],
-    desc: 'Elegant peacock blue polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant peacock blue polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Greyish Blue',hex:'#5E819D',id:8},{name:'Peacock Blue',hex:'#0F2CB3',id:9},{name:'Rose Gold',hex:'#B76E79',id:10}]
@@ -95,18 +90,16 @@ const DEFAULT_PRODUCTS = [
     id: 10, name: 'Spinnerz Trolley — Rose Gold', category: 'Hard Luggage', badge: '',
     color: 'Rose Gold', colorHex: '#B76E79', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-2-rose_gold-front.png'],
-    desc: 'Elegant rose gold polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant rose gold polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Greyish Blue',hex:'#5E819D',id:8},{name:'Peacock Blue',hex:'#0F2CB3',id:9},{name:'Rose Gold',hex:'#B76E79',id:10}]
   },
-
-  // ── HARD LUGGAGE — Set 4 (Purple/Khaki/Navy) ──────────────
   {
     id: 11, name: 'Spinnerz Trolley — Purple', category: 'Hard Luggage', badge: '',
     color: 'Purple', colorHex: '#800080', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-3-purple-front.png'],
-    desc: 'Elegant purple polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant purple polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Purple',hex:'#800080',id:11},{name:'Khaki',hex:'#c3b091',id:12},{name:'Navy Blue',hex:'#000080',id:13}]
@@ -115,7 +108,7 @@ const DEFAULT_PRODUCTS = [
     id: 12, name: 'Spinnerz Trolley — Khaki', category: 'Hard Luggage', badge: '',
     color: 'Khaki', colorHex: '#c3b091', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-3-khaki-front.png'],
-    desc: 'Elegant khaki polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant khaki polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Purple',hex:'#800080',id:11},{name:'Khaki',hex:'#c3b091',id:12},{name:'Navy Blue',hex:'#000080',id:13}]
@@ -124,13 +117,11 @@ const DEFAULT_PRODUCTS = [
     id: 13, name: 'Spinnerz Trolley — Navy Blue (Set 4)', category: 'Hard Luggage', badge: '',
     color: 'Navy Blue', colorHex: '#000080', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/hl-3-navy_blue-front.png'],
-    desc: 'Elegant navy blue polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    desc: 'Elegant navy blue polypropylene hard shell trolley.',
     features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Purple',hex:'#800080',id:11},{name:'Khaki',hex:'#c3b091',id:12},{name:'Navy Blue',hex:'#000080',id:13}]
   },
-
-  // ── VANITY CASES ───────────────────────────────────────────
   {
     id: 14, name: 'Luxury Quilted Vanity Case — Pink', category: 'Vanity Cases', badge: 'new',
     color: 'Pink', colorHex: '#e8a0b4', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
@@ -144,7 +135,7 @@ const DEFAULT_PRODUCTS = [
     id: 15, name: 'Luxury Quilted Vanity Case — Black', category: 'Vanity Cases', badge: 'new',
     color: 'Black', colorHex: '#1a1a1a', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/vc-black-front.jpg'],
-    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays.',
     features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
     sizes: ['One Size'],
     relatedColors: [{name:'Pink',hex:'#e8a0b4',id:14},{name:'Black',hex:'#1a1a1a',id:15},{name:'Blue',hex:'#10183a',id:16},{name:'Yellow',hex:'#FFD700',id:17}]
@@ -153,7 +144,7 @@ const DEFAULT_PRODUCTS = [
     id: 16, name: 'Luxury Quilted Vanity Case — Blue', category: 'Vanity Cases', badge: 'new',
     color: 'Blue', colorHex: '#10183a', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/vc-blue-front.jpg'],
-    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays.',
     features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
     sizes: ['One Size'],
     relatedColors: [{name:'Pink',hex:'#e8a0b4',id:14},{name:'Black',hex:'#1a1a1a',id:15},{name:'Blue',hex:'#10183a',id:16},{name:'Yellow',hex:'#FFD700',id:17}]
@@ -162,18 +153,16 @@ const DEFAULT_PRODUCTS = [
     id: 17, name: 'Luxury Quilted Vanity Case — Yellow', category: 'Vanity Cases', badge: 'new',
     color: 'Yellow', colorHex: '#FFD700', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/vc-yellow-front.jpg','assets/images/products/vc-yellow-side.jpeg'],
-    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays.',
     features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
     sizes: ['One Size'],
     relatedColors: [{name:'Pink',hex:'#e8a0b4',id:14},{name:'Black',hex:'#1a1a1a',id:15},{name:'Blue',hex:'#10183a',id:16},{name:'Yellow',hex:'#FFD700',id:17}]
   },
-
-  // ── SOFT LUGGAGE ───────────────────────────────────────────
   {
     id: 18, name: 'Spinnerz Soft Trolley 28 — Blue', category: 'Soft Luggage', badge: 'new',
     color: 'Blue', colorHex: '#10183a', colorGroup: 'soft-trolley-28', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/sl-blue-front.png'],
-    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
+    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels.',
     features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Blue',hex:'#10183a',id:18},{name:'Brown',hex:'#A52A2A',id:19},{name:'Red',hex:'#e02a2a',id:20}]
@@ -182,7 +171,7 @@ const DEFAULT_PRODUCTS = [
     id: 19, name: 'Spinnerz Soft Trolley 28 — Brown', category: 'Soft Luggage', badge: 'new',
     color: 'Brown', colorHex: '#A52A2A', colorGroup: 'soft-trolley-28', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/sl-brown-front.png'],
-    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
+    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels.',
     features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Blue',hex:'#10183a',id:18},{name:'Brown',hex:'#A52A2A',id:19},{name:'Red',hex:'#e02a2a',id:20}]
@@ -191,13 +180,11 @@ const DEFAULT_PRODUCTS = [
     id: 20, name: 'Spinnerz Soft Trolley 28 — Red', category: 'Soft Luggage', badge: 'new',
     color: 'Red', colorHex: '#e02a2a', colorGroup: 'soft-trolley-28', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/sl-red-front.png'],
-    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
+    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels.',
     features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
     sizes: ['20" Cabin','24" Medium','28" Large'],
     relatedColors: [{name:'Blue',hex:'#10183a',id:18},{name:'Brown',hex:'#A52A2A',id:19},{name:'Red',hex:'#e02a2a',id:20}]
   },
-
-  // ── CABIN LUGGAGE ─────────────────────────────────────────
   {
     id: 21, name: 'Spinnerz Cabin Luggage — Light Grey', category: 'Cabin Luggage', badge: 'new',
     color: 'Light Grey', colorHex: '#D3D3D3', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
@@ -216,13 +203,11 @@ const DEFAULT_PRODUCTS = [
     sizes: ['One Size'],
     relatedColors: [{name:'Light Grey',hex:'#D3D3D3',id:21},{name:'Ice Grey',hex:'#E8F1F2',id:22}]
   },
-
-  // ── BACKPACKS ─────────────────────────────────────────────
   {
     id: 23, name: 'Spinnerz Backpack — Blue', category: 'Backpacks', badge: 'new',
     color: 'Blue', colorHex: '#1E3A5F', emoji: '🎒', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/bp-blue-front.png'],
-    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric. Ideal for corporate gifting and daily commutes.',
+    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric.',
     features: ['Padded Laptop Sleeve','Multiple Compartments','Ergonomic Straps','Durable Fabric'],
     sizes: ['One Size'],
     relatedColors: [{name:'Blue',hex:'#1E3A5F',id:23},{name:'Grey',hex:'#6B7280',id:24},{name:'Silver',hex:'#D1D5DB',id:25}]
@@ -231,7 +216,7 @@ const DEFAULT_PRODUCTS = [
     id: 24, name: 'Spinnerz Backpack — Grey', category: 'Backpacks', badge: 'new',
     color: 'Grey', colorHex: '#6B7280', emoji: '🎒', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/bp-grey-front.png'],
-    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric. Ideal for corporate gifting and daily commutes.',
+    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric.',
     features: ['Padded Laptop Sleeve','Multiple Compartments','Ergonomic Straps','Durable Fabric'],
     sizes: ['One Size'],
     relatedColors: [{name:'Blue',hex:'#1E3A5F',id:23},{name:'Grey',hex:'#6B7280',id:24},{name:'Silver',hex:'#D1D5DB',id:25}]
@@ -240,20 +225,18 @@ const DEFAULT_PRODUCTS = [
     id: 25, name: 'Spinnerz Backpack — Silver', category: 'Backpacks', badge: 'new',
     color: 'Silver', colorHex: '#D1D5DB', emoji: '🎒', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/bp-silver-front.png'],
-    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric. Ideal for corporate gifting and daily commutes.',
+    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric.',
     features: ['Padded Laptop Sleeve','Multiple Compartments','Ergonomic Straps','Durable Fabric'],
     sizes: ['One Size'],
     relatedColors: [{name:'Blue',hex:'#1E3A5F',id:23},{name:'Grey',hex:'#6B7280',id:24},{name:'Silver',hex:'#D1D5DB',id:25}]
   },
 ];
 
-// ── STORAGE KEYS ──────────────────────────────────────────────
-const KEYS = { products: 'sz_products', cart: 'sz_cart', adminPw: 'sz_admin_pw', version: 'sz_version' };
-const DATA_VERSION = '2.0'; // bump this whenever DEFAULT_PRODUCTS changes
+// ── STORAGE KEYS (for cart + auth — still localStorage) ───────
+const KEYS = { cart: 'sz_cart', adminPw: 'sz_admin_pw' };
 const DEFAULT_ADMIN_PW = 'spinnerz2025';
 
 // ── PRODUCT HELPERS ───────────────────────────────────────────
-// Normalize sizes: admin saves as comma-string, default catalogue uses arrays
 function normalizeSizes(p) {
   if (typeof p.sizes === 'string') {
     p.sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
@@ -263,7 +246,6 @@ function normalizeSizes(p) {
   return p;
 }
 
-// ── IMAGE-BASED GROUP DETECTION ──────────────────────────────
 const _IMG_STOP = new Set(['front','back','side','angle','detail','open','top','bottom',
   'blue','red','green','yellow','black','white','grey','gray','silver','gold','pink',
   'purple','brown','navy','khaki','teal','rose','lime','bright','graphite','peacock','ice','light']);
@@ -286,49 +268,96 @@ function autoColorGroup(p) {
   return img ? groupFromImage(img) : null;
 }
 
-function getProducts() {
+function prepareProduct(p) {
+  normalizeSizes(p);
+  p.colorGroup = autoColorGroup(p);
+  return p;
+}
+
+// ── IN-MEMORY CACHE ───────────────────────────────────────────
+// Products are fetched async; pages that need sync access use this cache.
+let _productsCache = null;
+
+// ── SUPABASE PRODUCT API ──────────────────────────────────────
+
+/**
+ * Fetch all products from Supabase.
+ * Falls back to DEFAULT_PRODUCTS if Supabase is unreachable.
+ * @returns {Promise<Array>}
+ */
+async function getProductsAsync() {
   try {
-    // Version check — wipe stale localStorage if data.js was updated
-    const storedVersion = localStorage.getItem(KEYS.version);
-    if (storedVersion !== DATA_VERSION) {
-      localStorage.removeItem(KEYS.products);
-      localStorage.setItem(KEYS.version, DATA_VERSION);
+    const rows = await sbFetch('/products?select=id,data&order=id.asc');
+    if (rows && rows.length > 0) {
+      _productsCache = rows.map(r => prepareProduct({ ...r.data, id: r.id }));
+      return _productsCache;
     }
-    const raw = localStorage.getItem(KEYS.products);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      return parsed.map(p => { normalizeSizes(p); p.colorGroup = autoColorGroup(p); return p; });
-    }
-  } catch(e) {}
-  return DEFAULT_PRODUCTS.map(p => { p = normalizeSizes({...p}); p.colorGroup = autoColorGroup(p); return p; });
+  } catch (e) {
+    console.warn('Supabase fetch failed, using defaults:', e.message);
+  }
+  // Fallback to defaults
+  _productsCache = DEFAULT_PRODUCTS.map(p => prepareProduct({ ...p }));
+  return _productsCache;
 }
 
-function saveProducts(products) {
-  try { localStorage.setItem(KEYS.products, JSON.stringify(products)); } catch(e) {}
+/**
+ * Synchronous accessor — returns cache if available, otherwise defaults.
+ * Pages should call getProductsAsync() on load and then use this.
+ */
+function getProducts() {
+  if (_productsCache) return _productsCache;
+  return DEFAULT_PRODUCTS.map(p => prepareProduct({ ...p }));
 }
 
-function resetProducts() {
-  try { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); } catch(e) {}
+/**
+ * Save all products to Supabase (admin use).
+ * Uses upsert so new and edited products both work.
+ * @param {Array} products
+ */
+async function saveProducts(products) {
+  const rows = products.map(p => ({ id: p.id, data: p }));
+  try {
+    await sbFetch('/products', {
+      method: 'POST',
+      headers: { 'Prefer': 'resolution=merge-duplicates' },
+      body: JSON.stringify(rows)
+    });
+    _productsCache = products.map(p => prepareProduct({ ...p }));
+  } catch (e) {
+    console.error('saveProducts failed:', e);
+    throw e;
+  }
 }
 
-// Export updated data.js for hosting (download-based persistence)
-function exportDataJs() {
-  const products = getProducts();
-  const blob = new Blob([
-    '/* SPINNERZ — data.js (exported from admin) */\n' +
-    '/* Replace assets/js/data.js on your server with this file */\n\n' +
-    window.__dataJsTemplate.replace('/*__PRODUCTS__*/', JSON.stringify(products, null, 2))
-  ], {type: 'application/javascript'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'data.js';
-  a.click();
+/**
+ * Delete a product by id from Supabase (admin use).
+ */
+async function deleteProduct(id) {
+  await sbFetch(`/products?id=eq.${id}`, { method: 'DELETE' });
+  if (_productsCache) _productsCache = _productsCache.filter(p => p.id !== id);
 }
 
-// ── CART HELPERS ──────────────────────────────────────────────
+/**
+ * Seed Supabase with DEFAULT_PRODUCTS (run once from browser console).
+ * Usage: await seedSupabase();
+ */
+async function seedSupabase() {
+  console.log('Seeding Supabase with', DEFAULT_PRODUCTS.length, 'products…');
+  await saveProducts(DEFAULT_PRODUCTS);
+  console.log('Done! Supabase is seeded.');
+}
+
+/**
+ * Reset products to defaults (overwrites Supabase data).
+ */
+async function resetProducts() {
+  await saveProducts(DEFAULT_PRODUCTS);
+}
+
+// ── CART HELPERS (localStorage — per-browser, intentional) ────
 function getCart()      { const r = localStorage.getItem(KEYS.cart); return r ? JSON.parse(r) : []; }
 function saveCart(cart) { localStorage.setItem(KEYS.cart, JSON.stringify(cart)); }
 
-// ── AUTH HELPERS ──────────────────────────────────────────────
+// ── AUTH HELPERS (localStorage) ───────────────────────────────
 function getAdminPw()   { return localStorage.getItem(KEYS.adminPw) || DEFAULT_ADMIN_PW; }
 function setAdminPw(pw) { localStorage.setItem(KEYS.adminPw, pw); }
