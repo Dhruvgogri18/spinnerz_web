@@ -1,230 +1,269 @@
 /* ============================================================
    SPINNERZ — Data Store  (assets/js/data.js)
-   Edit DEFAULT_PRODUCTS to update the product catalogue.
+   Real product catalogue migrated from products.html.
+   Admin panel reads/writes here. Products page reads here.
    ============================================================ */
 
 const DEFAULT_PRODUCTS = [
-  // ── HARD LUGGAGE ──────────────────────────────────────────
+  // ── HARD LUGGAGE — Set 1 (Teal/Yellow/Red/Black) ──────────
   {
-    id: 1,
-    name: 'APLUS Hard Shell 28" Large',
-    category: 'Hard Luggage',
-    badge: 'new',
-    emoji: '🧳',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Premium polycarbonate & ABS hard shell suitcase. 360° spinner wheels, TSA-approved combination lock, telescopic aluminium handle. Perfect for executive gifting programs.',
-    features: ['Polycarbonate + ABS Shell', '360° Spinner Wheels', 'TSA Lock', 'Telescopic Handle']
+    id: 1, name: 'Spinnerz Trolley — Teal Blue', category: 'Hard Luggage', badge: 'new',
+    color: 'Teal Blue', colorHex: '#2bc4c4', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-blue-front.jpg','assets/images/products/hl-blue-angle.jpg','assets/images/products/hl-blue-side.jpg','assets/images/products/hl-blue-detail.jpg'],
+    desc: 'Premium polypropylene hard shell trolley bag with scratch-resistant finish, dual wheels, fixed combination lock, and push-button telescopic handle. Lightweight, water-resistant & dust-proof.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Teal Blue',hex:'#2bc4c4',id:1},{name:'Lime Yellow',hex:'#c8e02a',id:2},{name:'Scarlet Red',hex:'#e02a2a',id:3},{name:'Jet Black',hex:'#1a1a1a',id:4}]
   },
   {
-    id: 2,
-    name: 'APLUS Hard Shell 24" Medium',
-    category: 'Hard Luggage',
-    badge: 'hot',
-    emoji: '🧳',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Mid-size polycarbonate hard shell luggage. Superior protection with elegant professional appearance. Ideal for employee recognition programs.',
-    features: ['Polycarbonate + ABS Shell', '360° Spinner Wheels', 'TSA Lock', 'Available in Multiple Colours']
+    id: 2, name: 'Spinnerz Trolley — Lime Yellow', category: 'Hard Luggage', badge: 'new',
+    color: 'Lime Yellow', colorHex: '#c8e02a', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-yellow-front.jpg','assets/images/products/hl-yellow-angle.jpg','assets/images/products/hl-yellow-side.jpg','assets/images/products/hl-yellow-detail.jpg'],
+    desc: 'Premium polypropylene hard shell trolley in vibrant lime yellow. Scratch-resistant shell, fixed combination lock, dual spinner wheels, push-button handle. Built for frequent travel.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Teal Blue',hex:'#2bc4c4',id:1},{name:'Lime Yellow',hex:'#c8e02a',id:2},{name:'Scarlet Red',hex:'#e02a2a',id:3},{name:'Jet Black',hex:'#1a1a1a',id:4}]
   },
   {
-    id: 3,
-    name: 'APLUS Hard Shell 20" Cabin',
-    category: 'Hard Luggage',
-    badge: 'sale',
-    emoji: '🧳',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Ultra-lightweight cabin luggage. Fits all major airline overhead bins. Available in 12 colours. Best-seller for corporate gifting.',
-    features: ['Cabin Size — Airline Compliant', '360° Spinner Wheels', 'TSA Lock', '12 Colour Options']
-  },
-
-  // ── SOFT LUGGAGE ──────────────────────────────────────────
-  {
-    id: 4,
-    name: 'APLUS Soft Trolley 28"',
-    category: 'Soft Luggage',
-    badge: '',
-    emoji: '🧳',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Durable soft-sided luggage with expandable compartments, water-resistant fabric and smooth-rolling wheels. Lightweight yet spacious design for frequent business travel.',
-    features: ['Water-Resistant Fabric', 'Expandable Compartments', 'Multiple Interior Pockets', 'Premium Zippers']
+    id: 3, name: 'Spinnerz Trolley — Scarlet Red', category: 'Hard Luggage', badge: 'new',
+    color: 'Scarlet Red', colorHex: '#e02a2a', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-red-front.jpg','assets/images/products/hl-red-angle.jpg','assets/images/products/hl-red-side.jpg','assets/images/products/hl-red-detail.jpg'],
+    desc: 'Bold scarlet red polypropylene hard shell trolley. Features scratch-resistant finish, dual spinner wheels, fixed combination TSA lock, and push-button telescopic aluminium handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Teal Blue',hex:'#2bc4c4',id:1},{name:'Lime Yellow',hex:'#c8e02a',id:2},{name:'Scarlet Red',hex:'#e02a2a',id:3},{name:'Jet Black',hex:'#1a1a1a',id:4}]
   },
   {
-    id: 5,
-    name: 'APLUS Soft Trolley Cabin Set',
-    category: 'Soft Luggage',
-    badge: 'new',
-    emoji: '🧳',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Versatile soft-sided luggage set combining functionality with professional aesthetics. Reinforced handles and premium zippers for frequent business trips.',
-    features: ['Reinforced Handles', 'Premium Zippers', 'Laptop Sleeve', 'Business-Ready Design']
+    id: 4, name: 'Spinnerz Trolley — Jet Black', category: 'Hard Luggage', badge: '',
+    color: 'Jet Black', colorHex: '#1a1a1a', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-black-front.jpg','assets/images/products/hl-black-angle.jpg','assets/images/products/hl-black-side.jpg','assets/images/products/hl-black-detail.jpg','assets/images/products/hl-black-open.jpg'],
+    desc: 'Elegant jet black polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Teal Blue',hex:'#2bc4c4',id:1},{name:'Lime Yellow',hex:'#c8e02a',id:2},{name:'Scarlet Red',hex:'#e02a2a',id:3},{name:'Jet Black',hex:'#1a1a1a',id:4}]
   },
 
-  // ── TROLLEY BAGS ──────────────────────────────────────────
+  // ── HARD LUGGAGE — Set 2 (Navy/BrightYellow/Silver) ───────
   {
-    id: 6,
-    name: 'Trolley Overnighter Business',
-    category: 'Trolley Bags',
-    badge: 'hot',
-    emoji: '🛄',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Compact wheeled overnight bag designed for business trips. Smooth-rolling wheels, telescopic handles, and organised compartments. Dedicated laptop and document sections.',
-    features: ['Compact Cabin Size', 'Dedicated Laptop Section', 'Document Organiser', 'Telescopic Handle']
+    id: 5, name: 'Spinnerz Trolley — Navy Blue', category: 'Hard Luggage', badge: '',
+    color: 'Navy Blue', colorHex: '#000080', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-1-dark_blue-front.png'],
+    desc: 'Elegant navy blue polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Navy Blue',hex:'#000080',id:5},{name:'Bright Yellow',hex:'#FFEA00',id:6},{name:'Graphite Silver',hex:'#C0C0C0',id:7}]
   },
   {
-    id: 7,
-    name: 'Trolley Duffle Bag Premium',
-    category: 'Trolley Bags',
-    badge: '',
-    emoji: '🛄',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Versatile wheeled duffle with separate shoe compartments and multiple pockets. Combines the spaciousness of a duffle with trolley convenience. Ideal for dealer incentive programs.',
-    features: ['Separate Shoe Compartment', 'Multiple Pockets', '360° Wheels', 'Telescopic Handle']
-  },
-
-  // ── LAPTOP BACKPACKS ──────────────────────────────────────
-  {
-    id: 8,
-    name: 'Executive Laptop Backpack 45L',
-    category: 'Laptop Backpacks',
-    badge: 'new',
-    emoji: '🎒',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Professional laptop backpack with padded 15.6" compartment, integrated USB charging port, and ergonomic breathable back panel. Water-resistant materials for all-weather protection.',
-    features: ['15.6" Padded Laptop Sleeve', 'USB Charging Port', 'Anti-Theft Hidden Pockets', 'Ergonomic Back Panel']
+    id: 6, name: 'Spinnerz Trolley — Bright Yellow', category: 'Hard Luggage', badge: '',
+    color: 'Bright Yellow', colorHex: '#FFEA00', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-1-yellow-front.png'],
+    desc: 'Elegant bright yellow polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Navy Blue',hex:'#000080',id:5},{name:'Bright Yellow',hex:'#FFEA00',id:6},{name:'Graphite Silver',hex:'#C0C0C0',id:7}]
   },
   {
-    id: 9,
-    name: 'Anti-Theft Travel Backpack 30L',
-    category: 'Laptop Backpacks',
-    badge: 'hot',
-    emoji: '🎒',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Anti-theft backpack with hidden zip pockets and USB pass-through port. Multiple organisational pockets. The perfect corporate gift for executives and travelling professionals.',
-    features: ['Anti-Theft Design', 'USB Pass-Through', 'Water-Resistant', 'Premium Zippers']
+    id: 7, name: 'Spinnerz Trolley — Graphite Silver', category: 'Hard Luggage', badge: '',
+    color: 'Graphite Silver', colorHex: '#C0C0C0', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-1-silver-front.png'],
+    desc: 'Elegant graphite silver polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Navy Blue',hex:'#000080',id:5},{name:'Bright Yellow',hex:'#FFEA00',id:6},{name:'Graphite Silver',hex:'#C0C0C0',id:7}]
   },
 
-  // ── OFFICE & SLING ────────────────────────────────────────
+  // ── HARD LUGGAGE — Set 3 (GreyishBlue/Peacock/RoseGold) ───
   {
-    id: 10,
-    name: 'Executive Leather Sling Bag',
-    category: 'Office & Sling',
-    badge: 'new',
-    emoji: '💼',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Executive leather office sling bag with dedicated laptop protection up to 15.6". Multiple organisational pockets, adjustable padded shoulder strap. Premium craftsmanship meets functional elegance.',
-    features: ['Genuine Leather Finish', '15.6" Laptop Protection', 'Adjustable Padded Strap', 'Multiple Organiser Pockets']
+    id: 8, name: 'Spinnerz Trolley — Greyish Blue', category: 'Hard Luggage', badge: '',
+    color: 'Greyish Blue', colorHex: '#5E819D', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-2-grey_blue-front.png'],
+    desc: 'Elegant greyish blue polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Greyish Blue',hex:'#5E819D',id:8},{name:'Peacock Blue',hex:'#0F2CB3',id:9},{name:'Rose Gold',hex:'#B76E79',id:10}]
   },
   {
-    id: 11,
-    name: 'Slim Laptop Office Briefcase',
-    category: 'Office & Sling',
-    badge: '',
-    emoji: '💼',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Slim professional office bag with USB charging port and organiser panel. Leather-look finish perfect for corporate gifting. Elevate your professional image.',
-    features: ['USB Charging Port', 'Organiser Panel', 'Leather-Look Finish', 'Slim Profile Design']
-  },
-
-  // ── GYM & LIFESTYLE ───────────────────────────────────────
-  {
-    id: 12,
-    name: 'Pro Gym & Sports Duffle',
-    category: 'Gym & Lifestyle',
-    badge: '',
-    emoji: '🏋️',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Versatile gym bag with thoughtful compartments, durable materials, and ergonomic designs. From athletic training sessions to daily commutes — functionality meets contemporary style.',
-    features: ['Ventilated Shoe Pocket', 'Water-Resistant Base', 'Detachable Shoulder Strap', 'Multiple Pockets']
+    id: 9, name: 'Spinnerz Trolley — Peacock Blue', category: 'Hard Luggage', badge: '',
+    color: 'Peacock Blue', colorHex: '#0F2CB3', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-2-peacock_blue-front.png'],
+    desc: 'Elegant peacock blue polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Greyish Blue',hex:'#5E819D',id:8},{name:'Peacock Blue',hex:'#0F2CB3',id:9},{name:'Rose Gold',hex:'#B76E79',id:10}]
   },
   {
-    id: 13,
-    name: 'Campus College Backpack',
-    category: 'Gym & Lifestyle',
-    badge: 'new',
-    emoji: '🎒',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Stylish college backpack combining functionality with contemporary design. Multiple compartments, laptop sleeve, and durable fabric. Perfect for college and school gifting programs.',
-    features: ['15.6" Laptop Sleeve', 'Multiple Compartments', 'Ergonomic Straps', 'USB Port Available']
+    id: 10, name: 'Spinnerz Trolley — Rose Gold', category: 'Hard Luggage', badge: '',
+    color: 'Rose Gold', colorHex: '#B76E79', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-2-rose_gold-front.png'],
+    desc: 'Elegant rose gold polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Greyish Blue',hex:'#5E819D',id:8},{name:'Peacock Blue',hex:'#0F2CB3',id:9},{name:'Rose Gold',hex:'#B76E79',id:10}]
   },
 
-  // ── VANITY CASES ──────────────────────────────────────────
+  // ── HARD LUGGAGE — Set 4 (Purple/Khaki/Navy) ──────────────
   {
-    id: 14,
-    name: 'Luxury Quilted Vanity Case',
-    category: 'Vanity Cases',
-    badge: 'new',
-    emoji: '💄',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Elegant cosmetic travel case with luxurious quilted design and premium finish. Thoughtfully organised interior with dedicated compartments, secure closures, built-in mirror and removable trays. Perfect executive gift for women professionals.',
-    features: ['Quilted Premium Finish', 'Built-In Mirror', 'Removable Organiser Trays', 'Secure Closure']
+    id: 11, name: 'Spinnerz Trolley — Purple', category: 'Hard Luggage', badge: '',
+    color: 'Purple', colorHex: '#800080', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-3-purple-front.png'],
+    desc: 'Elegant purple polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Purple',hex:'#800080',id:11},{name:'Khaki',hex:'#c3b091',id:12},{name:'Navy Blue',hex:'#000080',id:13}]
   },
   {
-    id: 15,
-    name: 'Executive Travel Vanity Set',
-    category: 'Vanity Cases',
-    badge: 'hot',
-    emoji: '💄',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Sophisticated styling vanity case combining functionality with fashion-forward aesthetics. Dedicated compartments for cosmetics, jewellery and personal essentials. Makes a lasting impression.',
-    features: ['Compartmentalised Interior', 'Jewellery Section', 'Premium Hardware', 'Elegant Design']
+    id: 12, name: 'Spinnerz Trolley — Khaki', category: 'Hard Luggage', badge: '',
+    color: 'Khaki', colorHex: '#c3b091', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-3-khaki-front.png'],
+    desc: 'Elegant khaki polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Purple',hex:'#800080',id:11},{name:'Khaki',hex:'#c3b091',id:12},{name:'Navy Blue',hex:'#000080',id:13}]
+  },
+  {
+    id: 13, name: 'Spinnerz Trolley — Navy Blue (Set 4)', category: 'Hard Luggage', badge: '',
+    color: 'Navy Blue', colorHex: '#000080', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/hl-3-navy_blue-front.png'],
+    desc: 'Elegant navy blue polypropylene hard shell trolley. Spacious interior with luggage straps and zippered pocket. Dual spinner wheels, fixed combination lock, push-button telescopic handle.',
+    features: ['Polypropylene Shell','Scratch Resistant','Dual Wheels','Fixed Combination Lock','Push Button Trolley','Water Resistant & Dust Proof','Spacious Interior'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Purple',hex:'#800080',id:11},{name:'Khaki',hex:'#c3b091',id:12},{name:'Navy Blue',hex:'#000080',id:13}]
   },
 
-  // ── DUFFLE & TRAVEL ───────────────────────────────────────
+  // ── VANITY CASES ───────────────────────────────────────────
   {
-    id: 16,
-    name: 'Canvas Travel Duffle XL',
-    category: 'Duffle & Travel',
-    badge: '',
-    emoji: '👜',
-    stock: 'In Stock',
-    moq: 'MOQ: 500 pcs',
-    desc: 'Spacious canvas and premium leather duffle for extended trips. Reinforced handles, stylish design, and durable materials. Ideal for channel partner incentive programs.',
-    features: ['Wax Canvas + Leather', 'Reinforced Handles', 'Detachable Shoulder Strap', 'Brass Hardware']
-  }
+    id: 14, name: 'Luxury Quilted Vanity Case — Pink', category: 'Vanity Cases', badge: 'new',
+    color: 'Pink', colorHex: '#e8a0b4', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/vc-pink-front.jpg'],
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Pink',hex:'#e8a0b4',id:14},{name:'Black',hex:'#1a1a1a',id:15},{name:'Blue',hex:'#10183a',id:16},{name:'Yellow',hex:'#FFD700',id:17}]
+  },
+  {
+    id: 15, name: 'Luxury Quilted Vanity Case — Black', category: 'Vanity Cases', badge: 'new',
+    color: 'Black', colorHex: '#1a1a1a', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/vc-black-front.jpg'],
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Pink',hex:'#e8a0b4',id:14},{name:'Black',hex:'#1a1a1a',id:15},{name:'Blue',hex:'#10183a',id:16},{name:'Yellow',hex:'#FFD700',id:17}]
+  },
+  {
+    id: 16, name: 'Luxury Quilted Vanity Case — Blue', category: 'Vanity Cases', badge: 'new',
+    color: 'Blue', colorHex: '#10183a', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/vc-blue-front.jpg'],
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Pink',hex:'#e8a0b4',id:14},{name:'Black',hex:'#1a1a1a',id:15},{name:'Blue',hex:'#10183a',id:16},{name:'Yellow',hex:'#FFD700',id:17}]
+  },
+  {
+    id: 17, name: 'Luxury Quilted Vanity Case — Yellow', category: 'Vanity Cases', badge: 'new',
+    color: 'Yellow', colorHex: '#FFD700', emoji: '💄', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/vc-yellow-front.jpg','assets/images/products/vc-yellow-side.jpeg'],
+    desc: 'Elegant cosmetic travel case with luxurious quilted design, built-in mirror, removable organiser trays. Perfect executive gift for women professionals.',
+    features: ['Quilted Finish','Built-in Mirror','Removable Trays','Premium Hardware'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Pink',hex:'#e8a0b4',id:14},{name:'Black',hex:'#1a1a1a',id:15},{name:'Blue',hex:'#10183a',id:16},{name:'Yellow',hex:'#FFD700',id:17}]
+  },
+
+  // ── SOFT LUGGAGE ───────────────────────────────────────────
+  {
+    id: 18, name: 'Spinnerz Soft Trolley 28 — Blue', category: 'Soft Luggage', badge: 'new',
+    color: 'Blue', colorHex: '#10183a', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/sl-blue-front.png'],
+    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
+    features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Blue',hex:'#10183a',id:18},{name:'Brown',hex:'#A52A2A',id:19},{name:'Red',hex:'#e02a2a',id:20}]
+  },
+  {
+    id: 19, name: 'Spinnerz Soft Trolley 28 — Brown', category: 'Soft Luggage', badge: 'new',
+    color: 'Brown', colorHex: '#A52A2A', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/sl-brown-front.png'],
+    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
+    features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Blue',hex:'#10183a',id:18},{name:'Brown',hex:'#A52A2A',id:19},{name:'Red',hex:'#e02a2a',id:20}]
+  },
+  {
+    id: 20, name: 'Spinnerz Soft Trolley 28 — Red', category: 'Soft Luggage', badge: 'new',
+    color: 'Red', colorHex: '#e02a2a', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/sl-red-front.png'],
+    desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
+    features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
+    sizes: ['20" Cabin','24" Medium','28" Large'],
+    relatedColors: [{name:'Blue',hex:'#10183a',id:18},{name:'Brown',hex:'#A52A2A',id:19},{name:'Red',hex:'#e02a2a',id:20}]
+  },
+
+  // ── CABIN LUGGAGE ─────────────────────────────────────────
+  {
+    id: 21, name: 'Spinnerz Cabin Luggage — Light Grey', category: 'Cabin Luggage', badge: 'new',
+    color: 'Light Grey', colorHex: '#D3D3D3', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/cl-light_grey-front.png'],
+    desc: 'Compact cabin luggage designed to fit all major airline overhead bins. Lightweight construction with durable shell.',
+    features: ['Cabin Size — Airline Compliant','Lightweight Shell','Smooth-Rolling Wheels','TSA Lock'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Light Grey',hex:'#D3D3D3',id:21},{name:'Ice Grey',hex:'#E8F1F2',id:22}]
+  },
+  {
+    id: 22, name: 'Spinnerz Cabin Luggage — Ice Grey', category: 'Cabin Luggage', badge: 'new',
+    color: 'Ice Grey', colorHex: '#E8F1F2', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/cl-ice_grey-front.png'],
+    desc: 'Compact cabin luggage designed to fit all major airline overhead bins. Lightweight construction with durable shell.',
+    features: ['Cabin Size — Airline Compliant','Lightweight Shell','Smooth-Rolling Wheels','TSA Lock'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Light Grey',hex:'#D3D3D3',id:21},{name:'Ice Grey',hex:'#E8F1F2',id:22}]
+  },
+
+  // ── BACKPACKS ─────────────────────────────────────────────
+  {
+    id: 23, name: 'Spinnerz Backpack — Blue', category: 'Backpacks', badge: 'new',
+    color: 'Blue', colorHex: '#1E3A5F', emoji: '🎒', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/bp-blue-front.png'],
+    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric. Ideal for corporate gifting and daily commutes.',
+    features: ['Padded Laptop Sleeve','Multiple Compartments','Ergonomic Straps','Durable Fabric'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Blue',hex:'#1E3A5F',id:23},{name:'Grey',hex:'#6B7280',id:24},{name:'Silver',hex:'#D1D5DB',id:25}]
+  },
+  {
+    id: 24, name: 'Spinnerz Backpack — Grey', category: 'Backpacks', badge: 'new',
+    color: 'Grey', colorHex: '#6B7280', emoji: '🎒', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/bp-grey-front.png'],
+    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric. Ideal for corporate gifting and daily commutes.',
+    features: ['Padded Laptop Sleeve','Multiple Compartments','Ergonomic Straps','Durable Fabric'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Blue',hex:'#1E3A5F',id:23},{name:'Grey',hex:'#6B7280',id:24},{name:'Silver',hex:'#D1D5DB',id:25}]
+  },
+  {
+    id: 25, name: 'Spinnerz Backpack — Silver', category: 'Backpacks', badge: 'new',
+    color: 'Silver', colorHex: '#D1D5DB', emoji: '🎒', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    images: ['assets/images/products/bp-silver-front.png'],
+    desc: 'Ergonomic backpack with padded laptop sleeve, multiple compartments, and durable fabric. Ideal for corporate gifting and daily commutes.',
+    features: ['Padded Laptop Sleeve','Multiple Compartments','Ergonomic Straps','Durable Fabric'],
+    sizes: ['One Size'],
+    relatedColors: [{name:'Blue',hex:'#1E3A5F',id:23},{name:'Grey',hex:'#6B7280',id:24},{name:'Silver',hex:'#D1D5DB',id:25}]
+  },
 ];
 
 // ── STORAGE KEYS ──────────────────────────────────────────────
-const KEYS = {
-  products: 'sz_products',
-  cart:     'sz_cart',
-  adminPw:  'sz_admin_pw'
-};
-
+const KEYS = { products: 'sz_products', cart: 'sz_cart', adminPw: 'sz_admin_pw' };
 const DEFAULT_ADMIN_PW = 'spinnerz2025';
 
 // ── PRODUCT HELPERS ───────────────────────────────────────────
 function getProducts() {
   const raw = localStorage.getItem(KEYS.products);
-  if (!raw) {
-    localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS));
-    return DEFAULT_PRODUCTS;
-  }
+  if (!raw) { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); return DEFAULT_PRODUCTS; }
   return JSON.parse(raw);
 }
 function saveProducts(products) { localStorage.setItem(KEYS.products, JSON.stringify(products)); }
-function resetProducts() { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); }
+function resetProducts()        { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); }
 
 // ── CART HELPERS ──────────────────────────────────────────────
-function getCart() {
-  const raw = localStorage.getItem(KEYS.cart);
-  return raw ? JSON.parse(raw) : [];
-}
+function getCart()      { const r = localStorage.getItem(KEYS.cart); return r ? JSON.parse(r) : []; }
 function saveCart(cart) { localStorage.setItem(KEYS.cart, JSON.stringify(cart)); }
 
 // ── AUTH HELPERS ──────────────────────────────────────────────
-function getAdminPw() { return localStorage.getItem(KEYS.adminPw) || DEFAULT_ADMIN_PW; }
+function getAdminPw()   { return localStorage.getItem(KEYS.adminPw) || DEFAULT_ADMIN_PW; }
 function setAdminPw(pw) { localStorage.setItem(KEYS.adminPw, pw); }

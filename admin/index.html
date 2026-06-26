@@ -4,201 +4,140 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spinnerz Admin — Control Panel</title>
-
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
-
-  <!-- Stylesheets: shared tokens first, then admin styles -->
   <link rel="stylesheet" href="../assets/css/tokens.css">
   <link rel="stylesheet" href="css/admin.css">
+  <style>
+    .img-upload-area{border:2px dashed #ddd;border-radius:6px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s;background:#fafafa;}
+    .img-upload-area:hover{border-color:#c0251a;}
+    .img-upload-area input[type=file]{display:none;}
+    .img-preview-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .img-preview-item{position:relative;width:80px;height:80px;}
+    .img-preview-item img{width:100%;height:100%;object-fit:cover;border-radius:4px;border:1px solid #ddd;}
+    .img-preview-item .remove-img{position:absolute;top:-6px;right:-6px;background:#c0251a;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;line-height:18px;text-align:center;padding:0;}
+  </style>
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════════════════
-       LOGIN SCREEN
-       Hidden once the correct password is entered.
-  ══════════════════════════════════════════════════════════ -->
+  <!-- LOGIN SCREEN -->
   <div id="loginScreen">
-
-    <!-- Left branding panel -->
     <div class="login-left">
       <div class="login-left-bg"></div>
       <div class="login-brand">
         <div class="login-brand-name">SPINNERZ</div>
         <div class="login-divider"></div>
         <div class="login-brand-tag">Admin Control Panel</div>
-        <p class="login-brand-desc">
-          Manage products, inventory, and your storefront — all in one place.
-        </p>
-        <div class="login-brand-badge">
-          <span>🔒</span>
-          <span>Restricted Access Only</span>
-        </div>
+        <p class="login-brand-desc">Manage products, inventory, and your storefront — all in one place.</p>
+        <div class="login-brand-badge"><span>🔒</span><span>Restricted Access Only</span></div>
       </div>
     </div>
-
-    <!-- Right login form -->
     <div class="login-right">
       <div class="login-box">
         <h1 class="login-title">Welcome Back</h1>
         <p class="login-sub">Sign in to access the admin dashboard.</p>
-
         <div class="l-error" id="loginError">Incorrect password. Please try again.</div>
-
         <label class="l-label" for="passwordInput">Password</label>
-        <input class="l-input" type="password" id="passwordInput"
-               placeholder="Enter admin password">
-
+        <input class="l-input" type="password" id="passwordInput" placeholder="Enter admin password">
         <button class="l-btn" onclick="attemptLogin()">Sign In →</button>
-
         <br>
         <a class="back-link" href="../index.html">← Back to Store</a>
-
-        <!-- Default password hint — remove this line in production! -->
-        <p class="l-hint">
-          Default password: <code>spinnerz2025</code>
-          &nbsp;|&nbsp; Change it in Settings after login.
-        </p>
+        <p class="l-hint">Default password: <code>spinnerz2025</code> &nbsp;|&nbsp; Change it in Settings after login.</p>
       </div>
     </div>
+  </div>
 
-  </div><!-- /#loginScreen -->
-
-  <!-- ══════════════════════════════════════════════════════
-       ADMIN APP
-       Hidden until login succeeds.
-  ══════════════════════════════════════════════════════════ -->
+  <!-- ADMIN APP -->
   <div id="adminApp">
 
-    <!-- ── SIDEBAR ────────────────────────────────────────── -->
+    <!-- SIDEBAR -->
     <nav class="sidebar">
       <div class="sidebar-logo">
         <div class="sidebar-logo-name">SPINNERZ</div>
         <div class="sidebar-logo-tag">Admin Panel</div>
         <div class="sidebar-logo-role">Logged in as Admin</div>
       </div>
-
       <div class="sidebar-nav">
         <div class="nav-section-label">Overview</div>
-        <a class="nav-item active" onclick="showSec('dashboard', this)">
-          <span class="nav-item-icon">◉</span> Dashboard
-        </a>
-
+        <a class="nav-item active" onclick="showSec('dashboard', this)"><span class="nav-item-icon">◉</span> Dashboard</a>
         <div class="nav-section-label">Catalogue</div>
-        <a class="nav-item" onclick="showSec('products', this)">
-          <span class="nav-item-icon">🧳</span> Products
-        </a>
-        <a class="nav-item" onclick="showSec('add-product', this)">
-          <span class="nav-item-icon">＋</span> Add Product
-        </a>
-
+        <a class="nav-item" onclick="showSec('products', this)"><span class="nav-item-icon">🧳</span> Products</a>
+        <a class="nav-item" onclick="showSec('add-product', this)"><span class="nav-item-icon">＋</span> Add Product</a>
         <div class="nav-section-label">Settings</div>
-        <a class="nav-item" onclick="showSec('settings', this)">
-          <span class="nav-item-icon">⚙</span> Settings
-        </a>
+        <a class="nav-item" onclick="showSec('settings', this)"><span class="nav-item-icon">⚙</span> Settings</a>
       </div>
-
       <div class="sidebar-bottom">
-        <button class="logout-btn" onclick="logout()">
-          <span>⬡</span> Sign Out
-        </button>
+        <button class="logout-btn" onclick="logout()"><span>⬡</span> Sign Out</button>
       </div>
     </nav>
 
-    <!-- ── MAIN CONTENT ────────────────────────────────────── -->
+    <!-- MAIN -->
     <div class="main">
-
-      <!-- Topbar -->
       <div class="topbar">
-        <div class="topbar-left">
-          <span class="topbar-title" id="topbarTitle">Dashboard</span>
-        </div>
+        <div class="topbar-left"><span class="topbar-title" id="topbarTitle">Dashboard</span></div>
         <div class="topbar-right">
-          <div class="topbar-badge">
-            <div class="dot"></div>
-            <span>Live Store</span>
-          </div>
+          <div class="topbar-badge"><div class="dot"></div><span>Live Store</span></div>
           <a class="view-site-btn" href="../index.html" target="_blank">↗ View Store</a>
+          <a class="view-site-btn" href="../products.html" target="_blank" style="background:var(--gold);color:#fff;">↗ Products Page</a>
         </div>
       </div>
 
-      <!-- Content area -->
       <div class="content">
 
-        <!-- ────────────────────────────────────────────────
-             DASHBOARD SECTION
-        ──────────────────────────────────────────────────── -->
+        <!-- DASHBOARD -->
         <div class="sec active" id="sec-dashboard">
-
-          <!-- Stat cards -->
           <div class="stats-row">
             <div class="stat-card">
-              <div class="stat-top">
-                <span class="stat-icon">🧳</span>
-                <span class="stat-change up">+12%</span>
-              </div>
+              <div class="stat-top"><span class="stat-icon">🧳</span><span class="stat-change up">+12%</span></div>
               <div class="stat-n" id="dashTotalProducts">0</div>
               <div class="stat-l">Total Products</div>
             </div>
             <div class="stat-card">
-              <div class="stat-top">
-                <span class="stat-icon">✅</span>
-                <span class="stat-change up">Live</span>
-              </div>
+              <div class="stat-top"><span class="stat-icon">✅</span><span class="stat-change up">Live</span></div>
               <div class="stat-n" id="dashInStock">0</div>
               <div class="stat-l">In Stock</div>
             </div>
             <div class="stat-card">
-              <div class="stat-top">
-                <span class="stat-icon">⚠️</span>
-                <span class="stat-change down">Watch</span>
-              </div>
+              <div class="stat-top"><span class="stat-icon">⚠️</span><span class="stat-change down">Watch</span></div>
               <div class="stat-n" id="dashLowStock">0</div>
               <div class="stat-l">Low Stock</div>
             </div>
             <div class="stat-card">
-              <div class="stat-top">
-                <span class="stat-icon">📂</span>
-                <span class="stat-change up">Active</span>
-              </div>
-              <div class="stat-n">5</div>
-              <div class="stat-l">Categories</div>
+              <div class="stat-top"><span class="stat-icon">🌐</span><span class="stat-change up">Synced</span></div>
+              <div class="stat-n">Live</div>
+              <div class="stat-l">Store Status</div>
             </div>
           </div>
 
-          <!-- Recent products table -->
+          <div class="card" style="margin-bottom:16px;background:#e8f5e9;border-color:#a5d6a7;">
+            <div class="card-body" style="padding:14px 22px;display:flex;align-items:center;gap:12px;">
+              <span style="font-size:20px;">✅</span>
+              <span style="font-size:13px;color:#1b5e20;font-weight:500;">
+                Products are synced via <code>localStorage</code>. Changes made here are immediately reflected on the store — no deployment needed.
+              </span>
+            </div>
+          </div>
+
           <div class="card">
             <div class="card-hd">
               <span class="card-title">Recent Products</span>
-              <button class="btn btn-outline btn-sm"
-                onclick="showSec('products', document.querySelectorAll('.nav-item')[1])">
-                View All →
-              </button>
+              <button class="btn btn-outline btn-sm" onclick="showSec('products', document.querySelectorAll('.nav-item')[1])">View All →</button>
             </div>
             <div class="card-body" style="padding:0;overflow-x:auto;">
               <table class="tbl" id="dashRecentTable"></table>
             </div>
           </div>
+        </div>
 
-        </div><!-- /#sec-dashboard -->
-
-        <!-- ────────────────────────────────────────────────
-             PRODUCTS SECTION
-        ──────────────────────────────────────────────────── -->
+        <!-- PRODUCTS LIST -->
         <div class="sec" id="sec-products">
           <div class="card">
             <div class="card-hd">
               <span class="card-title">All Products</span>
-              <button class="btn btn-red btn-sm"
-                onclick="showSec('add-product', document.querySelectorAll('.nav-item')[2])">
-                + Add Product
-              </button>
+              <button class="btn btn-red btn-sm" onclick="showSec('add-product', document.querySelectorAll('.nav-item')[2])">+ Add Product</button>
             </div>
             <div class="card-body" style="padding-bottom:0;">
               <div class="search-bar">
-                <input type="text" id="productSearch"
-                       placeholder="Search by name or category…"
-                       oninput="searchProducts(this.value)">
+                <input type="text" id="productSearch" placeholder="Search by name or category…" oninput="searchProducts(this.value)">
                 <div class="search-icon">🔍</div>
               </div>
             </div>
@@ -206,15 +145,13 @@
               <table class="tbl" id="productsTable"></table>
             </div>
           </div>
-        </div><!-- /#sec-products -->
+        </div>
 
-        <!-- ────────────────────────────────────────────────
-             ADD PRODUCT SECTION
-        ──────────────────────────────────────────────────── -->
+        <!-- ADD PRODUCT -->
         <div class="sec" id="sec-add-product">
           <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;">
 
-            <!-- Left: product details form -->
+            <!-- Left: details -->
             <div>
               <div class="card">
                 <div class="card-hd"><span class="card-title">Product Details</span></div>
@@ -231,10 +168,17 @@
                       <select id="pCategory">
                         <option value="">Select category</option>
                         <option>Hard Luggage</option>
-                        <option>Backpacks</option>
+                        <option>Soft Luggage</option>
+                        <option>Trolley Bags</option>
+                        <option>Laptop Backpacks</option>
+                        <option>Office & Sling</option>
+                        <option>Vanity Cases</option>
+                        <option>Gym & Lifestyle</option>
                         <option>Duffle & Travel</option>
+                        <option>Backpacks</option>
                         <option>Office Bags</option>
                         <option>School & Sports</option>
+                        <option>Cabin Luggage</option>
                       </select>
                     </div>
 
@@ -248,7 +192,7 @@
                     </div>
 
                     <div class="fld">
-                      <label for="pPrice">Selling Price (₹) *</label>
+                      <label for="pPrice">Selling Price (₹)</label>
                       <input type="number" id="pPrice" placeholder="e.g. 4999">
                     </div>
 
@@ -257,9 +201,13 @@
                       <input type="number" id="pOrigPrice" placeholder="e.g. 6999">
                     </div>
 
+                    <div class="fld">
+                      <label for="pMoq">MOQ Label</label>
+                      <input type="text" id="pMoq" placeholder="e.g. MOQ: 500 pcs">
+                    </div>
                     <div class="fld fld-full">
-                      <label for="pDesc">Description</label>
-                      <textarea id="pDesc" placeholder="Brief product description…"></textarea>
+                      <label for="pSizes">Available Sizes <span style="font-weight:400;text-transform:none;letter-spacing:0;">(comma separated, e.g. 20" Cabin, 24" Medium, 28" Large)</span></label>
+                      <input type="text" id="pSizes" placeholder='e.g. 20" Cabin, 24" Medium, 28" Large'>
                     </div>
 
                     <div class="fld">
@@ -272,24 +220,40 @@
                       </select>
                     </div>
 
-                  </div><!-- /.form-row -->
-                </div><!-- /.card-body -->
-              </div><!-- /.card -->
+                    <!-- IMAGE UPLOAD -->
+                    <div class="fld fld-full">
+                      <label>Product Images</label>
+                      <div class="img-upload-area" onclick="document.getElementById('pImages').click()">
+                        <input type="file" id="pImages" multiple accept="image/*" onchange="handleImageSelect('pImages','pImagesPreview')">
+                        <div style="font-size:28px;margin-bottom:6px;">📁</div>
+                        <div style="font-size:13px;color:#6b6b6b;">Click to upload images</div>
+                        <div style="font-size:11px;color:#aaa;margin-top:4px;">PNG, JPG, WEBP — multiple allowed</div>
+                      </div>
+                      <div class="img-preview-grid" id="pImagesPreview"></div>
+                    </div>
+
+                    <div class="fld fld-full">
+                      <label for="pDesc">Description</label>
+                      <textarea id="pDesc" placeholder="Brief product description…"></textarea>
+                    </div>
+
+                    <div class="fld fld-full">
+                      <label for="pFeatures">Key Features <span style="font-weight:400;text-transform:none;letter-spacing:0;">(one per line)</span></label>
+                      <textarea id="pFeatures" placeholder="360° Spinner Wheels&#10;TSA Lock&#10;Telescopic Handle" style="min-height:100px;"></textarea>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Right: emoji picker + actions -->
+            <!-- Right: emoji + actions -->
             <div>
               <div class="card" style="margin-bottom:16px;">
                 <div class="card-hd"><span class="card-title">Product Icon</span></div>
                 <div class="card-body">
-                  <label style="display:block;font-size:11px;letter-spacing:1.5px;
-                                text-transform:uppercase;color:var(--ink-light);
-                                font-weight:500;margin-bottom:10px;">
-                    Select Emoji
-                  </label>
-                  <div style="font-size:48px;text-align:center;padding:16px;
-                              background:var(--paper);margin-bottom:14px;"
-                       id="selectedEmojiDisplay">🧳</div>
+                  <label style="display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-light);font-weight:500;margin-bottom:10px;">Select Emoji (fallback)</label>
+                  <div style="font-size:48px;text-align:center;padding:16px;background:var(--paper);margin-bottom:14px;" id="selectedEmojiDisplay">🧳</div>
                   <div class="emoji-grid" id="emojiGrid">
                     <div class="emoji-opt sel" onclick="selectEmoji('🧳', this)">🧳</div>
                     <div class="emoji-opt"     onclick="selectEmoji('🎒', this)">🎒</div>
@@ -297,8 +261,8 @@
                     <div class="emoji-opt"     onclick="selectEmoji('💼', this)">💼</div>
                     <div class="emoji-opt"     onclick="selectEmoji('🎽', this)">🎽</div>
                     <div class="emoji-opt"     onclick="selectEmoji('🛄', this)">🛄</div>
-                    <div class="emoji-opt"     onclick="selectEmoji('🎿', this)">🎿</div>
-                    <div class="emoji-opt"     onclick="selectEmoji('🏕️', this)">🏕️</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('💄', this)">💄</div>
+                    <div class="emoji-opt"     onclick="selectEmoji('🏋️', this)">🏋️</div>
                   </div>
                 </div>
               </div>
@@ -306,131 +270,99 @@
               <div class="card">
                 <div class="card-hd"><span class="card-title">Actions</span></div>
                 <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
-                  <button class="btn btn-red" onclick="addProduct()"
-                          style="width:100%;text-align:center;">
-                    Publish Product
-                  </button>
-                  <button class="btn btn-outline" onclick="resetForm()"
-                          style="width:100%;text-align:center;">
-                    Reset Form
-                  </button>
+                  <button class="btn btn-red" onclick="addProduct()" style="width:100%;text-align:center;">Publish to Store</button>
+                  <button class="btn btn-outline" onclick="resetForm()" style="width:100%;text-align:center;">Reset Form</button>
                 </div>
               </div>
             </div>
 
           </div>
-        </div><!-- /#sec-add-product -->
+        </div>
 
-        <!-- ────────────────────────────────────────────────
-             SETTINGS SECTION
-        ──────────────────────────────────────────────────── -->
+        <!-- SETTINGS -->
         <div class="sec" id="sec-settings">
-
-          <!-- Change password -->
           <div class="card" style="max-width:500px;">
             <div class="card-hd"><span class="card-title">Change Admin Password</span></div>
             <div class="card-body">
-              <div class="fld">
-                <label for="curPwd">Current Password</label>
-                <input type="password" id="curPwd" placeholder="Enter current password">
-              </div>
-              <div class="fld">
-                <label for="newPwd">New Password</label>
-                <input type="password" id="newPwd" placeholder="Enter new password (min 6 chars)">
-              </div>
-              <div class="fld">
-                <label for="confPwd">Confirm New Password</label>
-                <input type="password" id="confPwd" placeholder="Confirm new password">
-              </div>
+              <div class="fld"><label for="curPwd">Current Password</label><input type="password" id="curPwd" placeholder="Enter current password"></div>
+              <div class="fld"><label for="newPwd">New Password</label><input type="password" id="newPwd" placeholder="Enter new password (min 6 chars)"></div>
+              <div class="fld"><label for="confPwd">Confirm New Password</label><input type="password" id="confPwd" placeholder="Confirm new password"></div>
               <button class="btn btn-red" onclick="changePassword()">Update Password</button>
             </div>
           </div>
-
-          <!-- Data management -->
           <div class="card" style="max-width:500px;">
             <div class="card-hd"><span class="card-title">Data Management</span></div>
             <div class="card-body">
-              <p style="font-size:13px;color:var(--ink-light);margin-bottom:20px;">
-                Reset all products to the default catalogue data.
-                <strong style="color:var(--danger);">This cannot be undone.</strong>
-              </p>
+              <p style="font-size:13px;color:var(--ink-light);margin-bottom:20px;">Reset all products to the default catalogue. <strong style="color:var(--danger);">This cannot be undone.</strong></p>
               <button class="btn btn-danger" onclick="confirmReset()">Reset Product Data</button>
             </div>
           </div>
+        </div>
 
-        </div><!-- /#sec-settings -->
+      </div>
+    </div>
+  </div>
 
-      </div><!-- /.content -->
-    </div><!-- /.main -->
-  </div><!-- /#adminApp -->
-
-  <!-- ══ EDIT PRODUCT MODAL ══════════════════════════════════ -->
+  <!-- EDIT MODAL -->
   <div class="modal-bg" id="editModal">
     <div class="modal-box">
       <button class="modal-x" onclick="closeEditModal()">×</button>
       <h2 class="modal-h">Edit Product</h2>
-      <div class="modal-sub">Make changes to the product details below.</div>
+      <div class="modal-sub">Changes are saved to localStorage and reflected on the store instantly.</div>
 
       <input type="hidden" id="editId">
       <div class="form-row">
-        <div class="fld fld-full">
-          <label for="editName">Name *</label>
-          <input type="text" id="editName">
-        </div>
-        <div class="fld">
-          <label for="editCategory">Category *</label>
+        <div class="fld fld-full"><label for="editName">Name *</label><input type="text" id="editName"></div>
+        <div class="fld"><label for="editCategory">Category *</label>
           <select id="editCategory">
-            <option>Hard Luggage</option>
-            <option>Backpacks</option>
-            <option>Duffle & Travel</option>
-            <option>Office Bags</option>
-            <option>School & Sports</option>
+            <option>Hard Luggage</option><option>Soft Luggage</option><option>Trolley Bags</option>
+            <option>Laptop Backpacks</option><option>Office & Sling</option><option>Vanity Cases</option>
+            <option>Gym & Lifestyle</option><option>Duffle & Travel</option><option>Backpacks</option>
+            <option>Office Bags</option><option>School & Sports</option><option>Cabin Luggage</option>
           </select>
         </div>
-        <div class="fld">
-          <label for="editStock">Stock Status</label>
-          <select id="editStock">
-            <option>In Stock</option>
-            <option>Low Stock</option>
-            <option>Out of Stock</option>
-          </select>
+        <div class="fld"><label for="editStock">Stock Status</label>
+          <select id="editStock"><option>In Stock</option><option>Low Stock</option><option>Out of Stock</option></select>
         </div>
-        <div class="fld">
-          <label for="editPrice">Price (₹) *</label>
-          <input type="number" id="editPrice">
-        </div>
-        <div class="fld">
-          <label for="editOrigPrice">Original Price (₹)</label>
-          <input type="number" id="editOrigPrice">
-        </div>
-        <div class="fld">
-          <label for="editBadge">Badge</label>
-          <select id="editBadge">
-            <option value="">None</option>
-            <option value="new">New</option>
-            <option value="hot">Hot</option>
-            <option value="sale">Sale</option>
-          </select>
-        </div>
+        <div class="fld"><label for="editPrice">Price (₹)</label><input type="number" id="editPrice"></div>
+        <div class="fld"><label for="editOrigPrice">Original Price (₹)</label><input type="number" id="editOrigPrice"></div>
+        <div class="fld"><label for="editMoq">MOQ Label</label><input type="text" id="editMoq" placeholder="MOQ: 500 pcs"></div>
         <div class="fld fld-full">
-          <label for="editDesc">Description</label>
-          <textarea id="editDesc"></textarea>
+          <label for="editSizes">Available Sizes <span style="font-weight:400;text-transform:none;letter-spacing:0;">(comma separated)</span></label>
+          <input type="text" id="editSizes" placeholder='e.g. 20" Cabin, 24" Medium, 28" Large'>
         </div>
+        <div class="fld"><label for="editBadge">Badge</label>
+          <select id="editBadge"><option value="">None</option><option value="new">New</option><option value="hot">Hot</option><option value="sale">Sale</option></select>
+        </div>
+        <div class="fld fld-full"><label for="editDesc">Description</label><textarea id="editDesc"></textarea></div>
+        <div class="fld fld-full">
+          <label for="editFeatures">Key Features <span style="font-weight:400;text-transform:none;letter-spacing:0;">(one per line)</span></label>
+          <textarea id="editFeatures" style="min-height:90px;"></textarea>
+        </div>
+
+        <!-- EDIT IMAGE UPLOAD -->
+        <div class="fld fld-full">
+          <label>Product Images <span style="font-weight:400;text-transform:none;letter-spacing:0;">(upload new to replace existing)</span></label>
+          <div class="img-upload-area" onclick="document.getElementById('editImages').click()">
+            <input type="file" id="editImages" multiple accept="image/*" onchange="handleImageSelect('editImages','editImagesPreview')">
+            <div style="font-size:24px;margin-bottom:4px;">📁</div>
+            <div style="font-size:13px;color:#6b6b6b;">Click to upload new images</div>
+          </div>
+          <div class="img-preview-grid" id="editImagesPreview"></div>
+        </div>
+
       </div>
 
-      <div style="display:flex;gap:10px;margin-top:8px;">
+      <div style="display:flex;gap:10px;margin-top:16px;">
         <button class="btn btn-red"     onclick="saveEdit()">Save Changes</button>
         <button class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- ══ TOAST ═══════════════════════════════════════════════ -->
   <div class="toast" id="toast"></div>
 
-  <!-- ══ SCRIPTS (data first, then admin logic) ═════════════ -->
   <script src="../assets/js/data.js"></script>
   <script src="js/admin.js"></script>
-
 </body>
 </html>
