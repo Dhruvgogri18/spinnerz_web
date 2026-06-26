@@ -299,5 +299,8 @@ if (cursorDot && cursorRing) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────
-buildSidebar();
-applyFilters();
+(async () => {
+  await getProductsAsync();   // load from Supabase (falls back to defaults if offline)
+  buildSidebar();
+  applyFilters();
+})();

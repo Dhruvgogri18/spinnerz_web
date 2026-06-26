@@ -210,8 +210,7 @@ async function addProduct() {
   const category  = document.getElementById('pCategory').value;
   if (!name || !category) { showToast('⚠️ Name and category are required', 'danger'); return; }
 
-  const products = getProducts();
-  products.push({
+  const newProduct = {
     id:         Date.now(),
     name,       category,
     price:      Number(document.getElementById('pPrice').value) || null,
@@ -221,15 +220,16 @@ async function addProduct() {
     stock:      document.getElementById('pStock').value,
     desc:       document.getElementById('pDesc').value.trim(),
     moq:        document.getElementById('pMoq').value.trim() || 'MOQ: 500 pcs',
-    sizes:      document.getElementById('pSizes').value.trim(),
+    sizes:      document.getElementById('pSizes').value.trim().split(',').map(s=>s.trim()).filter(Boolean),
     colorGroup: document.getElementById('pColorGroup').value.trim(),
     colorHex:   document.getElementById('pColorHex').value.trim() || '',
     images:     pendingImages,
     features:   document.getElementById('pFeatures').value.split('\n').map(f => f.trim()).filter(Boolean),
-  });
+    relatedColors: [],
+  };
 
   try {
-    await saveProducts(products);
+    await saveProduct(newProduct);
     showToast('✓ Product published — live on store', 'success');
     resetForm();
     showSec('products', document.querySelectorAll('.nav-item')[1]);
@@ -299,12 +299,11 @@ async function saveEdit() {
   const name = document.getElementById('editName').value.trim();
   if (!name) { showToast('⚠️ Name is required', 'danger'); return; }
 
-  const products = getProducts();
-  const idx = products.findIndex(p => p.id === id);
-  if (idx === -1) return;
+  const existing = getProducts().find(p => p.id === id);
+  if (!existing) return;
 
-  products[idx] = {
-    ...products[idx],
+  const updated = {
+    ...existing,
     name,
     category:   document.getElementById('editCategory').value,
     price:      Number(document.getElementById('editPrice').value) || null,
@@ -313,15 +312,15 @@ async function saveEdit() {
     stock:      document.getElementById('editStock').value,
     desc:       document.getElementById('editDesc').value.trim(),
     moq:        document.getElementById('editMoq').value.trim() || 'MOQ: 500 pcs',
-    sizes:      document.getElementById('editSizes').value.trim(),
+    sizes:      document.getElementById('editSizes').value.trim().split(',').map(s=>s.trim()).filter(Boolean),
     features:   document.getElementById('editFeatures').value.split('\n').map(f => f.trim()).filter(Boolean),
-    images:     editImages,
+    images:     editImages.map(src => src.startsWith('../') ? src.slice(3) : src),
     colorGroup: document.getElementById('editColorGroup').value.trim(),
     colorHex:   document.getElementById('editColorHex').value.trim(),
   };
 
   try {
-    await saveProducts(products);
+    await saveProduct(updated);
     renderProductsTable(); renderDashboard();
     closeEditModal();
     showToast('✓ Product updated — live on store', 'success');
