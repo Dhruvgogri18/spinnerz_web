@@ -248,7 +248,8 @@ const DEFAULT_PRODUCTS = [
 ];
 
 // ── STORAGE KEYS ──────────────────────────────────────────────
-const KEYS = { products: 'sz_products', cart: 'sz_cart', adminPw: 'sz_admin_pw' };
+const KEYS = { products: 'sz_products', cart: 'sz_cart', adminPw: 'sz_admin_pw', version: 'sz_version' };
+const DATA_VERSION = '2.0'; // bump this whenever DEFAULT_PRODUCTS changes
 const DEFAULT_ADMIN_PW = 'spinnerz2025';
 
 // ── PRODUCT HELPERS ───────────────────────────────────────────
@@ -287,6 +288,12 @@ function autoColorGroup(p) {
 
 function getProducts() {
   try {
+    // Version check — wipe stale localStorage if data.js was updated
+    const storedVersion = localStorage.getItem(KEYS.version);
+    if (storedVersion !== DATA_VERSION) {
+      localStorage.removeItem(KEYS.products);
+      localStorage.setItem(KEYS.version, DATA_VERSION);
+    }
     const raw = localStorage.getItem(KEYS.products);
     if (raw) {
       const parsed = JSON.parse(raw);
