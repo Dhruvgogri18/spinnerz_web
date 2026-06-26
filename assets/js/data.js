@@ -171,7 +171,7 @@ const DEFAULT_PRODUCTS = [
   // ── SOFT LUGGAGE ───────────────────────────────────────────
   {
     id: 18, name: 'Spinnerz Soft Trolley 28 — Blue', category: 'Soft Luggage', badge: 'new',
-    color: 'Blue', colorHex: '#10183a', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    color: 'Blue', colorHex: '#10183a', colorGroup: 'soft-trolley-28', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/sl-blue-front.png'],
     desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
     features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
@@ -180,7 +180,7 @@ const DEFAULT_PRODUCTS = [
   },
   {
     id: 19, name: 'Spinnerz Soft Trolley 28 — Brown', category: 'Soft Luggage', badge: 'new',
-    color: 'Brown', colorHex: '#A52A2A', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    color: 'Brown', colorHex: '#A52A2A', colorGroup: 'soft-trolley-28', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/sl-brown-front.png'],
     desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
     features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
@@ -189,7 +189,7 @@ const DEFAULT_PRODUCTS = [
   },
   {
     id: 20, name: 'Spinnerz Soft Trolley 28 — Red', category: 'Soft Luggage', badge: 'new',
-    color: 'Red', colorHex: '#e02a2a', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
+    color: 'Red', colorHex: '#e02a2a', colorGroup: 'soft-trolley-28', emoji: '🧳', stock: 'In Stock', moq: 'MOQ: 500 pcs',
     images: ['assets/images/products/sl-red-front.png'],
     desc: 'Premium soft-sided trolley with spacious interior, durable fabric, and smooth-rolling wheels. Perfect for extended travel and corporate gifting.',
     features: ['Durable Fabric','Spacious Interior','Smooth-Rolling Wheels','Telescopic Handle'],
@@ -252,13 +252,71 @@ const KEYS = { products: 'sz_products', cart: 'sz_cart', adminPw: 'sz_admin_pw' 
 const DEFAULT_ADMIN_PW = 'spinnerz2025';
 
 // ── PRODUCT HELPERS ───────────────────────────────────────────
-function getProducts() {
-  const raw = localStorage.getItem(KEYS.products);
-  if (!raw) { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); return DEFAULT_PRODUCTS; }
-  return JSON.parse(raw);
+// Normalize sizes: admin saves as comma-string, default catalogue uses arrays
+function normalizeSizes(p) {
+  if (typeof p.sizes === 'string') {
+    p.sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
+  } else if (!Array.isArray(p.sizes)) {
+    p.sizes = [];
+  }
+  return p;
 }
-function saveProducts(products) { localStorage.setItem(KEYS.products, JSON.stringify(products)); }
-function resetProducts()        { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); }
+
+// ── IMAGE-BASED GROUP DETECTION ──────────────────────────────
+const _IMG_STOP = new Set(['front','back','side','angle','detail','open','top','bottom',
+  'blue','red','green','yellow','black','white','grey','gray','silver','gold','pink',
+  'purple','brown','navy','khaki','teal','rose','lime','bright','graphite','peacock','ice','light']);
+
+function groupFromImage(src) {
+  if (!src) return null;
+  const name = src.split('/').pop().replace(/\.[^.]+$/, '');
+  const parts = name.split('-');
+  const prefix = [];
+  for (const p of parts) {
+    if (p.includes('_') || _IMG_STOP.has(p.toLowerCase())) break;
+    prefix.push(p);
+  }
+  return prefix.length ? prefix.join('-') : null;
+}
+
+function autoColorGroup(p) {
+  if (p.colorGroup) return p.colorGroup;
+  const img = p.images && p.images[0];
+  return img ? groupFromImage(img) : null;
+}
+
+function getProducts() {
+  try {
+    const raw = localStorage.getItem(KEYS.products);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return parsed.map(p => { normalizeSizes(p); p.colorGroup = autoColorGroup(p); return p; });
+    }
+  } catch(e) {}
+  return DEFAULT_PRODUCTS.map(p => { p = normalizeSizes({...p}); p.colorGroup = autoColorGroup(p); return p; });
+}
+
+function saveProducts(products) {
+  try { localStorage.setItem(KEYS.products, JSON.stringify(products)); } catch(e) {}
+}
+
+function resetProducts() {
+  try { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); } catch(e) {}
+}
+
+// Export updated data.js for hosting (download-based persistence)
+function exportDataJs() {
+  const products = getProducts();
+  const blob = new Blob([
+    '/* SPINNERZ — data.js (exported from admin) */\n' +
+    '/* Replace assets/js/data.js on your server with this file */\n\n' +
+    window.__dataJsTemplate.replace('/*__PRODUCTS__*/', JSON.stringify(products, null, 2))
+  ], {type: 'application/javascript'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data.js';
+  a.click();
+}
 
 // ── CART HELPERS ──────────────────────────────────────────────
 function getCart()      { const r = localStorage.getItem(KEYS.cart); return r ? JSON.parse(r) : []; }

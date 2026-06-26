@@ -15,6 +15,15 @@
     .img-preview-item{position:relative;width:80px;height:80px;}
     .img-preview-item img{width:100%;height:100%;object-fit:cover;border-radius:4px;border:1px solid #ddd;}
     .img-preview-item .remove-img{position:absolute;top:-6px;right:-6px;background:#c0251a;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;line-height:18px;text-align:center;padding:0;}
+    /* Group preview panel */
+    .group-preview{background:#f8f9ff;border:1.5px solid #d0d5e8;border-radius:6px;padding:14px;margin-top:10px;display:none;}
+    .group-preview.visible{display:block;}
+    .group-preview-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6b6b6b;font-weight:600;margin-bottom:10px;}
+    .group-preview-items{display:flex;flex-wrap:wrap;gap:10px;}
+    .group-preview-item{display:flex;flex-direction:column;align-items:center;gap:4px;width:64px;}
+    .group-preview-img{width:56px;height:56px;object-fit:cover;border-radius:4px;border:1px solid #ddd;background:#eee;}
+    .group-preview-name{font-size:10px;color:#555;text-align:center;line-height:1.3;word-break:break-word;}
+    .group-preview-dot{width:16px;height:16px;border-radius:50%;border:1px solid #ccc;flex-shrink:0;}
   </style>
 </head>
 <body>
@@ -49,8 +58,11 @@
   <!-- ADMIN APP -->
   <div id="adminApp">
 
+    <!-- Mobile overlay -->
+    <div class="mob-overlay" id="mobOverlay" onclick="closeMobSidebar()"></div>
+
     <!-- SIDEBAR -->
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
       <div class="sidebar-logo">
         <div class="sidebar-logo-name">SPINNERZ</div>
         <div class="sidebar-logo-tag">Admin Panel</div>
@@ -58,12 +70,12 @@
       </div>
       <div class="sidebar-nav">
         <div class="nav-section-label">Overview</div>
-        <a class="nav-item active" onclick="showSec('dashboard', this)"><span class="nav-item-icon">◉</span> Dashboard</a>
+        <a class="nav-item active" onclick="showSec('dashboard', this);closeMobSidebar()"><span class="nav-item-icon">◉</span> Dashboard</a>
         <div class="nav-section-label">Catalogue</div>
-        <a class="nav-item" onclick="showSec('products', this)"><span class="nav-item-icon">🧳</span> Products</a>
-        <a class="nav-item" onclick="showSec('add-product', this)"><span class="nav-item-icon">＋</span> Add Product</a>
+        <a class="nav-item" onclick="showSec('products', this);closeMobSidebar()"><span class="nav-item-icon">🧳</span> Products</a>
+        <a class="nav-item" onclick="showSec('add-product', this);closeMobSidebar()"><span class="nav-item-icon">＋</span> Add Product</a>
         <div class="nav-section-label">Settings</div>
-        <a class="nav-item" onclick="showSec('settings', this)"><span class="nav-item-icon">⚙</span> Settings</a>
+        <a class="nav-item" onclick="showSec('settings', this);closeMobSidebar()"><span class="nav-item-icon">⚙</span> Settings</a>
       </div>
       <div class="sidebar-bottom">
         <button class="logout-btn" onclick="logout()"><span>⬡</span> Sign Out</button>
@@ -73,11 +85,13 @@
     <!-- MAIN -->
     <div class="main">
       <div class="topbar">
-        <div class="topbar-left"><span class="topbar-title" id="topbarTitle">Dashboard</span></div>
+        <div class="topbar-left">
+          <button class="mob-menu-btn" id="mobMenuBtn" onclick="openMobSidebar()">☰</button>
+          <span class="topbar-title" id="topbarTitle">Dashboard</span>
+        </div>
         <div class="topbar-right">
-          <div class="topbar-badge"><div class="dot"></div><span>Live Store</span></div>
-          <a class="view-site-btn" href="../index.html" target="_blank">↗ View Store</a>
-          <a class="view-site-btn" href="../products.html" target="_blank" style="background:var(--gold);color:#fff;">↗ Products Page</a>
+          <div class="topbar-badge"><div class="dot"></div><span>Live</span></div>
+          <a class="view-site-btn" href="../products.html" target="_blank">↗ Products</a>
         </div>
       </div>
 
@@ -87,36 +101,26 @@
         <div class="sec active" id="sec-dashboard">
           <div class="stats-row">
             <div class="stat-card">
-              <div class="stat-top"><span class="stat-icon">🧳</span><span class="stat-change up">+12%</span></div>
+              <div class="stat-top"><span class="stat-icon">🧳</span></div>
               <div class="stat-n" id="dashTotalProducts">0</div>
               <div class="stat-l">Total Products</div>
             </div>
             <div class="stat-card">
-              <div class="stat-top"><span class="stat-icon">✅</span><span class="stat-change up">Live</span></div>
+              <div class="stat-top"><span class="stat-icon">✅</span></div>
               <div class="stat-n" id="dashInStock">0</div>
               <div class="stat-l">In Stock</div>
             </div>
             <div class="stat-card">
-              <div class="stat-top"><span class="stat-icon">⚠️</span><span class="stat-change down">Watch</span></div>
+              <div class="stat-top"><span class="stat-icon">⚠️</span></div>
               <div class="stat-n" id="dashLowStock">0</div>
               <div class="stat-l">Low Stock</div>
             </div>
             <div class="stat-card">
-              <div class="stat-top"><span class="stat-icon">🌐</span><span class="stat-change up">Synced</span></div>
+              <div class="stat-top"><span class="stat-icon">🌐</span></div>
               <div class="stat-n">Live</div>
               <div class="stat-l">Store Status</div>
             </div>
           </div>
-
-          <div class="card" style="margin-bottom:16px;background:#e8f5e9;border-color:#a5d6a7;">
-            <div class="card-body" style="padding:14px 22px;display:flex;align-items:center;gap:12px;">
-              <span style="font-size:20px;">✅</span>
-              <span style="font-size:13px;color:#1b5e20;font-weight:500;">
-                Products are synced via <code>localStorage</code>. Changes made here are immediately reflected on the store — no deployment needed.
-              </span>
-            </div>
-          </div>
-
           <div class="card">
             <div class="card-hd">
               <span class="card-title">Recent Products</span>
@@ -133,7 +137,7 @@
           <div class="card">
             <div class="card-hd">
               <span class="card-title">All Products</span>
-              <button class="btn btn-red btn-sm" onclick="showSec('add-product', document.querySelectorAll('.nav-item')[2])">+ Add Product</button>
+              <button class="btn btn-red btn-sm" onclick="showSec('add-product', document.querySelectorAll('.nav-item')[2])">+ Add</button>
             </div>
             <div class="card-body" style="padding-bottom:0;">
               <div class="search-bar">
@@ -149,7 +153,7 @@
 
         <!-- ADD PRODUCT -->
         <div class="sec" id="sec-add-product">
-          <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;">
+          <div class="add-product-layout">
 
             <!-- Left: details -->
             <div>
@@ -167,27 +171,17 @@
                       <label for="pCategory">Category *</label>
                       <select id="pCategory">
                         <option value="">Select category</option>
-                        <option>Hard Luggage</option>
-                        <option>Soft Luggage</option>
-                        <option>Trolley Bags</option>
-                        <option>Laptop Backpacks</option>
-                        <option>Office & Sling</option>
-                        <option>Vanity Cases</option>
-                        <option>Gym & Lifestyle</option>
-                        <option>Duffle & Travel</option>
-                        <option>Backpacks</option>
-                        <option>Office Bags</option>
-                        <option>School & Sports</option>
-                        <option>Cabin Luggage</option>
+                        <option>Hard Luggage</option><option>Soft Luggage</option><option>Trolley Bags</option>
+                        <option>Laptop Backpacks</option><option>Office & Sling</option><option>Vanity Cases</option>
+                        <option>Gym & Lifestyle</option><option>Duffle & Travel</option><option>Backpacks</option>
+                        <option>Office Bags</option><option>School & Sports</option><option>Cabin Luggage</option>
                       </select>
                     </div>
 
                     <div class="fld">
                       <label for="pStock">Stock Status</label>
                       <select id="pStock">
-                        <option>In Stock</option>
-                        <option>Low Stock</option>
-                        <option>Out of Stock</option>
+                        <option>In Stock</option><option>Low Stock</option><option>Out of Stock</option>
                       </select>
                     </div>
 
@@ -205,18 +199,39 @@
                       <label for="pMoq">MOQ Label</label>
                       <input type="text" id="pMoq" placeholder="e.g. MOQ: 500 pcs">
                     </div>
+
                     <div class="fld fld-full">
-                      <label for="pSizes">Available Sizes <span style="font-weight:400;text-transform:none;letter-spacing:0;">(comma separated, e.g. 20" Cabin, 24" Medium, 28" Large)</span></label>
+                      <label for="pSizes">Available Sizes <span style="font-weight:400;text-transform:none;letter-spacing:0;">(comma separated)</span></label>
                       <input type="text" id="pSizes" placeholder='e.g. 20" Cabin, 24" Medium, 28" Large'>
+                    </div>
+
+                    <!-- COLOUR GROUP -->
+                    <div class="fld fld-full">
+                      <label for="pColorGroup">Colour Group <span style="font-weight:400;text-transform:none;letter-spacing:0;">Products sharing this name show as colour variants on the store</span></label>
+                      <div style="display:flex;gap:8px;">
+                        <input type="text" id="pColorGroup" placeholder="e.g. soft-trolley-28 (auto-filled from image)" list="colorGroupList" style="flex:1;" oninput="previewGroup(this.value,'pGroupPreview')">
+                        <datalist id="colorGroupList"></datalist>
+                      </div>
+                      <!-- Group preview -->
+                      <div class="group-preview" id="pGroupPreview">
+                        <div class="group-preview-title">Already in this group</div>
+                        <div class="group-preview-items" id="pGroupItems"></div>
+                      </div>
+                    </div>
+
+                    <div class="fld">
+                      <label for="pColorHex">This Product's Colour</label>
+                      <div style="display:flex;gap:8px;align-items:center;">
+                        <input type="color" id="pColorPicker" value="#1a1a1a" oninput="document.getElementById('pColorHex').value=this.value" style="width:40px;height:36px;border:none;padding:0;cursor:pointer;border-radius:4px;">
+                        <input type="text" id="pColorHex" placeholder="#1a1a1a" style="flex:1;" oninput="if(this.value.match(/^#[0-9a-fA-F]{6}$/))document.getElementById('pColorPicker').value=this.value">
+                      </div>
                     </div>
 
                     <div class="fld">
                       <label for="pBadge">Badge</label>
                       <select id="pBadge">
-                        <option value="">None</option>
-                        <option value="new">New</option>
-                        <option value="hot">Hot</option>
-                        <option value="sale">Sale</option>
+                        <option value="">None</option><option value="new">New</option>
+                        <option value="hot">Hot</option><option value="sale">Sale</option>
                       </select>
                     </div>
 
@@ -248,11 +263,10 @@
             </div>
 
             <!-- Right: emoji + actions -->
-            <div>
+            <div class="add-product-side">
               <div class="card" style="margin-bottom:16px;">
                 <div class="card-hd"><span class="card-title">Product Icon</span></div>
                 <div class="card-body">
-                  <label style="display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-light);font-weight:500;margin-bottom:10px;">Select Emoji (fallback)</label>
                   <div style="font-size:48px;text-align:center;padding:16px;background:var(--paper);margin-bottom:14px;" id="selectedEmojiDisplay">🧳</div>
                   <div class="emoji-grid" id="emojiGrid">
                     <div class="emoji-opt sel" onclick="selectEmoji('🧳', this)">🧳</div>
@@ -266,7 +280,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="card">
                 <div class="card-hd"><span class="card-title">Actions</span></div>
                 <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
@@ -295,6 +308,10 @@
             <div class="card-body">
               <p style="font-size:13px;color:var(--ink-light);margin-bottom:20px;">Reset all products to the default catalogue. <strong style="color:var(--danger);">This cannot be undone.</strong></p>
               <button class="btn btn-danger" onclick="confirmReset()">Reset Product Data</button>
+              <hr style="margin:24px 0;border:none;border-top:1px solid var(--border);">
+              <h3 style="font-size:13px;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Export for Hosting</h3>
+              <p style="font-size:13px;color:var(--ink-light);margin-bottom:12px;">Download your updated product catalogue and replace <code style="background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:12px;">assets/js/data.js</code> on your server to make changes visible to all visitors.</p>
+              <button class="btn btn-red" onclick="exportDataJs()">⬇ Download Updated data.js</button>
             </div>
           </div>
         </div>
@@ -308,7 +325,7 @@
     <div class="modal-box">
       <button class="modal-x" onclick="closeEditModal()">×</button>
       <h2 class="modal-h">Edit Product</h2>
-      <div class="modal-sub">Changes are saved to localStorage and reflected on the store instantly.</div>
+      <div class="modal-sub">Changes are saved instantly.</div>
 
       <input type="hidden" id="editId">
       <div class="form-row">
@@ -331,6 +348,23 @@
           <label for="editSizes">Available Sizes <span style="font-weight:400;text-transform:none;letter-spacing:0;">(comma separated)</span></label>
           <input type="text" id="editSizes" placeholder='e.g. 20" Cabin, 24" Medium, 28" Large'>
         </div>
+        <!-- COLOUR GROUP -->
+        <div class="fld fld-full">
+          <label for="editColorGroup">Colour Group</label>
+          <input type="text" id="editColorGroup" placeholder="e.g. soft-trolley-28" list="editColorGroupList" oninput="previewGroup(this.value,'editGroupPreview')">
+          <datalist id="editColorGroupList"></datalist>
+          <div class="group-preview" id="editGroupPreview">
+            <div class="group-preview-title">Already in this group</div>
+            <div class="group-preview-items" id="editGroupItems"></div>
+          </div>
+        </div>
+        <div class="fld">
+          <label for="editColorHex">This Product's Colour</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="color" id="editColorPicker" value="#1a1a1a" oninput="document.getElementById('editColorHex').value=this.value" style="width:40px;height:36px;border:none;padding:0;cursor:pointer;border-radius:4px;">
+            <input type="text" id="editColorHex" placeholder="#1a1a1a" style="flex:1;" oninput="if(this.value.match(/^#[0-9a-fA-F]{6}$/))document.getElementById('editColorPicker').value=this.value">
+          </div>
+        </div>
         <div class="fld"><label for="editBadge">Badge</label>
           <select id="editBadge"><option value="">None</option><option value="new">New</option><option value="hot">Hot</option><option value="sale">Sale</option></select>
         </div>
@@ -339,10 +373,8 @@
           <label for="editFeatures">Key Features <span style="font-weight:400;text-transform:none;letter-spacing:0;">(one per line)</span></label>
           <textarea id="editFeatures" style="min-height:90px;"></textarea>
         </div>
-
-        <!-- EDIT IMAGE UPLOAD -->
         <div class="fld fld-full">
-          <label>Product Images <span style="font-weight:400;text-transform:none;letter-spacing:0;">(upload new to replace existing)</span></label>
+          <label>Product Images</label>
           <div class="img-upload-area" onclick="document.getElementById('editImages').click()">
             <input type="file" id="editImages" multiple accept="image/*" onchange="handleImageSelect('editImages','editImagesPreview')">
             <div style="font-size:24px;margin-bottom:4px;">📁</div>
@@ -350,10 +382,9 @@
           </div>
           <div class="img-preview-grid" id="editImagesPreview"></div>
         </div>
-
       </div>
 
-      <div style="display:flex;gap:10px;margin-top:16px;">
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
         <button class="btn btn-red"     onclick="saveEdit()">Save Changes</button>
         <button class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
       </div>

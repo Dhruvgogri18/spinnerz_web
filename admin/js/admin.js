@@ -5,6 +5,21 @@
 
 const SESSION_KEY = 'sz_admin_session';
 
+// ── IMAGE GROUP DETECTION ─────────────────────────────────────
+const _STOP = new Set(['front','back','side','angle','detail','open','top','bottom',
+  'blue','red','green','yellow','black','white','grey','gray','silver','gold','pink',
+  'purple','brown','navy','khaki','teal','rose','lime','bright','graphite','peacock','ice','light']);
+
+function groupFromImage(src) {
+  const name = src.split('/').pop().replace(/\.[^.]+$/, '');
+  const parts = name.split('-'), prefix = [];
+  for (const p of parts) {
+    if (p.includes('_') || _STOP.has(p.toLowerCase())) break;
+    prefix.push(p);
+  }
+  return prefix.length ? prefix.join('-') : null;
+}
+
 // ── AUTH ──────────────────────────────────────────────────────
 function isLoggedIn() { return sessionStorage.getItem(SESSION_KEY) === 'true'; }
 
@@ -32,7 +47,16 @@ function logout() {
 }
 
 // ── INIT ──────────────────────────────────────────────────────
-function initAdmin() { renderDashboard(); renderProductsTable(); }
+function initAdmin() { renderDashboard(); renderProductsTable(); populateColorGroupLists(); }
+
+function populateColorGroupLists() {
+  const products = getProducts();
+  const groups = [...new Set(products.map(p => p.colorGroup || autoColorGroup(p)).filter(Boolean))];
+  ['colorGroupList','editColorGroupList'].forEach(id => {
+    const dl = document.getElementById(id);
+    if (dl) dl.innerHTML = groups.map(g => `<option value="${g}">`).join('');
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   if (isLoggedIn()) {
@@ -87,7 +111,7 @@ function renderDashboard() {
         </div></td>
         <td>${p.category}</td>
         <td>${p.price ? '₹' + Number(p.price).toLocaleString() : '—'}</td>
-        <td><span class="badge ${stockBadgeClass(p.stock)}">${p.stock}</span></td>
+        <td data-label="Stock"><span class="badge ${stockBadgeClass(p.stock)}">${p.stock}</span></td>
       </tr>`).join('')}
     </tbody>`;
 }
@@ -102,20 +126,21 @@ function renderProductsTable() {
     : products;
 
   document.getElementById('productsTable').innerHTML = `
-    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Badge</th><th>Stock</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Product</th><th>Category</th><th>Sizes</th><th>Price</th><th>Badge</th><th>Stock</th><th>Actions</th></tr></thead>
     <tbody>${filtered.map(p => `
       <tr>
         <td><div style="display:flex;align-items:center;gap:12px;">
           <div class="thumb">${p.images && p.images[0] ? thumbHtml(p.images[0], '../') : (p.emoji || '🧳')}</div>
           <strong style="font-size:13px;">${p.name}</strong>
         </div></td>
-        <td style="font-size:12px;color:var(--ink-light);">${p.category}</td>
+        <td data-label="Category" style="font-size:12px;color:var(--ink-light);">${p.category}</td>
+        <td style="font-size:11px;color:var(--ink-light);">${(()=>{const sz=Array.isArray(p.sizes)?p.sizes:(p.sizes?p.sizes.split(',').map(s=>s.trim()).filter(Boolean):[]);return sz.length?sz.join(', '):'—'})()}</td>
         <td>
           ${p.price ? `<strong>₹${Number(p.price).toLocaleString()}</strong>` : '—'}
           ${p.origPrice ? `<div style="font-size:11px;color:var(--ink-light);text-decoration:line-through;">₹${Number(p.origPrice).toLocaleString()}</div>` : ''}
         </td>
-        <td>${p.badge ? `<span class="badge badge-navy">${p.badge}</span>` : '–'}</td>
-        <td><span class="badge ${stockBadgeClass(p.stock)}">${p.stock}</span></td>
+        <td data-label="Badge">${p.badge ? `<span class="badge badge-navy">${p.badge}</span>` : '–'}</td>
+        <td data-label="Stock"><span class="badge ${stockBadgeClass(p.stock)}">${p.stock}</span></td>
         <td><div class="actions">
           <button class="btn btn-outline btn-sm" onclick="openEditModal(${p.id})">Edit</button>
           <button class="btn btn-danger btn-sm"  onclick="deleteProduct(${p.id})">Delete</button>
@@ -163,6 +188,13 @@ async function handleImageSelect(inputId, previewId) {
     editImages = editImages.concat(newFiles);
     renderImagePreview(previewId, editImages, 'removeEditImage');
   }
+  // Auto-fill colour group from first image filename
+  const groupInputId = inputId === 'pImages' ? 'pColorGroup' : 'editColorGroup';
+  const groupEl = document.getElementById(groupInputId);
+  if (groupEl && !groupEl.value && input.files[0]) {
+    const g = groupFromImage(input.files[0].name);
+    if (g) groupEl.value = g;
+  }
   // Reset input so same file can be re-added if needed
   input.value = '';
 }
@@ -186,14 +218,17 @@ async function addProduct() {
   const stock     = document.getElementById('pStock').value;
   const desc      = document.getElementById('pDesc').value.trim();
   const moq       = document.getElementById('pMoq').value.trim() || 'MOQ: 500 pcs';
-  const sizes     = document.getElementById('pSizes').value.trim();
+  const sizes      = document.getElementById('pSizes').value.trim();
+  const colorGroup = document.getElementById('pColorGroup').value.trim();
+  const colorHex   = document.getElementById('pColorHex').value.trim() || '';
+  const colorName  = document.getElementById('pColor') ? document.getElementById('pColor').value.trim() : '';
   const features  = document.getElementById('pFeatures').value
     .split('\n').map(f => f.trim()).filter(Boolean);
 
   if (!name || !category) { showToast('⚠️ Name and category are required', 'danger'); return; }
 
   const products = getProducts();
-  products.push({ id: Date.now(), name, category, price, origPrice, badge, emoji: selectedEmoji, stock, desc, moq, sizes, images: pendingImages, features });
+  products.push({ id: Date.now(), name, category, price, origPrice, badge, emoji: selectedEmoji, stock, desc, moq, sizes, colorGroup, colorHex, images: pendingImages, features });
   saveProducts(products);
   showToast('✓ Product published — live on store', 'success');
   resetForm();
@@ -208,7 +243,10 @@ function resetForm() {
   document.getElementById('pBadge').value    = '';
   document.getElementById('pStock').value    = 'In Stock';
   document.getElementById('pMoq').value      = '';
-  document.getElementById('pSizes').value    = '';
+  document.getElementById('pSizes').value       = '';
+  document.getElementById('pColorGroup').value  = '';
+  document.getElementById('pColorHex').value    = '';
+  document.getElementById('pColorPicker').value = '#1a1a1a';
   pendingImages = [];
   document.getElementById('pImagesPreview').innerHTML = '';
   selectEmoji('🧳', document.querySelector('.emoji-opt'));
@@ -235,7 +273,11 @@ function openEditModal(id) {
   document.getElementById('editStock').value     = p.stock;
   document.getElementById('editDesc').value      = p.desc || '';
   document.getElementById('editMoq').value       = p.moq || '';
-  document.getElementById('editSizes').value     = p.sizes || '';
+  document.getElementById('editSizes').value      = Array.isArray(p.sizes) ? p.sizes.join(', ') : (p.sizes || '');
+  document.getElementById('editColorGroup').value = p.colorGroup || '';
+  document.getElementById('editColorHex').value   = p.colorHex || '';
+  const ehex = p.colorHex || '#1a1a1a';
+  document.getElementById('editColorPicker').value = ehex.match(/^#[0-9a-fA-F]{6}$/) ? ehex : '#1a1a1a';
   document.getElementById('editFeatures').value  = (p.features || []).join('\n');
 
   // Populate editImages from existing product (base64 or paths — normalise to usable src)
@@ -243,6 +285,7 @@ function openEditModal(id) {
   renderImagePreview('editImagesPreview', editImages, 'removeEditImage');
 
   document.getElementById('editModal').classList.add('open');
+  previewGroup(p.colorGroup || autoColorGroup(p) || '', 'editGroupPreview');
 }
 
 async function saveEdit() {
@@ -268,6 +311,8 @@ async function saveEdit() {
     sizes:     document.getElementById('editSizes').value.trim(),
     features:  document.getElementById('editFeatures').value.split('\n').map(f => f.trim()).filter(Boolean),
     images:    editImages,
+    colorGroup: document.getElementById('editColorGroup').value.trim(),
+    colorHex:   document.getElementById('editColorHex').value.trim(),
   };
 
   saveProducts(products);
@@ -322,4 +367,95 @@ function readFilesAsBase64(input) {
     r.onload = e => res(e.target.result);
     r.readAsDataURL(f);
   })));
+}
+// ── GROUP PREVIEW ─────────────────────────────────────────────
+function previewGroup(groupName, panelId) {
+  const panel = document.getElementById(panelId);
+  const itemsEl = document.getElementById(panelId.replace('Preview','Items'));
+  if (!panel || !itemsEl) return;
+  const g = groupName.trim();
+  if (!g) { panel.classList.remove('visible'); return; }
+
+  const members = getProducts().filter(p => {
+    const pg = p.colorGroup || autoColorGroup(p);
+    return pg === g;
+  });
+
+  if (!members.length) { panel.classList.remove('visible'); return; }
+  panel.classList.add('visible');
+  itemsEl.innerHTML = members.map(p => {
+    const img = p.images && p.images[0];
+    const imgHtml = img
+      ? `<img class="group-preview-img" src="${img.startsWith('data:') ? img : '../' + img}" alt="">`
+      : `<div class="group-preview-img" style="display:flex;align-items:center;justify-content:center;font-size:22px;">${p.emoji || '🧳'}</div>`;
+    const dotStyle = p.colorHex ? `background:${p.colorHex}` : 'background:#ccc';
+    return `<div class="group-preview-item">
+      ${imgHtml}
+      <div style="display:flex;align-items:center;gap:4px;margin-top:2px;">
+        <div class="group-preview-dot" style="${dotStyle}"></div>
+      </div>
+      <div class="group-preview-name">${(p.color || p.name).split('—').pop().trim()}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── MOBILE SIDEBAR ─────────────────────────────────────────────
+function openMobSidebar()  { document.getElementById('sidebar').classList.add('open'); document.getElementById('mobOverlay').classList.add('open'); }
+function closeMobSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobOverlay').classList.remove('open'); }
+
+// ── EXPORT DATA.JS ────────────────────────────────────────────
+function exportDataJs() {
+  const products = getProducts();
+  // Build the full data.js content with current products embedded as DEFAULT_PRODUCTS
+  const productsJson = JSON.stringify(products, null, 2);
+  const content = `/* ============================================================
+   SPINNERZ — Data Store  (assets/js/data.js)
+   Exported from Admin Panel on ${new Date().toLocaleDateString()}
+   Upload this file to your server to make product changes live.
+   ============================================================ */
+
+const DEFAULT_PRODUCTS = ${productsJson};
+
+// ── STORAGE KEYS ──────────────────────────────────────────────
+const KEYS = { products: 'sz_products', cart: 'sz_cart', adminPw: 'sz_admin_pw' };
+const DEFAULT_ADMIN_PW = 'spinnerz2025';
+
+// ── PRODUCT HELPERS ───────────────────────────────────────────
+function normalizeSizes(p) {
+  if (typeof p.sizes === 'string') {
+    p.sizes = p.sizes ? p.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
+  } else if (!Array.isArray(p.sizes)) {
+    p.sizes = [];
+  }
+  return p;
+}
+
+function getProducts() {
+  try {
+    const raw = localStorage.getItem(KEYS.products);
+    if (raw) return JSON.parse(raw).map(normalizeSizes);
+  } catch(e) {}
+  return DEFAULT_PRODUCTS.map(p => normalizeSizes({...p}));
+}
+function saveProducts(products) { try { localStorage.setItem(KEYS.products, JSON.stringify(products)); } catch(e) {} }
+function resetProducts()        { try { localStorage.setItem(KEYS.products, JSON.stringify(DEFAULT_PRODUCTS)); } catch(e) {} }
+
+// ── CART HELPERS ──────────────────────────────────────────────
+function getCart()      { const r = localStorage.getItem(KEYS.cart); return r ? JSON.parse(r) : []; }
+function saveCart(cart) { localStorage.setItem(KEYS.cart, JSON.stringify(cart)); }
+
+// ── AUTH HELPERS ──────────────────────────────────────────────
+function getAdminPw()   { return localStorage.getItem(KEYS.adminPw) || DEFAULT_ADMIN_PW; }
+function setAdminPw(pw) { localStorage.setItem(KEYS.adminPw, pw); }
+`;
+
+  const blob = new Blob([content], { type: 'application/javascript' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data.js';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  showToast('✓ data.js downloaded — upload to assets/js/ on your server', 'success');
 }

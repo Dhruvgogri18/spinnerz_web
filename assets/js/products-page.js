@@ -19,6 +19,17 @@ const EMOJI_MAP = {
   'Office Bags':'💼','School & Sports':'🎒','Cabin Luggage':'🧳',
 };
 
+// ── COLOUR GROUP HELPER ──────────────────────────────────────
+// Returns relatedColors array: prefers stored relatedColors,
+// falls back to computing from colorGroup across all products
+function getRelatedColors(p, allProducts) {
+  if (p.relatedColors && p.relatedColors.length) return p.relatedColors;
+  if (!p.colorGroup) return [];
+  return allProducts
+    .filter(x => x.colorGroup === p.colorGroup && x.colorHex)
+    .map(x => ({ id: x.id, name: x.color || x.name, hex: x.colorHex }));
+}
+
 // ── SIDEBAR ───────────────────────────────────────────────────
 function buildSidebar() {
   const products = getProducts();
@@ -117,7 +128,8 @@ function renderProducts(products) {
       ? `<img src="${mainImg}" alt="${p.name}" loading="lazy">`
       : `<div style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:80px;background:#f0ece6;">${icon}</div>`;
 
-    const swatches = (p.relatedColors || []).map(c =>
+    const relColors = getRelatedColors(p, products);
+    const swatches = relColors.map(c =>
       `<div class="prod-color-swatch" style="background:${c.hex}" title="${c.name}"></div>`
     ).join('');
 
@@ -149,6 +161,7 @@ function renderProducts(products) {
           ${priceHtml}
           ${stockTag}
           <div class="prod-moq">${p.moq || 'MOQ: 500 pcs'}</div>
+          ${(()=>{const sz=Array.isArray(p.sizes)?p.sizes:(p.sizes?p.sizes.split(',').map(s=>s.trim()).filter(Boolean):[]);return sz.length?'<div class="prod-sizes">'+sz.map(s=>'<span class="prod-size-tag">'+s+'</span>').join('')+'</div>':''})()}
           <a class="prod-enquire" href="https://wa.me/919892211065" target="_blank" onclick="event.stopPropagation()">Get Bulk Quote →</a>
         </div>
       </div>
@@ -190,9 +203,10 @@ function openProduct(id) {
   document.getElementById('modalDesc').textContent = p.desc || '';
 
   // Colors
+  const allProds = getProducts();
   const colorsEl = document.getElementById('modalColors');
   if (colorsEl) {
-    colorsEl.innerHTML = (p.relatedColors || []).map(c =>
+    colorsEl.innerHTML = getRelatedColors(p, allProds).map(c =>
       `<div class="modal-color-btn ${c.name === p.color ? 'active' : ''}" style="background:${c.hex}" title="${c.name}" onclick="switchColor(${c.id})"></div>`
     ).join('') || '<span style="font-size:12px;color:#6b6b6b;">See enquiry for colour options</span>';
   }
@@ -206,8 +220,16 @@ function openProduct(id) {
   // MOQ
   const moqEl = document.getElementById('modalMoq');
   if (moqEl) {
-    const sizesStr = p.sizes ? ` &nbsp;|&nbsp; Sizes: ${p.sizes.join(', ')}` : '';
-    moqEl.innerHTML = `<strong>Bulk Orders Only</strong> &nbsp;|&nbsp; ${p.moq || 'MOQ: 500 pcs'}${sizesStr}`;
+    moqEl.innerHTML = `<strong>Bulk Orders Only</strong> &nbsp;|&nbsp; ${p.moq || 'MOQ: 500 pcs'}`;
+  }
+
+  // Sizes badges in modal
+  const sizesEl = document.getElementById('modalSizes');
+  if (sizesEl) {
+    const sizes = Array.isArray(p.sizes) ? p.sizes : (p.sizes ? p.sizes.split(',').map(s=>s.trim()).filter(Boolean) : []);
+    if (sizes.length) {
+      sizesEl.innerHTML = `<div style="margin:10px 0 8px;"><span style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b6b6b;">Available Sizes</span><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">${sizes.map(s=>`<span style="border:1.5px solid #0e0e0e;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:600;">${s}</span>`).join('')}</div></div>`;
+    } else { sizesEl.innerHTML = ''; }
   }
 
   // Price in modal (inject if element exists)
